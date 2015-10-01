@@ -6,23 +6,19 @@ using System.Web.Mvc;
 
 namespace Sistrategia.Drive.WebSite.Controllers
 {
-    public class HomeController : Controller
+    public class AccountController : Controller
     {
-        // GET: Home
+        // GET: Account
         public ActionResult Index()
         {
-            if (!Request.IsAuthenticated) {
-                return RedirectToAction("Welcome");
-            }
-
             return View();
         }
 
-        public ActionResult Welcome() {
+        public ActionResult Login() {
             return View();
         }
 
-        public ActionResult Cover() {
+        public ActionResult Register() {
             return View();
         }
     }

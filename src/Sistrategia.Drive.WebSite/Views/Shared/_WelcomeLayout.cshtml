@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@ViewBag.Title - SistrategiaDrive</title>
+  <link rel="shortcut icon" href="https://sistrategiadrive.blob.core.windows.net/wwwroot/favicon.png">
+  @*<link rel="shortcut icon" href="@Href("~/Content/Img/favicon.png")">*@
+  <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <script src="~/Scripts/modernizr-2.8.3.js"></script>
+  <link href="~/Content/Welcome.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+  //<![CDATA[
+  if (window.location.protocol != "https:" && window.location.href.indexOf("localhost") == -1)
+    window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+  //]]></script>
+</head>
+<body>
+
+
+
+
+  @RenderBody()
+
+
+  <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+  <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

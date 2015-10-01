@@ -1,4 +1,9 @@
-﻿body {
+﻿html {
+  /*font-size: 10px;*/
+}
+body {
+    /*font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+    font-family: "Segoe UI", "Helvetica Neue",Helvetica,Arial,sans-serif;
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -16,3 +21,12 @@ textarea {
     max-width: 280px;
 }
 
+h1 {
+    /*font-family:'Segoe UI', "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+    font-weight:200;
+}
+
+/* MainMenuPartial Layout */
+a.sistrategiaLogo {
+    padding-top:8px;padding-bottom:8px;
+}

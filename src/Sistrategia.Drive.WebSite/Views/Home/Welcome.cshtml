@@ -1,0 +1,71 @@
+﻿@{
+  Layout = "~/Views/Shared/_WelcomeLayout.cshtml";
+  ViewBag.Title = "Home";
+}
+
+<div class="jumbotron">
+
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        @*@Html.ActionLink("SistrategiaDrive", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+        @*<a class="navbar-brand sistrategiaLogo" href="@Url.Content("~/")"><img src="~/Content/Img/logo_header_white.png" class="img-responsive" /></a>*@
+        @*<a class="navbar-brand sistrategiaLogo" href="@Url.Content("~/")"><img src="https://sistrategiadrive.blob.core.windows.net/wwwroot/logo_header_white.png" class="img-responsive" /></a>*@
+      </div>
+      <div class="navbar-collapse collapse">
+        @*<ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Sign In</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>*@
+        @Html.Partial("_LoginPartial")
+      </div>
+    </div>
+  </div>
+
+
+  <div class="jumbotron-inner-text">
+    <div class="container body-content">
+      <h1>Sistrategia Drive</h1>
+      <p class="lead">Sistrategia Drive is a business enterprise-grade cloud storage solution.</p>  @*for your organization*@
+      <p><a href="#" class="btn btn-default btn-lg">Learn more &raquo;</a></p>
+      @*btn-primary*@
+    </div>
+  </div>
+</div>
+
+<div class="container body-content">
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Getting started</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
+      <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2>Integration</h2>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2>Support</h2>
+      <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+    </div>
+  </div>
+
+
+
+
+
+  <hr />
+  <footer>
+    <p>&copy; @DateTime.Now.Year - Sistrategia</p>
+  </footer>
+</div>
