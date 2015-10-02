@@ -7,9 +7,11 @@
   <title>@ViewBag.Title - SistrategiaDrive</title>
   <link rel="shortcut icon" href="https://sistrategiadrive.blob.core.windows.net/wwwroot/favicon.png">
   @*<link rel="shortcut icon" href="@Href("~/Content/Img/favicon.png")">*@    
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
   <script src="~/Scripts/modernizr-2.8.3.js"></script>
-  <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+  <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />*@
+  @Styles.Render("~/Content/css")
+  @Scripts.Render("~/bundles/modernizr")
   <script type="text/javascript">
   //<![CDATA[
   if (window.location.protocol != "https:" && window.location.href.indexOf("localhost") == -1)
@@ -44,7 +46,10 @@
         </footer>
     </div>
 
-  <script src="~/Scripts/jquery-2.1.4.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+  @*<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>*@
+  @Scripts.Render("~/bundles/jquery")
+  @Scripts.Render("~/bundles/bootstrap")
+  @RenderSection("scripts", required: false)
 </body>
 </html>

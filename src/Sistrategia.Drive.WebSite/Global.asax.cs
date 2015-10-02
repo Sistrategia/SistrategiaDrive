@@ -6,7 +6,7 @@
 //using System.Web.SessionState;
 //using System.Web.Http;
 using System.Web.Mvc;
-//using System.Web.Optimization;
+using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace Sistrategia.Drive.WebSite
@@ -19,7 +19,7 @@ namespace Sistrategia.Drive.WebSite
             //GlobalConfiguration.Configure(WebApiConfig.Register);
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
         //protected void Session_Start(object sender, EventArgs e) {
