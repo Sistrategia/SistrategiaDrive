@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
-//using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sistrategia.Drive.WebSite.Models
 {
     public class LoginViewModel
     {
-        //[Required]
-        //[Display(Name = "Email")]
-        //[EmailAddress]
+        [Required]
+        [Display(Name = "Email")]
+        [EmailAddress]
         public string Email { get; set; }
 
-        //[Required]
-        //[DataType(DataType.Password)]
-        //[Display(Name = "Password")]
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        //[Display(Name = "Remember me?")]
+        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
 }
