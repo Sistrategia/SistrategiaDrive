@@ -31,9 +31,9 @@
 
   <div class="jumbotron-inner-text">
     <div class="container body-content">
-      <h1>Sistrategia Drive</h1>
-      <p class="lead">Sistrategia Drive is a business enterprise-grade cloud storage solution.</p>  @*for your organization*@
-      <p><a href="#" class="btn btn-default btn-lg">Learn more &raquo;</a></p>
+      <h1>@Sistrategia.Drive.WebSite.Views.Home.Welcome.Title</h1>
+      <p class="lead">@Sistrategia.Drive.WebSite.Views.Home.Welcome.Lead</p>  @*for your organization*@
+      <p><a href="#" class="btn btn-default btn-lg">@Sistrategia.Drive.WebSite.Views.Home.Welcome.LearnMore &raquo;</a></p>
       @*btn-primary*@
     </div>
   </div>
@@ -42,21 +42,21 @@
 <div class="container body-content">
   <div class="row">
     <div class="col-md-4">
-      <h2>Getting started</h2>
+      <h2>Getting Started</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       </p>
-      <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+      <p><a class="btn btn-default" href="#">@Sistrategia.Drive.WebSite.Views.Home.Welcome.LearnMore &raquo;</a></p>
     </div>
     <div class="col-md-4">
       <h2>Integration</h2>
       <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-      <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+      <p><a class="btn btn-default" href="#">@Sistrategia.Drive.WebSite.Views.Home.Welcome.LearnMore &raquo;</a></p>
     </div>
     <div class="col-md-4">
       <h2>Support</h2>
       <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+      <p><a class="btn btn-default" href="#">@Sistrategia.Drive.WebSite.Views.Home.Welcome.LearnMore &raquo;</a></p>
     </div>
   </div>
 
@@ -67,5 +67,11 @@
   <hr />
   <footer>
     <p>&copy; @DateTime.Now.Year - Sistrategia</p>
+    
+      <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("English (US)", "ChangeLang", "Home", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "navbar-brand", @style = "font-size:11px;" })</li>
+        <li>@Html.ActionLink("Español (México)", "ChangeLang", "Home", new { Lang = "es-MX", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "navbar-brand", @style = "font-size:11px;" })</li>
+      </ul>
+    
   </footer>
 </div>
