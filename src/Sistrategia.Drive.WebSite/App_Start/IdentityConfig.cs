@@ -37,7 +37,7 @@ namespace Sistrategia.Drive.WebSite
                 RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true,
-            };
+            };           
 
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;

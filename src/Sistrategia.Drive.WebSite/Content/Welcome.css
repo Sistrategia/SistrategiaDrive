@@ -3,7 +3,8 @@
 }
 body {
     /*font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
-    font-family: "Segoe UI", "Helvetica Neue",Helvetica,Arial,sans-serif;
+    /*font-family: "Segoe UI", "Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    font-family: "Open Sans", "Segoe UI", "Helvetica Neue",Helvetica,Arial,sans-serif;
     /*padding-top: 50px;*/
     padding-bottom: 20px;
 }
@@ -23,7 +24,7 @@ textarea {
 
 h1 {
     /*font-family:'Segoe UI', "Helvetica Neue", Helvetica, Arial, sans-serif;*/
-    font-weight:200;
+    font-weight:100;
 }
 
 /* MainMenuPartial Layout */
