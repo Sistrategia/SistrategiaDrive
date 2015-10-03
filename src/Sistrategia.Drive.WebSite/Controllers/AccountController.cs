@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.Owin;
 
+using Sistrategia.Drive.Business;
 using Sistrategia.Drive.WebSite.Models;
 
 
@@ -14,25 +15,25 @@ namespace Sistrategia.Drive.WebSite.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager signInManager;
-        private ApplicationUserManager userManager;
+        private SecuritySignInManager signInManager;
+        private SecurityUserManager userManager;
 
         public AccountController() {
 
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager) {
+        public AccountController(SecurityUserManager userManager, SecuritySignInManager signInManager) {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public ApplicationSignInManager SignInManager {
-            get { return signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
+        public SecuritySignInManager SignInManager {
+            get { return signInManager ?? HttpContext.GetOwinContext().Get<SecuritySignInManager>(); }
             private set { signInManager = value; }
         }
 
-        public ApplicationUserManager UserManager {
-            get { return userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+        public SecurityUserManager UserManager {
+            get { return userManager ?? HttpContext.GetOwinContext().GetUserManager<SecurityUserManager>(); }
             private set { userManager = value; }
         }
 
