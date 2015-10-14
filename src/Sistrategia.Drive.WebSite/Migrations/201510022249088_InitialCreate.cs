@@ -8,14 +8,14 @@ namespace Sistrategia.Drive.WebSite.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.security_roles",
+                "dbo.IdentityRoles",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
-                        Name = c.String(nullable: false, maxLength: 256),
+                        name = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+                .Index(t => t.name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
                 "dbo.security_user_roles",
@@ -23,30 +23,30 @@ namespace Sistrategia.Drive.WebSite.Migrations
                     {
                         UserId = c.String(nullable: false, maxLength: 128),
                         RoleId = c.String(nullable: false, maxLength: 128),
+                        IdentityRole_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.security_roles", t => t.RoleId, cascadeDelete: true)
+                .ForeignKey("dbo.IdentityRoles", t => t.IdentityRole_Id)
                 .ForeignKey("dbo.security_user", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
-                .Index(t => t.RoleId);
+                .Index(t => t.IdentityRole_Id);
             
             CreateTable(
                 "dbo.security_user",
                 c => new
                     {
                         user_id = c.String(nullable: false, maxLength: 128),
-                        Email = c.String(maxLength: 256),
-                        EmailConfirmed = c.Boolean(nullable: false),
-                        PasswordHash = c.String(),
-                        SecurityStamp = c.String(),
-                        PhoneNumber = c.String(),
-                        PhoneNumberConfirmed = c.Boolean(nullable: false),
-                        TwoFactorEnabled = c.Boolean(nullable: false),
-                        LockoutEndDateUtc = c.DateTime(),
-                        LockoutEnabled = c.Boolean(nullable: false),
-                        AccessFailedCount = c.Int(nullable: false),
+                        email = c.String(maxLength: 256),
+                        email_confirmed = c.Boolean(nullable: false),
+                        password_hash = c.String(),
+                        security_stamp = c.String(),
+                        phone_number = c.String(),
+                        phone_number_confirmed = c.Boolean(nullable: false),
+                        two_factor_enabled = c.Boolean(nullable: false),
+                        lockout_end_date_utc = c.DateTime(),
+                        lockout_enabled = c.Boolean(nullable: false),
+                        access_failed_count = c.Int(nullable: false),
                         user_name = c.String(nullable: false, maxLength: 256),
-                        Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.user_id)
                 .Index(t => t.user_name, unique: true, name: "user_name_index");
@@ -76,25 +76,38 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 .ForeignKey("dbo.security_user", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
+            CreateTable(
+                "dbo.security_roles",
+                c => new
+                    {
+                        role_id = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.role_id)
+                .ForeignKey("dbo.IdentityRoles", t => t.role_id)
+                .Index(t => t.role_id);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.security_roles", "role_id", "dbo.IdentityRoles");
             DropForeignKey("dbo.security_user_roles", "UserId", "dbo.security_user");
             DropForeignKey("dbo.security_user_logins", "UserId", "dbo.security_user");
             DropForeignKey("dbo.security_user_claims", "UserId", "dbo.security_user");
-            DropForeignKey("dbo.security_user_roles", "RoleId", "dbo.security_roles");
+            DropForeignKey("dbo.security_user_roles", "IdentityRole_Id", "dbo.IdentityRoles");
+            DropIndex("dbo.security_roles", new[] { "role_id" });
             DropIndex("dbo.security_user_logins", new[] { "UserId" });
             DropIndex("dbo.security_user_claims", new[] { "UserId" });
             DropIndex("dbo.security_user", "user_name_index");
-            DropIndex("dbo.security_user_roles", new[] { "RoleId" });
+            DropIndex("dbo.security_user_roles", new[] { "IdentityRole_Id" });
             DropIndex("dbo.security_user_roles", new[] { "UserId" });
-            DropIndex("dbo.security_roles", "RoleNameIndex");
+            DropIndex("dbo.IdentityRoles", "RoleNameIndex");
+            DropTable("dbo.security_roles");
             DropTable("dbo.security_user_logins");
             DropTable("dbo.security_user_claims");
             DropTable("dbo.security_user");
             DropTable("dbo.security_user_roles");
-            DropTable("dbo.security_roles");
+            DropTable("dbo.IdentityRoles");
         }
     }
 }
