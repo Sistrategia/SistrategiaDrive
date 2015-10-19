@@ -31,7 +31,8 @@ namespace Sistrategia.Drive.Business
 
             var user = modelBuilder.Entity<SecurityUser>()
                 .ToTable("security_user");
-            user.Property(u => u.Id).HasColumnName("user_id");
+            user.Property(u => u.Id).HasColumnName("user_id")
+                .HasColumnOrder(1);
             //user.HasMany(u => u.Roles).WithRequired().HasForeignKey(ur => ur.UserId);
             user.HasMany(u => u.Claims).WithRequired().HasForeignKey(uc => uc.UserId);
             user.HasMany(u => u.Logins).WithRequired().HasForeignKey(ul => ul.UserId);
@@ -39,6 +40,7 @@ namespace Sistrategia.Drive.Business
                 .HasColumnName("user_name")
                 .IsRequired()
                 .HasMaxLength(256)
+                .HasColumnOrder(2)
                 .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("user_name_index") { IsUnique = true }));
             user.Property(u => u.Email)
                 .HasColumnName("email")

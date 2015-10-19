@@ -35,6 +35,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 c => new
                     {
                         user_id = c.String(nullable: false, maxLength: 128),
+                        user_name = c.String(nullable: false, maxLength: 256),
                         email = c.String(maxLength: 256),
                         email_confirmed = c.Boolean(nullable: false),
                         password_hash = c.String(),
@@ -45,7 +46,6 @@ namespace Sistrategia.Drive.WebSite.Migrations
                         lockout_end_date_utc = c.DateTime(),
                         lockout_enabled = c.Boolean(nullable: false),
                         access_failed_count = c.Int(nullable: false),
-                        user_name = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.user_id)
                 .Index(t => t.user_name, unique: true, name: "user_name_index");

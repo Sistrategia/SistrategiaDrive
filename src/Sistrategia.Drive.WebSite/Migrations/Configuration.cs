@@ -1,5 +1,6 @@
 namespace Sistrategia.Drive.WebSite.Migrations
 {
+    using Sistrategia.Drive.Business;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -26,6 +27,17 @@ namespace Sistrategia.Drive.WebSite.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+             context.Roles.AddOrUpdate(
+                r => r.Name,
+                new SecurityRole { Id = "c112296f-9ba2-49c7-9852-ac2f5441a774", Name = "Administrators" },
+                new SecurityRole { Id = "373add78-ead8-4358-aeca-4f4c53e80bac", Name = "Developers" },
+                new SecurityRole { Id = "3526c3ca-a3fb-48fe-a3ee-f625816c9080", Name = "Users" }
+                );
+
+            //context.Roles.AddOrUpdate<SecurityRole>(
+            //    r => r.R
+            //    );
         }
     }
 }
