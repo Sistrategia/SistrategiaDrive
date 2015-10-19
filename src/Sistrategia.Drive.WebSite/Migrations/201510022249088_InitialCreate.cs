@@ -8,13 +8,13 @@ namespace Sistrategia.Drive.WebSite.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.IdentityRoles",
+                "dbo.security_roles",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
+                        role_id = c.String(nullable: false, maxLength: 128),
                         name = c.String(nullable: false, maxLength: 256),
                     })
-                .PrimaryKey(t => t.Id)
+                .PrimaryKey(t => t.role_id)
                 .Index(t => t.name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
@@ -23,13 +23,12 @@ namespace Sistrategia.Drive.WebSite.Migrations
                     {
                         UserId = c.String(nullable: false, maxLength: 128),
                         RoleId = c.String(nullable: false, maxLength: 128),
-                        IdentityRole_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.IdentityRoles", t => t.IdentityRole_Id)
+                .ForeignKey("dbo.security_roles", t => t.RoleId, cascadeDelete: true)
                 .ForeignKey("dbo.security_user", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
-                .Index(t => t.IdentityRole_Id);
+                .Index(t => t.RoleId);
             
             CreateTable(
                 "dbo.security_user",
@@ -76,38 +75,25 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 .ForeignKey("dbo.security_user", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
-            CreateTable(
-                "dbo.security_roles",
-                c => new
-                    {
-                        role_id = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => t.role_id)
-                .ForeignKey("dbo.IdentityRoles", t => t.role_id)
-                .Index(t => t.role_id);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.security_roles", "role_id", "dbo.IdentityRoles");
             DropForeignKey("dbo.security_user_roles", "UserId", "dbo.security_user");
             DropForeignKey("dbo.security_user_logins", "UserId", "dbo.security_user");
             DropForeignKey("dbo.security_user_claims", "UserId", "dbo.security_user");
-            DropForeignKey("dbo.security_user_roles", "IdentityRole_Id", "dbo.IdentityRoles");
-            DropIndex("dbo.security_roles", new[] { "role_id" });
+            DropForeignKey("dbo.security_user_roles", "RoleId", "dbo.security_roles");
             DropIndex("dbo.security_user_logins", new[] { "UserId" });
             DropIndex("dbo.security_user_claims", new[] { "UserId" });
             DropIndex("dbo.security_user", "user_name_index");
-            DropIndex("dbo.security_user_roles", new[] { "IdentityRole_Id" });
+            DropIndex("dbo.security_user_roles", new[] { "RoleId" });
             DropIndex("dbo.security_user_roles", new[] { "UserId" });
-            DropIndex("dbo.IdentityRoles", "RoleNameIndex");
-            DropTable("dbo.security_roles");
+            DropIndex("dbo.security_roles", "RoleNameIndex");
             DropTable("dbo.security_user_logins");
             DropTable("dbo.security_user_claims");
             DropTable("dbo.security_user");
             DropTable("dbo.security_user_roles");
-            DropTable("dbo.IdentityRoles");
+            DropTable("dbo.security_roles");
         }
     }
 }
