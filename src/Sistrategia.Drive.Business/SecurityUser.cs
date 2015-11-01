@@ -10,7 +10,7 @@ namespace Sistrategia.Drive.Business
 {
     public class SecurityUser : IdentityUser
     {
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<SecurityUser> manager) {
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync( UserManager<SecurityUser, string> manager) {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here

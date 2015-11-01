@@ -14,14 +14,27 @@ using Microsoft.Owin.Security;
 namespace Sistrategia.Drive.Business
 {
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-    public class SecurityUserManager : UserManager<SecurityUser>
+    public class SecurityUserManager : UserManager<SecurityUser, string>
     {
-        public SecurityUserManager(IUserStore<SecurityUser> store)
+        public SecurityUserManager(IUserStore<SecurityUser, string> store)
             : base(store) {
         }
+        //public SecurityUserManager(IUserStore<SecurityUser> store)
+        //    : base(store) {
+        //}
+        //public SecurityUserManager(UserStore<SecurityUser, SecurityRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim> store)
+        //    : base(store as IUserStore<SecurityUser>) {
+
+        //}
+        //public SecurityUserManager(SecurityUserStore store)
+        //    : base(store)  {
+
+        //}
 
         public static SecurityUserManager Create(IdentityFactoryOptions<SecurityUserManager> options, IOwinContext context) {
-            var manager = new SecurityUserManager(new UserStore<SecurityUser>(context.Get<ApplicationDbContext>()));
+            //var manager = new SecurityUserManager(new UserStore<SecurityUser>(context.Get<ApplicationDbContext>()));
+            //var manager = new SecurityUserManager(new UserStore<SecurityUser, SecurityRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>(context.Get<ApplicationDbContext>()));
+            var manager = new SecurityUserManager(new SecurityUserStore(context.Get<ApplicationDbContext>()));
 
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<SecurityUser>(manager) {

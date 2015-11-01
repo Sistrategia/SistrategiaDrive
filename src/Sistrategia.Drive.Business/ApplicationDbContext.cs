@@ -68,12 +68,17 @@ namespace Sistrategia.Drive.Business
                .ToTable("security_roles");
             role.Property(r => r.Id).HasColumnName("role_id");
             role.Property(r => r.Name)
-                .HasColumnName("name")
+                .HasColumnName("role_name")
                 .IsRequired()
                 .HasMaxLength(256)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("RoleNameIndex") { IsUnique = true }));
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("role_name_index") { IsUnique = true }));
 
             role.HasMany(r => r.Users).WithRequired().HasForeignKey(ur => ur.RoleId);
+            //var f = role.HasMany(r => r.Users).WithRequired();
+            //f.HasForeignKey(ur => ur.RoleId);
+            //f.Map(pr => pr.MapKey(("role_id")));
+            
+            //role.HasMany(r => r.Users).WithRequired().Map(pr=>pr.MapKey("RoleId")).WillCascadeOnDelete  .HasForeignKey(ur => ur.RoleId);
 
             user.HasMany(u => u.Roles).WithRequired().HasForeignKey(ur => ur.UserId);
 
@@ -90,9 +95,15 @@ namespace Sistrategia.Drive.Business
             // CONSIDER: u.Email is Required if set on options?
             // user.Property(u => u.Email).HasMaxLength(256);
 
-            modelBuilder.Entity<IdentityUserRole>()
+            var userRole = modelBuilder.Entity<IdentityUserRole>()
                 .HasKey(r => new { r.UserId, r.RoleId })
-                .ToTable("security_user_roles");
+                .ToTable("security_user_roles")
+                //.Property(pr1 => pr1.RoleId).HasColumnName("role_id");                
+                ;
+
+            userRole.Property(pr1 => pr1.RoleId).HasColumnName("role_id");
+            userRole.Property(pr2 => pr2.UserId).HasColumnName("user_id");
+                
 
             modelBuilder.Entity<IdentityUserLogin>()
                  .HasKey(l => new { l.LoginProvider, l.ProviderKey, l.UserId })

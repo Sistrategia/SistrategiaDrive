@@ -90,6 +90,7 @@
     <Compile Include="SecurityUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityUser.cs" />
+    <Compile Include="SecurityUserStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

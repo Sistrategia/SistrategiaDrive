@@ -12,23 +12,23 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 c => new
                     {
                         role_id = c.String(nullable: false, maxLength: 128),
-                        name = c.String(nullable: false, maxLength: 256),
+                        role_name = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.role_id)
-                .Index(t => t.name, unique: true, name: "RoleNameIndex");
+                .Index(t => t.role_name, unique: true, name: "role_name_index");
             
             CreateTable(
                 "dbo.security_user_roles",
                 c => new
                     {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        RoleId = c.String(nullable: false, maxLength: 128),
+                        user_id = c.String(nullable: false, maxLength: 128),
+                        role_id = c.String(nullable: false, maxLength: 128),
                     })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.security_roles", t => t.RoleId, cascadeDelete: true)
-                .ForeignKey("dbo.security_user", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId)
-                .Index(t => t.RoleId);
+                .PrimaryKey(t => new { t.user_id, t.role_id })
+                .ForeignKey("dbo.security_roles", t => t.role_id, cascadeDelete: true)
+                .ForeignKey("dbo.security_user", t => t.user_id, cascadeDelete: true)
+                .Index(t => t.user_id)
+                .Index(t => t.role_id);
             
             CreateTable(
                 "dbo.security_user",
@@ -79,16 +79,16 @@ namespace Sistrategia.Drive.WebSite.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.security_user_roles", "UserId", "dbo.security_user");
+            DropForeignKey("dbo.security_user_roles", "user_id", "dbo.security_user");
             DropForeignKey("dbo.security_user_logins", "UserId", "dbo.security_user");
             DropForeignKey("dbo.security_user_claims", "UserId", "dbo.security_user");
-            DropForeignKey("dbo.security_user_roles", "RoleId", "dbo.security_roles");
+            DropForeignKey("dbo.security_user_roles", "role_id", "dbo.security_roles");
             DropIndex("dbo.security_user_logins", new[] { "UserId" });
             DropIndex("dbo.security_user_claims", new[] { "UserId" });
             DropIndex("dbo.security_user", "user_name_index");
-            DropIndex("dbo.security_user_roles", new[] { "RoleId" });
-            DropIndex("dbo.security_user_roles", new[] { "UserId" });
-            DropIndex("dbo.security_roles", "RoleNameIndex");
+            DropIndex("dbo.security_user_roles", new[] { "role_id" });
+            DropIndex("dbo.security_user_roles", new[] { "user_id" });
+            DropIndex("dbo.security_roles", "role_name_index");
             DropTable("dbo.security_user_logins");
             DropTable("dbo.security_user_claims");
             DropTable("dbo.security_user");

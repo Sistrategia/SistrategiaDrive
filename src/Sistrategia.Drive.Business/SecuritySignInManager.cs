@@ -22,6 +22,7 @@ namespace Sistrategia.Drive.Business
         }
 
         public override Task<ClaimsIdentity> CreateUserIdentityAsync(SecurityUser user) {
+            //return user.GenerateUserIdentityAsync((SecurityUserManager)UserManager);
             return user.GenerateUserIdentityAsync((SecurityUserManager)UserManager);
         }
 
