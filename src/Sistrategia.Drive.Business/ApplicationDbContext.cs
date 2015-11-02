@@ -41,7 +41,7 @@ namespace Sistrategia.Drive.Business
                 .IsRequired()
                 .HasMaxLength(256)
                 .HasColumnOrder(2)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("user_name_index") { IsUnique = true }));
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("ix_user_name_index") { IsUnique = true }));
             user.Property(u => u.Email)
                 .HasColumnName("email")
                 .HasMaxLength(256);
@@ -71,7 +71,7 @@ namespace Sistrategia.Drive.Business
                 .HasColumnName("role_name")
                 .IsRequired()
                 .HasMaxLength(256)
-                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("role_name_index") { IsUnique = true }));
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("ix_role_name_index") { IsUnique = true }));
 
             role.HasMany(r => r.Users).WithRequired().HasForeignKey(ur => ur.RoleId);
             //var f = role.HasMany(r => r.Users).WithRequired();
@@ -100,16 +100,23 @@ namespace Sistrategia.Drive.Business
                 .ToTable("security_user_roles")
                 //.Property(pr1 => pr1.RoleId).HasColumnName("role_id");                
                 ;
-
             userRole.Property(pr1 => pr1.RoleId).HasColumnName("role_id");
             userRole.Property(pr2 => pr2.UserId).HasColumnName("user_id");
-                
 
-            modelBuilder.Entity<IdentityUserLogin>()
+
+            var userLogin = modelBuilder.Entity<IdentityUserLogin>()
                  .HasKey(l => new { l.LoginProvider, l.ProviderKey, l.UserId })
                  .ToTable("security_user_logins");
+            userLogin.Property(pr1 => pr1.LoginProvider).HasColumnName("login_provider");
+            userLogin.Property(pr2 => pr2.ProviderKey).HasColumnName("provider_key");
+            userLogin.Property(pr3 => pr3.UserId).HasColumnName("user_id");
 
-            modelBuilder.Entity<IdentityUserClaim>().ToTable("security_user_claims");
+            var userClaim = modelBuilder.Entity<IdentityUserClaim>()
+                .ToTable("security_user_claims");
+            userClaim.Property(pr1 => pr1.Id).HasColumnName("claim_id");
+            userClaim.Property(pr2 => pr2.UserId).HasColumnName("user_id");
+            userClaim.Property(pr3 => pr3.ClaimType).HasColumnName("claim_type");
+            userClaim.Property(pr4 => pr4.ClaimValue).HasColumnName("claim_value");
 
             
 
