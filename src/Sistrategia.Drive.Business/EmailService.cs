@@ -5,14 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using SendGrid;
+using System.Configuration;
 
 namespace Sistrategia.Drive.Business
 {
     public class EmailService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message) {
-            return ConfigSendGridAsync(message);
-            //return ConfigSendSMTPAsync(message);
+            var useSendGrid = Convert.ToBoolean(ConfigurationManager.AppSettings["UseSendGrid"]);
+            if (useSendGrid)
+                return ConfigSendGridAsync(message);
+            else
+                return ConfigSendSMTPAsync(message);
         }
 
         private Task ConfigSendSMTPAsync(IdentityMessage message) {
@@ -21,16 +25,21 @@ namespace Sistrategia.Drive.Business
 
             var myMessage = new System.Net.Mail.MailMessage();
             myMessage.To.Add(message.Destination);
-            myMessage.From = new System.Net.Mail.MailAddress("from", "Full Name");
+            myMessage.From = new System.Net.Mail.MailAddress(ConfigurationManager.AppSettings["AccountMailFrom"], ConfigurationManager.AppSettings["AccountMailFromDisplayName"]);
             myMessage.Subject = message.Subject;
             myMessage.AlternateViews.Add(System.Net.Mail.AlternateView.CreateAlternateViewFromString(message.Body, null, System.Net.Mime.MediaTypeNames.Text.Plain));
             myMessage.AlternateViews.Add(System.Net.Mail.AlternateView.CreateAlternateViewFromString(message.Body, null, System.Net.Mime.MediaTypeNames.Text.Html));
 
-            System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("smtp", Convert.ToInt32(587)); // 587            
-            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("from", "Sistrategia1");
+            System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient(
+                ConfigurationManager.AppSettings["SMTPHost"], 
+                Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"])
+                );
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(
+                ConfigurationManager.AppSettings["SMTPUserName"]
+                , ConfigurationManager.AppSettings["SMTPPassword"]);
             smtpClient.Credentials = credentials;
-            smtpClient.EnableSsl = true;
-            smtpClient.Port = 587;
+            smtpClient.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableSSL"]);
+            // smtpClient.Port = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
             // return smtpClient.SendMailAsync(myMessage);
             smtpClient.Send(myMessage);
             return Task.FromResult(0);
@@ -39,18 +48,18 @@ namespace Sistrategia.Drive.Business
         private Task ConfigSendGridAsync(IdentityMessage message) {
             var myMessage = new SendGridMessage();
             myMessage.AddTo(message.Destination);
-            myMessage.From = new System.Net.Mail.MailAddress("from", "Full Name");
+            myMessage.From = new System.Net.Mail.MailAddress(ConfigurationManager.AppSettings["AccountMailFrom"], ConfigurationManager.AppSettings["AccountMailFromDisplayName"]);
             myMessage.Subject = message.Subject;
             myMessage.Text = message.Body;
             myMessage.Html = message.Body;
 
             //var credentials = new System.Net.NetworkCredential(
-            //    "user",
-            //    "password"
+            //    ConfigurationManager.AppSettings["SendGridUser"],
+            //    ConfigurationManager.AppSettings["SendGridAPIKey"]
             //    );
 
             //var transportWeb = new Web(credentials); // Cambiar por APIKEY
-            var transportWeb = new Web("");
+            var transportWeb = new Web(ConfigurationManager.AppSettings["SendGridAPIKey"]);
 
             if (transportWeb != null) {
                 return transportWeb.DeliverAsync(myMessage);
