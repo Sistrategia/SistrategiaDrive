@@ -34,6 +34,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                 </ul>
+              @*@Html.Partial("_LoginPartial")*@
+
+              <ul class="nav navbar-nav navbar-right">
+                @*<li>@Html.ActionLink(Sistrategia.Drive.WebSite.Views.Home.Welcome.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+                @*<li>@Html.ActionLink(Sistrategia.Drive.WebSite.Views.Home.Welcome.Login, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+                <li><a class="navbar-icon" href="@Url.Content("~/Account")"><span class="glyphicon glyphicon-user"></span></a></li>
+                <li><a class="navbar-icon" href="@Url.Content("~/Account/LogOff")"><span class="glyphicon glyphicon-off"></span></a></li>
+              </ul>
+
             </div>
         </div>
     </div>

@@ -40,11 +40,29 @@ namespace Sistrategia.Drive.WebSite.Controllers
             private set { userManager = value; }
         }
 
-        //// GET: Account
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
+        // GET: Account
+        public async Task<ActionResult> Index(AccountIndexMessageId? message) {
+
+            ViewBag.StatusMessage =
+                message == AccountIndexMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == AccountIndexMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == AccountIndexMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
+                : message == AccountIndexMessageId.Error ? "An error has occurred."
+                : message == AccountIndexMessageId.AddPhoneSuccess ? "Your phone number was added."
+                : message == AccountIndexMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : "";
+            
+            var userId = User.Identity.GetUserId();
+
+            var model = new AccountIndexViewModel {
+                HasPassword = HasPassword(),
+                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+                Logins = await UserManager.GetLoginsAsync(userId),
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+            };
+            return View(model);
+        }
 
         //
         // GET: /Account/Login
@@ -318,6 +336,73 @@ namespace Sistrategia.Drive.WebSite.Controllers
         }
 
 
+
+
+
+
+
+
+
+        //
+        // GET: /Manage/ChangePassword
+        public ActionResult ChangePassword() {
+            return View();
+        }
+
+        //
+        // POST: /Manage/ChangePassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model) {
+            if (!ModelState.IsValid) {
+                return View(model);
+            }
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            if (result.Succeeded) {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null) {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+                return RedirectToAction("Index", new { Message = AccountIndexMessageId.ChangePasswordSuccess });
+            }
+            AddErrors(result);
+            return View(model);
+        }
+
+
+        //
+        // POST: /Manage/DisableTwoFactorAuthentication
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DisableTwoFactorAuthentication() {
+            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null) {
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            }
+            return RedirectToAction("Index", "Account");
+        }
+
+
+        //
+        // POST: /Manage/EnableTwoFactorAuthentication
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EnableTwoFactorAuthentication() {
+            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null) {
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            }
+            return RedirectToAction("Index", "Account");
+        }
+
+
+
+
+
+
+
         protected override void Dispose(bool disposing) {
             if (disposing) {
                 if (userManager != null) {
@@ -380,6 +465,24 @@ namespace Sistrategia.Drive.WebSite.Controllers
         //        context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
         //    }
         //}
+
+
+
+        private bool HasPassword() {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null) {
+                return user.PasswordHash != null;
+            }
+            return false;
+        }
+
+        private bool HasPhoneNumber() {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null) {
+                return user.PhoneNumber != null;
+            }
+            return false;
+        }
 
         #endregion
 

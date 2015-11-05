@@ -23,7 +23,13 @@ textarea {
 
 h1 {
     /*font-family:'Segoe UI', "Helvetica Neue", Helvetica, Arial, sans-serif;*/
-    font-weight:200;
+    font-weight:100;
+    /*margin-bottom: 20px;*/
+}
+
+h4 {
+    /*font-family:'Segoe UI', "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+    font-weight:100;
 }
 
 /* MainMenuPartial Layout */
