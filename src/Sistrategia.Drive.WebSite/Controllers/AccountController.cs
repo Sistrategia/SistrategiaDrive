@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 using Sistrategia.Drive.Business;
 using Sistrategia.Drive.WebSite.Models;
+using Sistrategia.Drive.Resources;
 
 
 
@@ -140,8 +141,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
                         , protocol: Request.Url.Scheme);
                     
                     await UserManager.SendEmailAsync(user.Id, 
-                        "Confirm your account", 
-                        "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        LocalizedStrings.Account_ConfirmYourAccount, 
+                        string.Format(LocalizedStrings.Account_ConfirmYourAccountBody , callbackUrl ));
 
                     //return RedirectToAction("Index", "Home");
                     return View("DisplayEmail");
@@ -151,6 +152,11 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult DisplayEmail() {
+            return View();
         }
 
         //

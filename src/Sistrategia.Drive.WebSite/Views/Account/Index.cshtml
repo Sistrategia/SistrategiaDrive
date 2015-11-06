@@ -1,31 +1,38 @@
 ﻿@model Sistrategia.Drive.WebSite.Models.AccountIndexViewModel
 @{
-    ViewBag.Title = "My Account";
+    ViewBag.Title = @LocalizedStrings.Account_IndexTitle;
 }
 
-<h1>@ViewBag.Title.</h1>
+<h1>@ViewBag.Title</h1>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
-  <h4>Change your account settings</h4>
+  <h4>@LocalizedStrings.Account_IndexSubtitle</h4>
   <hr />
   <dl class="dl-horizontal">
-    <dt>Password:</dt>
+    <dt>@LocalizedStrings.Password: </dt>
     <dd>
       [
       @if (Model.HasPassword) {
-        @Html.ActionLink("Change your password", "ChangePassword")
+        @Html.ActionLink(@LocalizedStrings.Account_ChangePassword, "ChangePassword")
       }
       else {
         @Html.ActionLink("Create", "SetPassword")
       }
       ]
     </dd>
-    <dt>External Logins:</dt>
+    <dt>@LocalizedStrings.Account_ExternalLogins:</dt>
     <dd>
       @Model.Logins.Count [
       @Html.ActionLink("Manage", "ManageLogins") ]
     </dd>
+
+    <dt>@LocalizedStrings.Language: </dt>
+    <dd>
+      @Html.ActionLink("English (US)", "ChangeLang", "Locale", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "active" })
+      | @Html.ActionLink("Español (México)", "ChangeLang", "Home", new { Lang = "es-MX", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "active" })
+    </dd>    
+
     @*
       Phone Numbers can used as a second factor of verification in a two-factor authentication system.
 

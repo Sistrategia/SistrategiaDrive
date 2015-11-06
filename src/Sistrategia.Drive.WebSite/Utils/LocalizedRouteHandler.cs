@@ -57,7 +57,10 @@ namespace Sistrategia.Drive.WebSite.Utils
         private static IHttpHandler GetDefaultLocaleRedirectHandler(RequestContext requestContext) {
             var uiCulture = CultureInfo.CurrentUICulture;
             var routeValues = requestContext.RouteData.Values;
-            routeValues["culture"] = uiCulture.Name;
+            if (uiCulture.Name.StartsWith("es-"))
+                routeValues["culture"] = "es-MX"; // intercept default es-ES for "es".
+            else
+                routeValues["culture"] = uiCulture.Name;
             return new CustomRedirectHandler(new UrlHelper(requestContext).RouteUrl(routeValues));
         }
     }
