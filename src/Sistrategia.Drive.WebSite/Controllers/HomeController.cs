@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Sistrategia.Drive.Business;
 
 namespace Sistrategia.Drive.WebSite.Controllers
 {
@@ -14,6 +15,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
             if (!Request.IsAuthenticated) {
                 return RedirectToAction("Welcome");
             }
+
+            CloudStorageMananger.GetBlobs();
 
             return View();
         }

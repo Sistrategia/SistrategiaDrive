@@ -55,14 +55,27 @@ namespace Sistrategia.Drive.WebSite.Controllers
             
             var userId = User.Identity.GetUserId();
 
-            var model = new AccountIndexViewModel {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
-            return View(model);
+            if (!string.IsNullOrEmpty(userId)) {
+                var user = await UserManager.FindByIdAsync(userId);
+                var model = new AccountIndexViewModel {
+                    HasPassword = HasPassword(),
+                    PhoneNumber = user.PhoneNumber,
+                    TwoFactor = user.TwoFactorEnabled,
+                    Logins = await UserManager.GetLoginsAsync(userId), 
+                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                };
+                return View(model);
+            }
+
+            //var model = new AccountIndexViewModel {
+            //    HasPassword = HasPassword(),
+            //    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+            //    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+            //    Logins = await UserManager.GetLoginsAsync(userId),
+            //    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+            //};
+            // return View(model);
+            return RedirectToAction("Index", "Home");
         }
 
         //
