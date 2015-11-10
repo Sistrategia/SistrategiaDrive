@@ -96,6 +96,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 return View(model);
             }
 
+            if (!model.Email.EndsWith("@sistrategia.com"))
+                return View("AccountManualValidation");
+
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);            
             switch (result) {
                 case SignInStatus.Success:
@@ -144,7 +147,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 var user = new SecurityUser { UserName = model.Email, Email = model.Email }; //, Hometown = model.Hometown };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
