@@ -1,0 +1,13 @@
+{
+  "name": "sistrategia.drive.website",
+  "version": "1.0.0",
+  "description": "Sistrategia Drive provides business enterprise-grade cloud storage access. You can create storage on a variety of providers like Amazon S3, Azure Storage and Rackspace Cloud Files.",
+  "author": "Jose Ernesto Ocampo Cicero <ernesto@sistrategia.com>",
+  "license": "Apache-2.0",
+  "private": true,
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-less": "^1.1.0",
+    "less-plugin-autoprefix": "^1.5.1"
+  }
+}

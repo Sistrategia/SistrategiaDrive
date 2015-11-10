@@ -28,8 +28,9 @@ namespace Sistrategia.Drive.WebSite
 
             bundles.Add(new StyleBundle("~/Content/welcome").Include(
                       "~/Content/bootstrap.css"
+                      //, "~/Content/site.css"
                       , "~/Content/Welcome.css"
-                //, "~/Content/site.css"
+                
                       ));
 
             BundleTable.EnableOptimizations = true;
