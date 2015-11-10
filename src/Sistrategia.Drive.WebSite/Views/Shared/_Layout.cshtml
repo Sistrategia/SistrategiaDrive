@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+  string ControllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+  
+}
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
@@ -34,6 +38,25 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                 </ul>
+              @*@Html.Partial("_LoginPartial")*@
+
+              <ul class="nav navbar-nav navbar-right">
+                @*<li>@Html.ActionLink(Sistrategia.Drive.WebSite.Views.Home.Welcome.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+                @*<li>@Html.ActionLink(Sistrategia.Drive.WebSite.Views.Home.Welcome.Login, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+
+                @if (HttpContext.Current.User.Identity.IsAuthenticated) {
+
+                <li><a class="navbar-icon" href="@Url.Content("~/Account")"><span class="glyphicon glyphicon-user"></span></a></li>
+                if (HttpContext.Current.User.IsInRole("Developers")) {
+                <li @if (ControllerName.Equals("Dev")) { @Html.Raw("class='active'")  ; } else { @Html.Raw("")  ; }>
+                  <a class="navbar-icon" href="@Url.Content("~/Dev")"><span class="glyphicon glyphicon-cog"></span></a>
+                </li>
+                }
+                <li><a class="navbar-icon" href="@Url.Content("~/Account/LogOff")"><span class="glyphicon glyphicon-off"></span></a></li>
+  
+}
+              </ul>
+
             </div>
         </div>
     </div>
@@ -42,8 +65,15 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Sistrategia</p>
-        </footer>
+          <p class="pull-left">&copy; @DateTime.Now.Year - Sistrategia</p>
+          <div class="pull-right">
+            <ul class="nav navbar-nav navbar-right">
+              <li>@Html.ActionLink("English (US)", "ChangeLang", "Locale", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "navbar-brand footer-lang-bar", @style = "font-size:11px;" })</li>
+              <li>@Html.ActionLink("Español (México)", "ChangeLang", "Locale", new { Lang = "es-MX", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "navbar-brand footer-lang-bar", @style = "font-size:11px;" })</li>
+            </ul>
+            </div>
+
+</footer>
     </div>
 
   @*<script src="~/Scripts/jquery-2.1.4.min.js"></script>

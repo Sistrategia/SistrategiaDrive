@@ -13,12 +13,18 @@ namespace Sistrategia.Drive.WebSite.Utils
 
             var cookieLocale = requestContext.HttpContext.Request.Cookies["locale"];
             if (cookieLocale != null) {
-                routeValues["culture"] = cookieLocale.Value;
+                if (string.IsNullOrEmpty(cookieLocale.Value))
+                    routeValues["culture"] = CultureInfo.CurrentUICulture.Name;
+                 else
+                    routeValues["culture"] = cookieLocale.Value;               
                 return new CustomRedirectHandler(new UrlHelper(requestContext).RouteUrl(routeValues));
             }
 
             var uiCulture = CultureInfo.CurrentUICulture;
-            routeValues["culture"] = uiCulture.Name;
+            //if (uiCulture.Name.StartsWith("es-"))
+            //    routeValues["culture"] = "es-MX"; // intercept default es-ES for "es".
+            //else
+                routeValues["culture"] = uiCulture.Name;
             return new CustomRedirectHandler(new UrlHelper(requestContext).RouteUrl(routeValues));
         }
     }

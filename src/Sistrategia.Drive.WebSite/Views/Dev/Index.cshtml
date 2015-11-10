@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Dev";
+}
+
+<h1>@ViewBag.Title</h1>
+
+
+  <dl>
+    <dt>CurrentUICulture:</dt>
+    <dd>@System.Threading.Thread.CurrentThread.CurrentUICulture.Name</dd>
+    @*<dd>@System.Threading.Thread.CurrentThread.CurrentUICulture.DisplayName</dd>*@
+
+    <dt>CurrentCulture:</dt>
+    <dd>@System.Threading.Thread.CurrentThread.CurrentCulture.Name</dd>
+
+    <dt>ViewBag.AcceptLanguage:</dt>
+    <dd>@ViewBag.AcceptLanguage</dd>
+    
+  </dl>
+
+

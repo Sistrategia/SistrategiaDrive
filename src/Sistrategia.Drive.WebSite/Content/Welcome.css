@@ -130,3 +130,11 @@ transition: background .2s ease-in-out, border .2s ease-in-out;
     font-size: 63px;
   }
 }
+
+
+
+
+.navbar-nav>li>a.footer-lang-bar {
+        padding-top: 0px;
+        padding-bottom: 15px;
+    }
