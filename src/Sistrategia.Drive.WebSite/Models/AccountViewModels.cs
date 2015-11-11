@@ -48,23 +48,24 @@ namespace Sistrategia.Drive.WebSite.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        //[Display(Name = "Remember me?")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Account_RememberMe")]
         public bool RememberMe { get; set; }
     }
 
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Email")]
         public string Email { get; set; }
     }
 
@@ -124,7 +125,7 @@ namespace Sistrategia.Drive.WebSite.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Email")]
         public string Email { get; set; }
     }
 
@@ -156,7 +157,7 @@ namespace Sistrategia.Drive.WebSite.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Email")]
         public string Email { get; set; }
     }
 

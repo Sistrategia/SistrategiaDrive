@@ -135,17 +135,32 @@
   <data name="Account_ExternalLogins" xml:space="preserve">
     <value>External Logins</value>
   </data>
+  <data name="Account_ForgotYourPassword" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
   <data name="Account_IndexSubtitle" xml:space="preserve">
     <value>Change your account settings</value>
   </data>
   <data name="Account_IndexTitle" xml:space="preserve">
     <value>My Account</value>
   </data>
+  <data name="Account_LoginButton" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="Account_LoginTitle" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="Account_LoginUseLocalAccount" xml:space="preserve">
+    <value>Use a local account to log in</value>
+  </data>
   <data name="Account_PasswordValidationError" xml:space="preserve">
     <value>The {0} must be at least {2} characters long.</value>
   </data>
   <data name="Account_PleaseCheckYourEmailAndConfirm" xml:space="preserve">
     <value>Please check your email and confirm your email address.</value>
+  </data>
+  <data name="Account_RegisterAsNewUser" xml:space="preserve">
+    <value>Register as a new user</value>
   </data>
   <data name="Account_RegisterButton" xml:space="preserve">
     <value>Register</value>
@@ -155,6 +170,9 @@
   </data>
   <data name="Account_RegisterTitle" xml:space="preserve">
     <value>Register</value>
+  </data>
+  <data name="Account_RememberMe" xml:space="preserve">
+    <value>Remember me</value>
   </data>
   <data name="Documents" xml:space="preserve">
     <value>Documents</value>

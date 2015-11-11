@@ -115,6 +115,15 @@ namespace Sistrategia.Drive.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forgot your password?.
+        /// </summary>
+        public static string Account_ForgotYourPassword {
+            get {
+                return ResourceManager.GetString("Account_ForgotYourPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change your account settings.
         /// </summary>
         public static string Account_IndexSubtitle {
@@ -133,6 +142,33 @@ namespace Sistrategia.Drive.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log in.
+        /// </summary>
+        public static string Account_LoginButton {
+            get {
+                return ResourceManager.GetString("Account_LoginButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in.
+        /// </summary>
+        public static string Account_LoginTitle {
+            get {
+                return ResourceManager.GetString("Account_LoginTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use a local account to log in.
+        /// </summary>
+        public static string Account_LoginUseLocalAccount {
+            get {
+                return ResourceManager.GetString("Account_LoginUseLocalAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The {0} must be at least {2} characters long..
         /// </summary>
         public static string Account_PasswordValidationError {
@@ -147,6 +183,15 @@ namespace Sistrategia.Drive.Resources {
         public static string Account_PleaseCheckYourEmailAndConfirm {
             get {
                 return ResourceManager.GetString("Account_PleaseCheckYourEmailAndConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register as a new user.
+        /// </summary>
+        public static string Account_RegisterAsNewUser {
+            get {
+                return ResourceManager.GetString("Account_RegisterAsNewUser", resourceCulture);
             }
         }
         
@@ -174,6 +219,15 @@ namespace Sistrategia.Drive.Resources {
         public static string Account_RegisterTitle {
             get {
                 return ResourceManager.GetString("Account_RegisterTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember me.
+        /// </summary>
+        public static string Account_RememberMe {
+            get {
+                return ResourceManager.GetString("Account_RememberMe", resourceCulture);
             }
         }
         

@@ -135,17 +135,32 @@
   <data name="Account_ExternalLogins" xml:space="preserve">
     <value>Inicios de sesión externos</value>
   </data>
+  <data name="Account_ForgotYourPassword" xml:space="preserve">
+    <value>¿Olvidaste tu contraseña?</value>
+  </data>
   <data name="Account_IndexSubtitle" xml:space="preserve">
     <value>Cambia la configuración de tu cuenta</value>
   </data>
   <data name="Account_IndexTitle" xml:space="preserve">
     <value>Mi Cuenta</value>
   </data>
+  <data name="Account_LoginButton" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
+  <data name="Account_LoginTitle" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
+  <data name="Account_LoginUseLocalAccount" xml:space="preserve">
+    <value>Usa tu cuenta local para ingresar</value>
+  </data>
   <data name="Account_PasswordValidationError" xml:space="preserve">
     <value>La {0} debe ser al menos de {2} caracteres de longitud.</value>
   </data>
   <data name="Account_PleaseCheckYourEmailAndConfirm" xml:space="preserve">
     <value>Por favor revise su correo electrónico y confirme su cuenta.</value>
+  </data>
+  <data name="Account_RegisterAsNewUser" xml:space="preserve">
+    <value>Crear una cuenta nueva</value>
   </data>
   <data name="Account_RegisterButton" xml:space="preserve">
     <value>Registrarse</value>
@@ -155,6 +170,9 @@
   </data>
   <data name="Account_RegisterTitle" xml:space="preserve">
     <value>Registro</value>
+  </data>
+  <data name="Account_RememberMe" xml:space="preserve">
+    <value>Mantener la sesión iniciada</value>
   </data>
   <data name="Documents" xml:space="preserve">
     <value>Documentos</value>

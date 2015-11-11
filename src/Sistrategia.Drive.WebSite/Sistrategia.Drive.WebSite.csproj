@@ -365,6 +365,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Welcome.es-MX.resx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Home\Welcome.es.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Welcome.es.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201510022249088_InitialCreate.resx">
@@ -373,6 +378,10 @@
     <EmbeddedResource Include="Views\Home\Welcome.es-MX.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Welcome.es-MX.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Home\Welcome.es.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Welcome.es.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Home\Welcome.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
