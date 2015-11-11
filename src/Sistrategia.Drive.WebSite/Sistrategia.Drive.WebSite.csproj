@@ -318,6 +318,8 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Dev\Index.cshtml" />
     <Content Include="Views\Account\AccountManualValidation.cshtml" />
+    <Content Include="Views\Home\TermsOfUse.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

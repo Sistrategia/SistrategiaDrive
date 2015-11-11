@@ -61,7 +61,7 @@ namespace Sistrategia.Drive.WebSite.Views.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat..
+        ///   Looks up a localized string similar to Learn how to create your account, share, and manage your files with Sistrategia Drive..
         /// </summary>
         public static string GettingStartedBody {
             get {
@@ -70,7 +70,7 @@ namespace Sistrategia.Drive.WebSite.Views.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur..
+        ///   Looks up a localized string similar to Minimize disruption for end users by allowing them to keep using existing enterprise tools such as Microsoft Office, Email, etc..
         /// </summary>
         public static string IntegrationBody {
             get {
@@ -115,7 +115,7 @@ namespace Sistrategia.Drive.WebSite.Views.Home {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..
+        ///   Looks up a localized string similar to Now organizations also need to provide support to their customers and partners that interact with its content..
         /// </summary>
         public static string SupportBody {
             get {

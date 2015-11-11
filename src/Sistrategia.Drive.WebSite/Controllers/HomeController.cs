@@ -22,11 +22,23 @@ namespace Sistrategia.Drive.WebSite.Controllers
         }
 
         //[OutputCache(Duration = 60, VaryByParam="*")]
+        [AllowAnonymous]
         public ActionResult Welcome() {
             Sistrategia.Drive.WebSite.Views.Home.Welcome.Title.ToString();
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult TermsOfUse() {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult Privacy() {
+            return View();
+        }
+
+        [AllowAnonymous]
         public ActionResult ChangeLang(string lang, string returnUrl) {
             var langCookie = new HttpCookie("locale", lang) { HttpOnly = true };
             Response.AppendCookie(langCookie);
@@ -35,6 +47,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             return Redirect(HttpUtility.UrlDecode(returnUrl));
         }
 
+        [AllowAnonymous]
         public ActionResult Cover() {
             return View();
         }

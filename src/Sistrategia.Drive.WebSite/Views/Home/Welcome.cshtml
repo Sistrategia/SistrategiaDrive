@@ -66,7 +66,7 @@
 
   <hr />
   <footer>
-    <p class="pull-left">&copy; @DateTime.Now.Year - Sistrategia | @LocalizedStrings.TermsOfUse | @LocalizedStrings.PrivacyCookies</p>
+    <p class="pull-left">&copy; @DateTime.Now.Year - Sistrategia | @Html.ActionLink(@LocalizedStrings.TermsOfUse, "TermsOfUse") | @Html.ActionLink(@LocalizedStrings.PrivacyCookies, "Privacy") </p>
     <div class="pull-right">
       <ul class="nav navbar-nav navbar-right">
         <li>@Html.ActionLink("English (US)", "ChangeLang", "Home", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "navbar-brand footer-lang-bar", @style = "font-size:11px;" })</li>
