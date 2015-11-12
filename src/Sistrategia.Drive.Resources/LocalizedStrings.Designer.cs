@@ -277,6 +277,24 @@ namespace Sistrategia.Drive.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add a document or photo to your account..
+        /// </summary>
+        public static string Home_AddFileSubtitle {
+            get {
+                return ResourceManager.GetString("Home_AddFileSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add file.
+        /// </summary>
+        public static string Home_AddFileTitle {
+            get {
+                return ResourceManager.GetString("Home_AddFileTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drag and drop files to upload..
         /// </summary>
         public static string Home_IndexSubtitle {
@@ -354,6 +372,15 @@ namespace Sistrategia.Drive.Resources {
         public static string PrivacyCookies {
             get {
                 return ResourceManager.GetString("PrivacyCookies", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string SaveButton {
+            get {
+                return ResourceManager.GetString("SaveButton", resourceCulture);
             }
         }
         

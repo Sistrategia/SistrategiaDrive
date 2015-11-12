@@ -189,6 +189,12 @@
   <data name="Home" xml:space="preserve">
     <value>Inicio</value>
   </data>
+  <data name="Home_AddFileSubtitle" xml:space="preserve">
+    <value>Agregue un documento o una foto a su cuenta.</value>
+  </data>
+  <data name="Home_AddFileTitle" xml:space="preserve">
+    <value>Agregar archivo</value>
+  </data>
   <data name="Home_IndexSubtitle" xml:space="preserve">
     <value>Arrastre y suelte archivos sobre la tabla para cargarlos a su drive.</value>
   </data>
@@ -215,6 +221,9 @@
   </data>
   <data name="PrivacyCookies" xml:space="preserve">
     <value>Privacidad y Cookies</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Guardar</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>Compartir</value>

@@ -1,0 +1,81 @@
+﻿@using Sistrategia.Drive.WebSite.Models
+@model AddDocumentViewModel
+@{
+  ViewBag.Title = LocalizedStrings.Home_AddFileTitle;
+}
+
+<h1>@ViewBag.Title</h1>
+
+<div class="row">
+  <div class="col-md-8">
+    <section id="loginForm">
+      @using (Html.BeginForm("AddDocument", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" })) {
+        @Html.AntiForgeryToken()
+        <h4>@LocalizedStrings.Home_AddFileSubtitle.</h4>
+        <hr />        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(m => m.OwnerId)
+
+        <div class="form-group">
+          @Html.LabelFor(m => m.DocumentName, new { @class = "col-md-4 control-label" })
+          <div class="col-md-8">
+            @Html.TextBoxFor(m => m.DocumentName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.DocumentName, "", new { @class = "text-danger" })
+          </div>
+        </div>
+        <div class="form-group">
+          @Html.LabelFor(m => m.Description, new { @class = "col-md-4 control-label" })
+          <div class="col-md-8">
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+          </div>
+        </div>
+        @*<div class="form-group">
+          <label class="control-label col-md-4" for="File">Optional Photo</label>
+          <div class="col-md-8">
+            <input type="file" name="File" />
+          </div>
+        </div>*@
+        <div class="form-group">
+          @*@Html.Label("Documento", new { @class = "col-md-4 control-label" })*@
+          @Html.LabelFor(m => m.File, new { @class = "col-md-4 control-label" })
+          <div class="col-md-8">
+            <input type="file" id="File" name="File" />
+            @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+          </div>
+        </div>
+
+
+
+        @*<div class="form-group">
+          @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label" })
+          <div class="col-md-9">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+          </div>
+        </div>*@
+        @*<div class="form-group">
+          <div class="col-md-offset-3 col-md-9">
+            <div class="checkbox">
+              @Html.CheckBoxFor(m => m.RememberMe, new { @style = "margin-left: 0" })
+              @Html.LabelFor(m => m.RememberMe)
+            </div>
+          </div>
+        </div>*@
+        <div class="form-group">
+          <div class="col-md-offset-4 col-md-8">
+            <input type="submit" value="@LocalizedStrings.SaveButton" class="btn btn-default" />
+          </div>
+        </div>
+      }
+    </section>
+  </div>
+  <div class="col-md-4">
+    
+  </div>
+</div>
+
+@section Scripts {
+  @Scripts.Render("~/bundles/jqueryval")
+}

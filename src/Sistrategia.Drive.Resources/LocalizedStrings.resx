@@ -189,6 +189,12 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="Home_AddFileSubtitle" xml:space="preserve">
+    <value>Add a document or photo to your account.</value>
+  </data>
+  <data name="Home_AddFileTitle" xml:space="preserve">
+    <value>Add file</value>
+  </data>
   <data name="Home_IndexSubtitle" xml:space="preserve">
     <value>Drag and drop files to upload.</value>
   </data>
@@ -215,6 +221,9 @@
   </data>
   <data name="PrivacyCookies" xml:space="preserve">
     <value>Privacy &amp; cookies</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>Share</value>

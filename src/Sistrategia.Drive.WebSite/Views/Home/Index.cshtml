@@ -1,10 +1,11 @@
-﻿@{
+﻿@using Sistrategia.Drive.WebSite.Models
+@model DocumentListModel
+@{
   ViewBag.Title = LocalizedStrings.Home;
 }
 
 
 <h1>@ViewBag.Title</h1>
-
 <h4>@LocalizedStrings.Home_IndexSubtitle</h4>
 <hr />
 
@@ -12,21 +13,22 @@
   <div class="col-md-2">
     <div class="list-group">
       <a href="#Documents" class="list-group-item active">
-        <span class="glyphicon glyphicon-file"></span> @LocalizedStrings.Documents <span class="badge">145</span>
+        <span class="glyphicon glyphicon-file"></span> @LocalizedStrings.Documents @*<span class="badge">145</span>*@
       </a>
       <a href="#Pictures" class="list-group-item">
-        <span class="glyphicon glyphicon-camera"></span> @LocalizedStrings.Pictures <span class="badge">25</span>
+        <span class="glyphicon glyphicon-camera"></span> @LocalizedStrings.Pictures @*<span class="badge">25</span>*@
       </a>
       <a href="#" class="list-group-item">
-        <span class="glyphicon glyphicon-music"></span> @LocalizedStrings.Music <span class="badge">50</span>
+        <span class="glyphicon glyphicon-music"></span> @LocalizedStrings.Music @*<span class="badge">50</span>*@
       </a>
       <a href="#" class="list-group-item">
-        <span class="glyphicon glyphicon-film"></span> @LocalizedStrings.Videos <span class="badge">8</span>
+        <span class="glyphicon glyphicon-film"></span> @LocalizedStrings.Videos @*<span class="badge">8</span>*@
       </a>
     </div>
   </div>
   <div class="col-md-10">
-    <a href="~/Home/Upload" class="btn btn-primary" role="button">Cargar</a>
+    @*<a href="~/Home/Upload" class="btn btn-primary" role="button">Cargar</a>*@
+    @Html.ActionLink("Cargar", "AddDocument", User.Identity.Name, new { @class = "btn btn-primary", @role = "button" } )
     <table class="table table-hover">
       @*<caption>Test caption</caption>*@
      <thead>
@@ -37,11 +39,13 @@
        </tr>
      </thead>
       <tbody>
+        @foreach (var document in Model.DocumentList) { 
         <tr>
-          <td>SampleFile.jpg</td>
-          <td>@DateTime.Now.ToString()</td>
-          <td>-</td>
+          <td><a href="@document.Url">@document.Name</a></td>
+          <td>@document.Modified.ToString()</td>
+          <td>@document.ContentMD5</td>
         </tr>
+        }
       </tbody>
     </table>
 
