@@ -23,12 +23,15 @@ namespace Sistrategia.Drive.Business
         //[Column(Order = 2)]
         [ForeignKey("CloudStorageProvider")]
         public string CloudStorageProviderId { get; set; }
-
         public virtual CloudStorageProvider CloudStorageProvider { get; set; }
+
+        [Required, MaxLength(128)]
+        public string ProviderKey { get; set; }
 
         [MaxLength(512)]
         public string AccountName { get; set; }
-        
+
+        [MaxLength(1024)]
         public string AccountKey { get; set; }
 
         [MaxLength(256)]

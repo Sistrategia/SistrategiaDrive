@@ -21,6 +21,8 @@ namespace Sistrategia.Drive.Business
             return userIdentity;
         }
 
-
+        [ForeignKey("DefaultContainer")]
+        public string DefaultContainerId { get; set; }        
+        public virtual CloudStorageContainer DefaultContainer { get; set; }
     }
 }

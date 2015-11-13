@@ -9,6 +9,10 @@ namespace Sistrategia.Drive.WebSite.Models
 {
     public class AccountIndexViewModel
     {
+        public AccountIndexViewModel() {
+            this.CloudStorageAccounts = new List<CloudStorageAccount>();
+        }
+
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }

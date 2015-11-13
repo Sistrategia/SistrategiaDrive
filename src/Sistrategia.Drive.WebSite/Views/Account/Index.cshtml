@@ -24,13 +24,13 @@
     <dt>@LocalizedStrings.Account_ExternalLogins:</dt>
     <dd>
       @Model.Logins.Count [
-      @Html.ActionLink("Manage", "ManageLogins") ]
+      @Html.ActionLink(LocalizedStrings.Manage, "ManageLogins") ]
     </dd>
 
     <dt>@LocalizedStrings.Language: </dt>
     <dd>
-      @Html.ActionLink("English (US)", "ChangeLang", "Locale", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "active" })
-      | @Html.ActionLink("Español (México)", "ChangeLang", "Home", new { Lang = "es-MX", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "active" })
+      @Html.ActionLink(LocalizedStrings.Lang_en_US_DisplayName, "ChangeLang", "Locale", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "active" })
+      | @Html.ActionLink(LocalizedStrings.Lang_es_MX_DisplayName, "ChangeLang", "Home", new { Lang = "es-MX", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "active" })
     </dd>    
 
     @*
@@ -58,7 +58,7 @@
           ]
       </dd>
     *@
-    <dt>Two-Factor Authentication:</dt>
+    <dt>@LocalizedStrings.Account_TwoFactorAuthentication:</dt>
     <dd>
       @*<p>
         There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
@@ -69,8 +69,8 @@
             using (Html.BeginForm("DisableTwoFactorAuthentication", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <text>Enabled
-                <input type="submit" value="Disable" class="btn btn-link" />
+                <text>@LocalizedStrings.Enabled
+                <input type="submit" value="@LocalizedStrings.Disable" class="btn btn-link" />
                 </text>
             }
         }
@@ -79,40 +79,19 @@
           using (Html.BeginForm("EnableTwoFactorAuthentication", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <text>Disabled
-                <input type="submit" value="Enable" class="btn btn-link" />
+                <text>@LocalizedStrings.Disabled
+                <input type="submit" value="@LocalizedStrings.Enable" class="btn btn-link" />
                 </text>
             }
         }
     </dd>
+
+    <dt>@LocalizedStrings.CloudStorageAccounts_IndexTitle:</dt>
+    <dd>
+      @Model.CloudStorageAccounts.Count [
+      @Html.ActionLink(LocalizedStrings.Manage, "Index", "CloudStorageAccount") ]
+    </dd>
+
   </dl>
-
-  
-
-
-  <h2>@LocalizedStrings.CloudStorageAccounts_IndexTitle</h2>
-  <hr />
-  @Html.ActionLink("Agregar", "Create", "CloudStorageAccount", new { UserId = User.Identity.Name }, new { @class = "btn btn-default", @role = "button" })
-  <table class="table table-hover">
-    @*<caption>Test caption</caption>*@
-    <thead>
-      <tr>
-        <th>@LocalizedStrings.Name</th>
-        <th>@LocalizedStrings.Modified</th>
-        <th>@LocalizedStrings.Shared</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var account in @Model.CloudStorageAccounts) {
-        <tr>
-          <td>@Html.ActionLink(@account.Alias, "Detail", "CloudStorageAccount", new { Id = @account.CloudStorageAccountId }, null)</td>
-          <td>@account.AccountName</td>
-          <td>@account.CloudStorageProvider.Name</td>
-        </tr>
-      }
-    </tbody>
-  </table>
-
-
 
 </div>

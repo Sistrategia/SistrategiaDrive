@@ -134,7 +134,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             System.Web.Routing.RouteValueDictionary dict = new System.Web.Routing.RouteValueDictionary();
             dict.Add("id", id);
 
-            var blobs = CloudStorageMananger.GetCloudStorageItems(container.CloudStorageAccount.AccountName, container.CloudStorageAccount.AccountKey, id); // .GetContainers(account.AccountName, account.AccountKey);
+            var blobs = CloudStorageMananger.GetCloudStorageItems(container.CloudStorageAccount.AccountName, container.CloudStorageAccount.AccountKey, container.ContainerName); // .GetContainers(account.AccountName, account.AccountKey);
 
             foreach (var blob in blobs) {
                 if (string.IsNullOrEmpty(blob.OwnerId))

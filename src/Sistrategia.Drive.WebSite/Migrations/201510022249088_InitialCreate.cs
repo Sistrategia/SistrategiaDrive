@@ -13,8 +13,9 @@ namespace Sistrategia.Drive.WebSite.Migrations
                     {
                         cloud_storage_account_id = c.String(nullable: false, maxLength: 128),
                         cloud_storage_provider_id = c.String(maxLength: 128),
+                        provider_key = c.String(nullable: false, maxLength: 128),
                         account_name = c.String(maxLength: 512),
-                        account_key = c.String(),
+                        account_key = c.String(maxLength: 1024),
                         alias = c.String(maxLength: 256),
                         description = c.String(),
                     })
@@ -93,6 +94,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
                     {
                         user_id = c.String(nullable: false, maxLength: 128),
                         user_name = c.String(nullable: false, maxLength: 256),
+                        default_container_id = c.String(maxLength: 128),
                         email = c.String(maxLength: 256),
                         email_confirmed = c.Boolean(nullable: false),
                         password_hash = c.String(),
@@ -105,7 +107,9 @@ namespace Sistrategia.Drive.WebSite.Migrations
                         access_failed_count = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.user_id)
-                .Index(t => t.user_name, unique: true, name: "ix_user_name_index");
+                .ForeignKey("dbo.cloud_storage_container", t => t.default_container_id)
+                .Index(t => t.user_name, unique: true, name: "ix_user_name_index")
+                .Index(t => t.default_container_id);
             
             CreateTable(
                 "dbo.security_user_claims",
@@ -151,6 +155,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
         {
             DropForeignKey("dbo.security_user_roles", "user_id", "dbo.security_user");
             DropForeignKey("dbo.security_user_logins", "user_id", "dbo.security_user");
+            DropForeignKey("dbo.security_user", "default_container_id", "dbo.cloud_storage_container");
             DropForeignKey("dbo.security_user_cloud_storage_account", "cloud_storage_account_id", "dbo.cloud_storage_account");
             DropForeignKey("dbo.security_user_cloud_storage_account", "user_id", "dbo.security_user");
             DropForeignKey("dbo.security_user_claims", "user_id", "dbo.security_user");
@@ -162,6 +167,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
             DropIndex("dbo.security_user_cloud_storage_account", new[] { "user_id" });
             DropIndex("dbo.security_user_logins", new[] { "user_id" });
             DropIndex("dbo.security_user_claims", new[] { "user_id" });
+            DropIndex("dbo.security_user", new[] { "default_container_id" });
             DropIndex("dbo.security_user", "ix_user_name_index");
             DropIndex("dbo.security_user_roles", new[] { "role_id" });
             DropIndex("dbo.security_user_roles", new[] { "user_id" });

@@ -30,7 +30,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public ActionResult Detail(string id) {
             var user = this.CurrentSecurityUser;
             if (user != null) {
-                var account = user.CloudStorageAccounts.SingleOrDefault(a => a.CloudStorageAccountId == id);
+                var account = user.CloudStorageAccounts.SingleOrDefault(a => a.CloudStorageAccountId == (Guid.Parse(id).ToString("D")));
                 var model = new CloudStorageAccountDetailViewModel {
                     CloudStorageAccount = account
                 };
@@ -68,8 +68,10 @@ namespace Sistrategia.Drive.WebSite.Controllers
             //    //AccountKey
             //};
             CloudStorageAccount account = new CloudStorageAccount {
-                CloudStorageAccountId = model.AccountName,
+                // https://msdn.microsoft.com/en-us/library/97af8hh4(v=vs.110).aspx
+                CloudStorageAccountId = Guid.NewGuid().ToString("D").ToLower(), // model.AccountName,
                 CloudStorageProviderId = model.CloudStorageProviderId,
+                ProviderKey = model.AccountName,
                 AccountName = model.AccountName,
                 AccountKey = model.AccountKey,
                 Alias = string.IsNullOrEmpty(model.Alias) ? model.Alias : model.AccountName,
@@ -109,7 +111,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
             if (Url.IsLocalUrl(returnUrl)) {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "CloudStorageAccount");
+            return RedirectToAction("Index");
         }
     }
 }

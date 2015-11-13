@@ -261,4 +261,40 @@
   <data name="Videos" xml:space="preserve">
     <value>Vídeos</value>
   </data>
+  <data name="Lang_en_US_DisplayName" xml:space="preserve">
+    <value>Inglés (US)</value>
+  </data>
+  <data name="Lang_es_MX_DisplayName" xml:space="preserve">
+    <value>Español (México)</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Administrar</value>
+  </data>
+  <data name="Account_TwoFactorAuthentication" xml:space="preserve">
+    <value>Verificación de dos pasos</value>
+  </data>
+  <data name="AddButton" xml:space="preserve">
+    <value>Agregar</value>
+  </data>
+  <data name="CreateButton" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="DeleteButton" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Desactivar</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Desactivado</value>
+  </data>
+  <data name="EditButton" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Activar</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Activado</value>
+  </data>
 </root>

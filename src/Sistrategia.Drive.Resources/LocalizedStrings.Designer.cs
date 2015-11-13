@@ -232,6 +232,24 @@ namespace Sistrategia.Drive.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Two-Factor Authentication.
+        /// </summary>
+        public static string Account_TwoFactorAuthentication {
+            get {
+                return ResourceManager.GetString("Account_TwoFactorAuthentication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string AddButton {
+            get {
+                return ResourceManager.GetString("AddButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alias.
         /// </summary>
         public static string Alias {
@@ -268,6 +286,24 @@ namespace Sistrategia.Drive.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string CreateButton {
+            get {
+                return ResourceManager.GetString("CreateButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string DeleteButton {
+            get {
+                return ResourceManager.GetString("DeleteButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -286,11 +322,38 @@ namespace Sistrategia.Drive.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable.
+        /// </summary>
+        public static string Disable {
+            get {
+                return ResourceManager.GetString("Disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disabled.
+        /// </summary>
+        public static string Disabled {
+            get {
+                return ResourceManager.GetString("Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Documents.
         /// </summary>
         public static string Documents {
             get {
                 return ResourceManager.GetString("Documents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string EditButton {
+            get {
+                return ResourceManager.GetString("EditButton", resourceCulture);
             }
         }
         
@@ -309,6 +372,24 @@ namespace Sistrategia.Drive.Resources {
         public static string EmailRequired {
             get {
                 return ResourceManager.GetString("EmailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable.
+        /// </summary>
+        public static string Enable {
+            get {
+                return ResourceManager.GetString("Enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enabled.
+        /// </summary>
+        public static string Enabled {
+            get {
+                return ResourceManager.GetString("Enabled", resourceCulture);
             }
         }
         
@@ -367,11 +448,38 @@ namespace Sistrategia.Drive.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to English (US).
+        /// </summary>
+        public static string Lang_en_US_DisplayName {
+            get {
+                return ResourceManager.GetString("Lang_en_US_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spanish (México).
+        /// </summary>
+        public static string Lang_es_MX_DisplayName {
+            get {
+                return ResourceManager.GetString("Lang_es_MX_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {
             get {
                 return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage.
+        /// </summary>
+        public static string Manage {
+            get {
+                return ResourceManager.GetString("Manage", resourceCulture);
             }
         }
         

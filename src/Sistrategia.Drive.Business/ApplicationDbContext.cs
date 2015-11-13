@@ -70,6 +70,9 @@ namespace Sistrategia.Drive.Business
             user.Property(u => u.AccessFailedCount)
                 .HasColumnName("access_failed_count");
 
+            user.Property(p => p.DefaultContainerId)
+                .HasColumnName("default_container_id");
+
             var role = modelBuilder.Entity<SecurityRole>()
                .ToTable("security_roles");
             role.Property(r => r.Id).HasColumnName("role_id");
@@ -197,6 +200,9 @@ namespace Sistrategia.Drive.Business
             //    ;
             //cloudStorageAccount.HasRequired<CloudStorageProvider>(a => a.CloudStorageProvider)
             //    .WithMany().HasForeignKey(f => f.CloudStorageProviderId).WillCascadeOnDelete(false);
+
+            cloudStorageAccount.Property(p => p.ProviderKey)
+                .HasColumnName("provider_key");
 
             cloudStorageAccount.Property(p => p.AccountName)
                 .HasColumnName("account_name");

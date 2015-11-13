@@ -12,7 +12,8 @@
   @*<li class="active">Detail</li>*@
 </ol>
 
-<h1>@Model.CloudStorageContainer.ContainerName</h1>
+@*<h1>@Guid.Parse(Model.CloudStorageContainer.ContainerName).ToString("D")</h1>*@
+<h1>@Model.CloudStorageContainer.Alias</h1>
 
 @*<h4>@LocalizedStrings.Account_IndexSubtitle</h4>*@
 <hr />
