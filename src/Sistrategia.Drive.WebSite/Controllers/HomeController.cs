@@ -13,30 +13,14 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace Sistrategia.Drive.WebSite.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private SecuritySignInManager signInManager;
-        private SecurityUserManager userManager;
-
         public HomeController() {
-
         }
 
-        public HomeController(SecurityUserManager userManager, SecuritySignInManager signInManager) {
-            UserManager = userManager;
-            SignInManager = signInManager;
+        public HomeController(SecurityUserManager userManager, SecuritySignInManager signInManager)
+        : base (userManager, signInManager) {            
         }
-
-        public SecuritySignInManager SignInManager {
-            get { return signInManager ?? HttpContext.GetOwinContext().Get<SecuritySignInManager>(); }
-            private set { signInManager = value; }
-        }
-
-        public SecurityUserManager UserManager {
-            get { return userManager ?? HttpContext.GetOwinContext().GetUserManager<SecurityUserManager>(); }
-            private set { userManager = value; }
-        }
-
 
         // GET: Home
         public ActionResult Index()
@@ -45,13 +29,28 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 return RedirectToAction("Welcome");
             }
 
-            // CloudStorageMananger.GetBlobs();
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
 
-            CloudStorageMananger storage = new CloudStorageMananger();
-            var itemList = storage.GetCloudStorageItems();
+            //ApplicationDbContext context = new ApplicationDbContext();
 
-            DocumentListModel model = new DocumentListModel {
-                DocumentList = itemList // blobNames
+            //var user = context.Users.Find(User.Identity.GetUserId());
+            //var account = user.CloudStorageAccounts.FirstOrDefault();
+            //var container = account.CloudStorageContainers.FirstOrDefault();
+
+            //CloudStorageMananger storage = new CloudStorageMananger();
+            //var itemList = storage.GetCloudStorageItems();
+
+            //foreach (var item in container.CloudStorageItems) {
+
+            //}
+
+            ApplicationDbContext context = new ApplicationDbContext();
+            var items = context.CloudStorageItems.OrderByDescending(i => i.Modified);
+
+            HomeIndexViewModel model = new HomeIndexViewModel {
+                //DocumentList = container.CloudStorageItems
+                RecentItems = new List<CloudStorageItem>() // items.ToList()
             };
 
             return View(model);

@@ -1,0 +1,38 @@
+﻿@using Sistrategia.Drive.WebSite.Models
+@model CloudStorageAccountDetailViewModel
+@{
+  ViewBag.Title = Model.CloudStorageAccount.Alias; //  "Cloud Storage Account Detail";
+}
+
+<ol class="breadcrumb">
+  <li>@Html.ActionLink(LocalizedStrings.Account_IndexTitle, "Index", "Account")</li>
+  <li>@Html.ActionLink(@LocalizedStrings.CloudStorageAccounts_IndexTitle, "Index", "CloudStorageAccount")</li>
+  @*<li class="active">@LocalizedStrings.DetailView_Title</li>*@
+  <li class="active">@Model.CloudStorageAccount.Alias</li>
+</ol>
+
+<h1>@ViewBag.Title</h1>
+@*<h4>@LocalizedStrings.Account_IndexSubtitle</h4>*@
+<hr />
+
+@Html.ActionLink("Agregar", "Create", "CloudStorageContainer", new { Id = Model.CloudStorageAccount.CloudStorageAccountId, UserId = User.Identity.Name }, new { @class = "btn btn-default", @role = "button" })
+@Html.ActionLink("Sincronizar", "Sync", "CloudStorageAccount", new { id = Model.CloudStorageAccount.CloudStorageAccountId, UserId = User.Identity.Name }, new { @class = "btn btn-default", @role = "button" })
+<table class="table table-hover">
+  @*<caption>Test caption</caption>*@
+  <thead>
+    <tr>
+      <th>@LocalizedStrings.Name</th>
+      <th>@LocalizedStrings.Modified</th>
+      <th>@LocalizedStrings.Shared</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var container in @Model.CloudStorageAccount.CloudStorageContainers.OrderBy(a=>a.ContainerName)) {
+      <tr>
+        <td>@Html.ActionLink(@container.Alias, "Detail", "CloudStorageContainer", new { Id = @container.CloudStorageContainerId }, null)</td>
+        <td>@container.ContainerName</td>
+        <td>@container.Description</td>
+      </tr>
+    }
+  </tbody>
+</table>

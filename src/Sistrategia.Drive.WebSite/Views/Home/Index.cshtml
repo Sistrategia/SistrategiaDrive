@@ -1,5 +1,5 @@
 ﻿@using Sistrategia.Drive.WebSite.Models
-@model DocumentListModel
+@model HomeIndexViewModel
 @{
   ViewBag.Title = LocalizedStrings.Home;
 }
@@ -39,11 +39,11 @@
        </tr>
      </thead>
       <tbody>
-        @foreach (var document in Model.DocumentList) { 
+        @foreach (var item in Model.RecentItems) { 
         <tr>
-          <td><a href="@document.Url">@document.Name</a></td>
-          <td>@document.Modified.ToString()</td>
-          <td>@document.ContentMD5</td>
+          <td><a href="@item.Url">@item.Name</a></td>
+          <td>@item.Modified.ToString()</td>
+          <td>@item.ContentMD5</td>
         </tr>
         }
       </tbody>

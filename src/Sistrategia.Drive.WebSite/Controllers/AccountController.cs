@@ -62,7 +62,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
                     PhoneNumber = user.PhoneNumber,
                     TwoFactor = user.TwoFactorEnabled,
                     Logins = await UserManager.GetLoginsAsync(userId), 
-                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                    CloudStorageAccounts = user.CloudStorageAccounts.OrderBy(p=>p.Alias).ToList()
                 };
                 return View(model);
             }

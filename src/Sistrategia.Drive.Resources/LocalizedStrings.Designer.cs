@@ -232,6 +232,60 @@ namespace Sistrategia.Drive.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alias.
+        /// </summary>
+        public static string Alias {
+            get {
+                return ResourceManager.GetString("Alias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a cloud storage account to your drive..
+        /// </summary>
+        public static string CloudStorageAccount_CreateSubtitle {
+            get {
+                return ResourceManager.GetString("CloudStorageAccount_CreateSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add an account.
+        /// </summary>
+        public static string CloudStorageAccount_CreateTitle {
+            get {
+                return ResourceManager.GetString("CloudStorageAccount_CreateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cloud storage accounts.
+        /// </summary>
+        public static string CloudStorageAccounts_IndexTitle {
+            get {
+                return ResourceManager.GetString("CloudStorageAccounts_IndexTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detail.
+        /// </summary>
+        public static string DetailView_Title {
+            get {
+                return ResourceManager.GetString("DetailView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Documents.
         /// </summary>
         public static string Documents {
@@ -374,7 +428,16 @@ namespace Sistrategia.Drive.Resources {
                 return ResourceManager.GetString("PrivacyCookies", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provider Name.
+        /// </summary>
+        public static string ProviderName {
+            get {
+                return ResourceManager.GetString("ProviderName", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>

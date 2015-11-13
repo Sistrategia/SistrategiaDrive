@@ -1,4 +1,5 @@
-﻿//using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -22,6 +23,11 @@ namespace Sistrategia.Drive.Business
         public static ApplicationDbContext Create() {
             return new ApplicationDbContext();
         }
+
+        public virtual DbSet<CloudStorageProvider> CloudStorageProviders { get; set; }
+        public virtual DbSet<CloudStorageAccount> CloudStorageAccounts { get; set; }
+        public virtual DbSet<CloudStorageContainer> CloudStorageContainers { get; set; }
+        public virtual DbSet<CloudStorageItem> CloudStorageItems { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder) {
             //  base.OnModelCreating(modelBuilder);
@@ -163,6 +169,113 @@ namespace Sistrategia.Drive.Business
             //    .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("RoleNameIndex") { IsUnique = true }));
             //role.HasMany(r => r.Users).WithRequired().HasForeignKey(ur => ur.RoleId);
 
+            var cloudStorageProvider = modelBuilder.Entity<CloudStorageProvider>()
+                .ToTable("cloud_storage_provider");
+            cloudStorageProvider.Property(p => p.CloudStorageProviderId)
+                .HasColumnName("cloud_storage_provider_id");
+            cloudStorageProvider.Property(p => p.Name)
+                .HasColumnName("name");
+            cloudStorageProvider.Property(p => p.Description)
+                .HasColumnName("description");
+
+            var cloudStorageAccount = modelBuilder.Entity<CloudStorageAccount>()
+                .ToTable("cloud_storage_account");
+            cloudStorageAccount.Property(p => p.CloudStorageAccountId)
+                .HasColumnName("cloud_storage_account_id")                
+                //.HasColumnOrder(1)
+                ;
+
+            cloudStorageAccount.Property(p => p.CloudStorageProviderId)
+                .HasColumnName("cloud_storage_provider_id")                
+                ;
+            //cloudStorageAccount.HasRequired<CloudStorageProvider>(a => a.CloudStorageProvider)
+            //    .WithMany().Map(p => p.MapKey("cloud_storage_provider_id"));
+
+            // If you want to control all mapping here without DataAnnotations on Model Classes use this:
+            //cloudStorageAccount.Property(p => p.CloudStorageProviderId)
+            //    .HasColumnName("cloud_storage_provider_id")//.HasColumnOrder(2)                
+            //    ;
+            //cloudStorageAccount.HasRequired<CloudStorageProvider>(a => a.CloudStorageProvider)
+            //    .WithMany().HasForeignKey(f => f.CloudStorageProviderId).WillCascadeOnDelete(false);
+
+            cloudStorageAccount.Property(p => p.AccountName)
+                .HasColumnName("account_name");
+
+            cloudStorageAccount.Property(p => p.Alias)
+                .HasColumnName("alias");
+            cloudStorageAccount.Property(p => p.Description)
+                .HasColumnName("description");
+
+            cloudStorageAccount.Property(p => p.AccountKey)
+                .HasColumnName("account_key");
+
+
+            modelBuilder.Entity<SecurityUser>()
+                .HasMany(u => u.CloudStorageAccounts)
+                .WithMany()
+                //.WithMany(i => i.Courses)
+                .Map(t => t.MapLeftKey("user_id") // security_user_id
+                .MapRightKey("cloud_storage_account_id")
+                .ToTable("security_user_cloud_storage_account"))
+                ;
+
+
+            var cloudStorageContainer = modelBuilder.Entity<CloudStorageContainer>()
+                .ToTable("cloud_storage_container");
+            cloudStorageContainer.Property(p => p.CloudStorageContainerId)
+                .HasColumnName("cloud_storage_container_id");
+            cloudStorageContainer.Property(p => p.CloudStorageAccountId)
+                .HasColumnName("cloud_storage_account_id")
+                ;
+            cloudStorageContainer.Property(p => p.ContainerName)
+                .HasColumnName("container_name");
+
+            cloudStorageContainer.Property(p => p.Alias)
+                .HasColumnName("alias");
+            cloudStorageContainer.Property(p => p.Description)
+                .HasColumnName("description");
+
+            //cloudStorageContainer.Property(p => p.AccountKey)
+            //    .HasColumnName("account_key");
+
+            //modelBuilder.Entity<CloudStorageAccount>()
+            //    .HasMany(u => u.CloudStorageAccounts)
+            //    .WithMany()
+            //    //.WithMany(i => i.Courses)
+            //    .Map(t => t.MapLeftKey("user_id") // security_user_id
+            //    .MapRightKey("cloud_storage_account_id")
+            //    .ToTable("security_user_cloud_storage_account"))
+            //    ;
+
+            var cloudStorageItem = modelBuilder.Entity<CloudStorageItem>()
+                .ToTable("cloud_storage_item");
+            cloudStorageItem.Property(p => p.CloudStorageItemId)
+                .HasColumnName("cloud_storage_item_id");
+            cloudStorageItem.Property(p => p.CloudStorageContainerId)
+                .HasColumnName("cloud_storage_container_id");
+
+            cloudStorageItem.Property(p => p.OwnerId)
+                .HasColumnName("owner_id");
+
+            cloudStorageItem.Property(p => p.Name)
+                .HasColumnName("name");
+            cloudStorageItem.Property(p => p.Description)
+                .HasColumnName("description");
+
+            cloudStorageItem.Property(p => p.Created)
+                .HasColumnName("created");
+
+            cloudStorageItem.Property(p => p.Modified)
+                .HasColumnName("modified");
+
+            cloudStorageItem.Property(p => p.ContentMD5)
+                .HasColumnName("content_md5");
+
+            
+            cloudStorageItem.Property(p => p.Url)
+                .HasColumnName("url");
+
+            
         }
     }
 }

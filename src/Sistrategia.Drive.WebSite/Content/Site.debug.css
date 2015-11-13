@@ -20,35 +20,24 @@ select,
 textarea {
   max-width: 280px;
 }
-/* line 23, Content/Site.less */
-h1 {
-  /*font-family:'Segoe UI', "Helvetica Neue", Helvetica, Arial, sans-serif;*/
-  font-weight: 100;
-  /*margin-bottom: 20px;*/
-}
-/* line 29, Content/Site.less */
-h4 {
-  /*font-family:'Segoe UI', "Helvetica Neue", Helvetica, Arial, sans-serif;*/
-  font-weight: 100;
-}
 /* MainMenuPartial Layout */
-/* line 35, Content/Site.less */
+/* line 24, Content/Site.less */
 a.sistrategiaLogo {
   padding-top: 8px;
   padding-bottom: 8px;
 }
-/* line 39, Content/Site.less */
+/* line 28, Content/Site.less */
 dd,
 dt {
   line-height: 1.8;
 }
-/* line 43, Content/Site.less */
+/* line 32, Content/Site.less */
 dt {
   margin-top: 2px;
   font-size: 12px;
   color: #ccc;
 }
-/* line 49, Content/Site.less */
+/* line 38, Content/Site.less */
 dt {
   margin-top: 1px;
   font-size: 13px;
@@ -59,7 +48,7 @@ dt {
   color: #333;
 }
 @media (min-width: 768px) {
-  /* line 62, Content/Site.less */
+  /* line 51, Content/Site.less */
   .dl-horizontal dt {
     /*float: left;*/
     width: 220px;
@@ -69,7 +58,7 @@ dt {
         text-overflow: ellipsis;
         white-space: nowrap;*/
   }
-  /* line 71, Content/Site.less */
+  /* line 60, Content/Site.less */
   .dl-horizontal dd {
     margin-left: 240px;
   }
@@ -78,12 +67,12 @@ dt {
         padding-bottom: 15px;
     }*/
 }
-/* line 83, Content/Site.less */
+/* line 72, Content/Site.less */
 .navbar-nav > li > a.footer-lang-bar {
   padding-top: 0px;
   padding-bottom: 15px;
 }
-/* line 88, Content/Site.less */
+/* line 77, Content/Site.less */
 label {
   font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;

@@ -321,6 +321,13 @@
     <Content Include="Views\Home\TermsOfUse.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="Views\Home\AddDocument.cshtml" />
+    <Content Include="Views\CloudStorageContainer\Index.cshtml" />
+    <Content Include="Views\CloudStorageAccount\Index.cshtml" />
+    <Content Include="Views\CloudStorageAccount\Detail.cshtml" />
+    <Content Include="Views\CloudStorageContainer\Detail.cshtml" />
+    <Content Include="Views\CloudStorageItem\Detail.cshtml" />
+    <Content Include="Views\CloudStorageAccount\Create.cshtml" />
+    <Content Include="Views\CloudStorageContainer\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -339,6 +346,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CloudStorageAccountController.cs" />
+    <Compile Include="Controllers\CloudStorageContainerController.cs" />
+    <Compile Include="Controllers\CloudStorageItemController.cs" />
     <Compile Include="Controllers\DevController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocaleController.cs" />
@@ -351,7 +362,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CloudStorageAccountViewModels.cs" />
     <Compile Include="Models\DocumentViewModels.cs" />
+    <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

@@ -30,10 +30,22 @@ namespace Sistrategia.Drive.WebSite.Migrations
 
              context.Roles.AddOrUpdate(
                 r => r.Name,
-                new SecurityRole { Id = "c112296f-9ba2-49c7-9852-ac2f5441a774", Name = "Administrators" },
-                new SecurityRole { Id = "373add78-ead8-4358-aeca-4f4c53e80bac", Name = "Developers" },
-                new SecurityRole { Id = "3526c3ca-a3fb-48fe-a3ee-f625816c9080", Name = "Users" }
+                new SecurityRole { Id = "c112296f-9ba2-49c7-9852-ac2f5441a774", Name = "Administrator" },
+                new SecurityRole { Id = "373add78-ead8-4358-aeca-4f4c53e80bac", Name = "Developer" },
+                new SecurityRole { Id = "3526c3ca-a3fb-48fe-a3ee-f625816c9080", Name = "User" }
                 );
+
+            var azure = new CloudStorageProvider { CloudStorageProviderId = "Azure", Name = "Microsoft Azure Storage Provider", Description = "Microsoft Azure Storage Provider." };
+
+            context.CloudStorageProviders.AddOrUpdate(p => p.CloudStorageProviderId,
+                azure,
+                new CloudStorageProvider { CloudStorageProviderId = "Amazon", Name = "Amazon S3 Provider", Description = "Microsoft Simple Storage Provider." },
+                new CloudStorageProvider { CloudStorageProviderId = "Rackspace", Name = "Rackspace CloudFiles Provider", Description = "Rackspace Cloud Files Provider." }
+                );
+
+            
+
+            context.SaveChanges();
 
             //context.Roles.AddOrUpdate<SecurityRole>(
             //    r => r.R

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Sistrategia.Drive.Resources;
+using Sistrategia.Drive.Business;
 //using Microsoft.Owin.Security;
 
 namespace Sistrategia.Drive.WebSite.Models
@@ -13,6 +14,8 @@ namespace Sistrategia.Drive.WebSite.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        public IList<CloudStorageAccount> CloudStorageAccounts { get; set; }
     }
 
     public enum AccountIndexMessageId

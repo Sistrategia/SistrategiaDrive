@@ -14,6 +14,12 @@ namespace Sistrategia.Drive.WebSite.Models
         public List<Sistrategia.Drive.Business.CloudStorageItem> DocumentList { get; set; }
     }
 
+    public class CloudStorageContainerListModel
+    {
+        public Sistrategia.Drive.Business.CloudStorageContainer Container { get; set; }
+        public List<Sistrategia.Drive.Business.CloudStorageItem> CloudStorageItems { get; set; }
+    }
+
     //public class DocumentListItem
     //{
     //    public string Name { get; set; }
