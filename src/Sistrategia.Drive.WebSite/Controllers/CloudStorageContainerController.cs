@@ -65,10 +65,11 @@ namespace Sistrategia.Drive.WebSite.Controllers
             ApplicationDbContext context = new ApplicationDbContext();
             //var providers = context.CloudStorageProviders.ToList();
             var account = context.CloudStorageAccounts.Find(id);
-            var containers = CloudStorageMananger.GetContainers(account.AccountName, account.AccountKey);
+            var containers = CloudStorageMananger.ImportContainers(account.AccountName, account.AccountKey);
 
             var model = new CloudStorageContainerCreateViewModel {
                 CloudStorageAccountId = id,
+                CloudStorageContainerId = Guid.NewGuid().ToString("D").ToLower(),
                 CloudStorageContainers = containers,
                 //CloudStorageContainersId = null,
                 //AccountName = null,
@@ -96,6 +97,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 // CloudStorageProviderId = model.CloudStorageProviderId,
                 CloudStorageContainerId = model.CloudStorageContainerId,
                 CloudStorageAccountId = model.CloudStorageAccountId,
+                ProviderKey = model.ProviderKey,
                 ContainerName = model.ContainerName,
                 Alias = string.IsNullOrEmpty(model.Alias) ? model.Alias : model.ContainerName,
                 Description = model.Description // ,
@@ -124,7 +126,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public ActionResult Sync(string id) {
 
             ApplicationDbContext context = new ApplicationDbContext();
-            var container = context.CloudStorageContainers.Find(id);
+            var container = context.CloudStorageContainers.Find(Guid.Parse(id).ToString("D").ToLower());
             //var user = this.CurrentSecurityUser;
             //if (user != null) {
             //var account = user.CloudStorageAccounts.SingleOrDefault(a => a.CloudStorageAccountId == id);
@@ -134,7 +136,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             System.Web.Routing.RouteValueDictionary dict = new System.Web.Routing.RouteValueDictionary();
             dict.Add("id", id);
 
-            var blobs = CloudStorageMananger.GetCloudStorageItems(container.CloudStorageAccount.AccountName, container.CloudStorageAccount.AccountKey, container.ContainerName); // .GetContainers(account.AccountName, account.AccountKey);
+            var blobs = CloudStorageMananger.ImportStorageItems(container.CloudStorageAccount.ProviderKey, container.CloudStorageAccount.AccountKey, container.ProviderKey); // .GetContainers(account.AccountName, account.AccountKey);
 
             foreach (var blob in blobs) {
                 if (string.IsNullOrEmpty(blob.OwnerId))

@@ -17,6 +17,9 @@ namespace Sistrategia.Drive.Business
         public string CloudStorageAccountId { get; set; }
         public virtual CloudStorageAccount CloudStorageAccount { get; set; }
 
+        [Required, MaxLength(128)]
+        public string ProviderKey { get; set; }
+
         [MaxLength(512)]
         public string ContainerName { get; set; }
 

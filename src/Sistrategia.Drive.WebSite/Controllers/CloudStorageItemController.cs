@@ -26,6 +26,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             var model = new CloudStorageItemDetailViewModel {
                 CloudStorageItem = item
             };
+            
             return View(model);
             //}
             //return View();

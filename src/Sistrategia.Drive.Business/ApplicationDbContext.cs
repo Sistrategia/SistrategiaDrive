@@ -233,6 +233,9 @@ namespace Sistrategia.Drive.Business
             cloudStorageContainer.Property(p => p.CloudStorageAccountId)
                 .HasColumnName("cloud_storage_account_id")
                 ;
+            cloudStorageContainer.Property(p => p.ProviderKey)
+                .HasColumnName("provider_key");
+
             cloudStorageContainer.Property(p => p.ContainerName)
                 .HasColumnName("container_name");
 
@@ -260,6 +263,9 @@ namespace Sistrategia.Drive.Business
             cloudStorageItem.Property(p => p.CloudStorageContainerId)
                 .HasColumnName("cloud_storage_container_id");
 
+            cloudStorageItem.Property(p => p.ProviderKey)
+                .HasColumnName("provider_key");
+
             cloudStorageItem.Property(p => p.OwnerId)
                 .HasColumnName("owner_id");
 
@@ -273,6 +279,9 @@ namespace Sistrategia.Drive.Business
 
             cloudStorageItem.Property(p => p.Modified)
                 .HasColumnName("modified");
+
+            cloudStorageItem.Property(p => p.ContentType)
+                .HasColumnName("content_type");
 
             cloudStorageItem.Property(p => p.ContentMD5)
                 .HasColumnName("content_md5");

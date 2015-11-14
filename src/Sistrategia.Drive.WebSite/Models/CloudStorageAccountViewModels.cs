@@ -48,8 +48,10 @@ namespace Sistrategia.Drive.WebSite.Models
     {
         public string CloudStorageContainerId { get; set; }
         public IList<CloudStorageContainer> CloudStorageContainers { get; set; }
-
         public string CloudStorageAccountId { get; set; }
+
+        public string ProviderKey { get; set; }
+        
         public string ContainerName { get; set; }
         public string Alias { get; set; }
         public string Description { get; set; }

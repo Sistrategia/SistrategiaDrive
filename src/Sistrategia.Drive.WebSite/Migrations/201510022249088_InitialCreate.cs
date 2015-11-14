@@ -29,6 +29,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
                     {
                         cloud_storage_container_id = c.String(nullable: false, maxLength: 128),
                         cloud_storage_account_id = c.String(maxLength: 128),
+                        provider_key = c.String(nullable: false, maxLength: 128),
                         container_name = c.String(maxLength: 512),
                         alias = c.String(maxLength: 256),
                         description = c.String(),
@@ -43,11 +44,13 @@ namespace Sistrategia.Drive.WebSite.Migrations
                     {
                         cloud_storage_item_id = c.String(nullable: false, maxLength: 128),
                         cloud_storage_container_id = c.String(maxLength: 128),
+                        provider_key = c.String(nullable: false, maxLength: 1024),
                         owner_id = c.String(nullable: false),
                         name = c.String(nullable: false, maxLength: 2048),
                         description = c.String(),
                         created = c.DateTime(nullable: false),
                         modified = c.DateTime(nullable: false),
+                        content_type = c.String(nullable: false, maxLength: 255),
                         content_md5 = c.String(),
                         url = c.String(),
                     })

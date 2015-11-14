@@ -96,7 +96,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             System.Web.Routing.RouteValueDictionary dict = new System.Web.Routing.RouteValueDictionary();
             dict.Add("id", id);
 
-            var containers = CloudStorageMananger.GetContainers(account.AccountName, account.AccountKey); // .GetContainers(account.AccountName, account.AccountKey);
+            var containers = CloudStorageMananger.ImportContainers(account.AccountName, account.AccountKey); // .GetContainers(account.AccountName, account.AccountKey);
 
             foreach (var container in containers) {
                 //container.CloudStorageAccountId = 

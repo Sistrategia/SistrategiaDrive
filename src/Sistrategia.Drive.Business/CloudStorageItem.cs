@@ -18,6 +18,9 @@ namespace Sistrategia.Drive.Business
         public string CloudStorageContainerId { get; set; }
         public virtual CloudStorageContainer CloudStorageContainer { get; set; }
 
+        [Required, MaxLength(1024)]
+        public string ProviderKey { get; set; }
+
         [Required]
         public string OwnerId { get; set; }
 
@@ -33,6 +36,9 @@ namespace Sistrategia.Drive.Business
 
         [Required]
         public DateTime Modified { get; set; }
+
+        [Required, MaxLength(255)]
+        public string ContentType { get; set; }
 
         public string ContentMD5 { get; set; }
 
