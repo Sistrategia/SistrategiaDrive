@@ -23,12 +23,24 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
             var cid = Guid.Parse(id);
             var item = context.CloudStorageItems.SingleOrDefault(c => c.PublicKey == cid);
+            var blob = CloudStorageMananger.GetStorageItem(
+                item.CloudStorageContainer.CloudStorageAccount.AccountName,
+                item.CloudStorageContainer.CloudStorageAccount.AccountKey,
+                item.CloudStorageContainer.ContainerName,
+                item.ProviderKey
+            );
+
+            if (item.ContentType.StartsWith("image/")) {
+
+            }
 
             //var user = this.CurrentSecurityUser;
             //if (user != null) {
             //var account = user.CloudStorageAccounts.SingleOrDefault(a => a.CloudStorageAccountId == id);
             var model = new CloudStorageItemDetailViewModel {
-                CloudStorageItem = item
+                CloudStorageItem = item,
+                Url = blob.Url,
+                IsImage = item.ContentType.StartsWith("image/")
             };
             
             return View(model);

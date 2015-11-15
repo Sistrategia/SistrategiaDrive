@@ -38,11 +38,33 @@ namespace Sistrategia.Drive.WebSite.Controllers
             private set { userManager = value; }
         }
 
+        public int GetUserId() {
+            return User.Identity.GetUserId<int>();
+            //return int.Parse(User.Identity.GetUserId());
+        }
+
         public SecurityUser CurrentSecurityUser {
             get {
-                var userId = int.Parse( User.Identity.GetUserId() );
+                var userId = this.GetUserId(); // int.Parse( User.Identity.GetUserId() );
                 return UserManager.FindById(userId);
             }
         }
+
+
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                if (userManager != null) {
+                    userManager.Dispose();
+                    userManager = null;
+                }
+
+                if (signInManager != null) {
+                    signInManager.Dispose();
+                    signInManager = null;
+                }
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }

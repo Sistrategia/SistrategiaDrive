@@ -41,7 +41,7 @@ namespace Sistrategia.Drive.Business
                 blob.FetchAttributes();
                 var item = new CloudStorageItem {
                     // CloudStorageItemId = blob.Name.Substring(0, blob.Name.IndexOf('.')), // documentId.ToString("N"),
-                    OwnerId = blob.Metadata["userid"],
+                    OwnerId = int.Parse( blob.Metadata["userid"] ),
                     Created = DateTime.Parse(blob.Metadata["created"]),
                     Modified = DateTime.Parse(blob.Metadata["modified"]),
                     Name = blob.Metadata["name"], // sourceFileName,
@@ -121,17 +121,74 @@ namespace Sistrategia.Drive.Business
             ////}
         }
 
-        public CloudStorageItem UploadFromStream(string userId, string userName, string sourceFileName, string fileContentType, System.IO.Stream fileInputStream, string name, string fileDescription) {
-            Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount =
-                // new Microsoft.WindowsAzure.Storage.CloudStorageAccount(
-                        Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(
-                        System.Configuration.ConfigurationManager.AppSettings["AzureDefaultStorageConnectionString"]
-                    );
 
+
+        public static CloudStorageItem GetStorageItem(string accountName, string accountKey, string containerName, string itemName) {
+
+            Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount =
+                Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(
+                    string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};BlobEndpoint=https://{0}.blob.core.windows.net/", accountName, accountKey)
+                   );
             Microsoft.WindowsAzure.Storage.Blob.CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer container = blobClient.GetContainerReference(System.Configuration.ConfigurationManager.AppSettings["AzureDefaultStorage"]);
-            //Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer container = blobClient.GetContainerReference(System.Configuration.ConfigurationManager.AppSettings["AzureDefaultStorage"]);
-            //CloudBlobContainer container = blobClient.GetContainerReference("wwwroot");
+            Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer container = blobClient.GetContainerReference(containerName);
+            var blob = blobClient.GetBlobReferenceFromServer(new Uri(string.Format("https://{0}.blob.core.windows.net/{1}/{2}", accountName, containerName, itemName)));
+
+            var readPolicy = new Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy() {
+                Permissions = Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPermissions.Read, // SharedAccessPermissions.Read,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(10)
+            };
+
+            blob.FetchAttributes();
+
+            //if (blob.Metadata.ContainsKey("originalfilename")) {
+            //    downloadUrl = "attachment; filename=" + blob.Metadata["originalfilename"] : "attachment; filename=FileUnknown"}
+            //else {
+            //}
+
+            var item = new CloudStorageItem {
+                //CloudStorageItemId = blob.Name.IndexOf('.') > 0 ? blob.Name.Substring(0, blob.Name.IndexOf('.')) : blob.Name, // documentId.ToString("N"),
+                //CloudStorageItemId = blob.Metadata.ContainsKey("cloudstorageitemid") ? blob.Metadata["cloudstorageitemid"] : Guid.NewGuid().ToString("D").ToLower(),
+                ProviderKey = blob.Name,
+                OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse( blob.Metadata["userid"] ) : 0, // null,
+                Created = blob.Metadata.ContainsKey("created") ? DateTime.Parse(blob.Metadata["created"]) : DateTime.UtcNow,
+                Modified = blob.Metadata.ContainsKey("modified") ? DateTime.Parse(blob.Metadata["modified"]) : DateTime.UtcNow,
+                Name = blob.Metadata.ContainsKey("modified") ? blob.Metadata["name"] : blob.Name, // sourceFileName,
+                //Description = blob.Metadata["description"], // fileDescription,
+                Url = new Uri(blob.Uri.AbsoluteUri + blob.GetSharedAccessSignature(readPolicy,
+                    new SharedAccessBlobHeaders {
+                        ContentDisposition = blob.Metadata.ContainsKey("originalfilename") ? "attachment; filename=" + blob.Metadata["originalfilename"] : "attachment; filename=FileUnknown",
+                        ContentType = blob.Properties.ContentType
+                    }
+                    )).ToString(),
+                ContentType = blob.Properties.ContentType,
+                ContentMD5 = blob.Properties.ContentMD5
+            };
+            
+            return item;
+        }
+
+
+
+
+        public CloudStorageItem UploadFromStream(string accountName, string accountKey, string containerName, int userId, string userName, string sourceFileName, string fileContentType, System.IO.Stream fileInputStream, string name, string fileDescription) {
+            //Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount =
+            //    // new Microsoft.WindowsAzure.Storage.CloudStorageAccount(
+            //            Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(
+            //            System.Configuration.ConfigurationManager.AppSettings["AzureDefaultStorageConnectionString"]
+            //        );
+
+            //Microsoft.WindowsAzure.Storage.Blob.CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            //Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer blobContainer = blobClient.GetContainerReference(System.Configuration.ConfigurationManager.AppSettings["AzureDefaultStorage"]);
+            ////Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer container = blobClient.GetContainerReference(System.Configuration.ConfigurationManager.AppSettings["AzureDefaultStorage"]);
+            ////CloudBlobContainer container = blobClient.GetContainerReference("wwwroot");
+
+
+            Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount =
+                Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(
+                    string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};BlobEndpoint=https://{0}.blob.core.windows.net/", accountName, accountKey)
+                   );
+            Microsoft.WindowsAzure.Storage.Blob.CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer container = blobClient.GetContainerReference(containerName);
 
             Guid documentId = Guid.NewGuid();
 
@@ -148,8 +205,8 @@ namespace Sistrategia.Drive.Business
             blockBlob.Properties.ContentType = fileContentType;
             blockBlob.Metadata.Add("name", name);            
             blockBlob.Metadata.Add("originalfilename", sourceFileName);
-            blockBlob.Metadata.Add("userid", userId);            
-
+            blockBlob.Metadata.Add("userid", userId.ToString());
+            blockBlob.Metadata.Add("ownerid", userId.ToString());
             DateTime created = DateTime.UtcNow;
             // https://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx
             // http://stackoverflow.com/questions/114983/given-a-datetime-object-how-do-i-get-a-iso-8601-date-in-string-format
@@ -170,15 +227,30 @@ namespace Sistrategia.Drive.Business
             var fullPath = uriBuilder.ToString();
             //blockBlob.Properties.ContentMD5;
 
+            blockBlob.FetchAttributes();
+
+            var readPolicy = new Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy() {
+                Permissions = Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPermissions.Read, // SharedAccessPermissions.Read,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(10)
+            };
+
             CloudStorageItem item = new CloudStorageItem {
                 //CloudStorageItemId = documentId.ToString("N"),
                 ProviderKey = fileName,
                 OwnerId = userId,
                 Created = created,
                 Modified = created,
-                Name = sourceFileName,
+                Name = name,
+                //OriginalName = sourceFileName,
                 Description = fileDescription,
-                ContentMD5 = blockBlob.Properties.ContentMD5
+                ContentType = blockBlob.Properties.ContentType,
+                ContentMD5 = blockBlob.Properties.ContentMD5,
+                Url = new Uri(blockBlob.Uri.AbsoluteUri + blockBlob.GetSharedAccessSignature(readPolicy,
+                    new SharedAccessBlobHeaders {
+                        ContentDisposition = blockBlob.Metadata.ContainsKey("originalfilename") ? "attachment; filename=" + blockBlob.Metadata["originalfilename"] : "attachment; filename=FileUnknown",
+                        ContentType = blockBlob.Properties.ContentType
+                    }
+                    )).ToString(),
             };
 
             return item;
@@ -242,10 +314,10 @@ namespace Sistrategia.Drive.Business
                     //CloudStorageItemId = blob.Name.IndexOf('.') > 0 ? blob.Name.Substring(0, blob.Name.IndexOf('.')) : blob.Name, // documentId.ToString("N"),
                     //CloudStorageItemId = blob.Metadata.ContainsKey("cloudstorageitemid") ? blob.Metadata["cloudstorageitemid"] : Guid.NewGuid().ToString("D").ToLower(),
                     ProviderKey = blob.Name,
-                    OwnerId = blob.Metadata.ContainsKey("userid") ? blob.Metadata["userid"] : null,
+                    OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse(blob.Metadata["userid"]) : 0, // null,
                     Created = blob.Metadata.ContainsKey("created") ? DateTime.Parse(blob.Metadata["created"]) : DateTime.UtcNow,
                     Modified = blob.Metadata.ContainsKey("modified") ? DateTime.Parse(blob.Metadata["modified"]) : DateTime.UtcNow,
-                    Name = blob.Metadata.ContainsKey("modified") ? blob.Metadata["name"] : blob.Name, // sourceFileName,
+                    Name = blob.Metadata.ContainsKey("name") ? blob.Metadata["name"] : blob.Name, // sourceFileName,
                     //Description = blob.Metadata["description"], // fileDescription,
                     Url = new Uri(blob.Uri.AbsoluteUri + blob.GetSharedAccessSignature(readPolicy)).ToString(),
                     ContentType = blob.Properties.ContentType,

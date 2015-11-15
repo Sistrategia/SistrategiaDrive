@@ -65,6 +65,11 @@ namespace Sistrategia.Drive.Business
                 .HasMaxLength(256)
                 .HasColumnOrder(2)
                 .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("ix_user_name_index") { IsUnique = true }));
+
+            user.Property(p => p.PublicKey)
+                .HasColumnName("public_key")
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("ix_user_public_key_index") { IsUnique = true }));
+
             user.Property(u => u.Email)
                 .HasColumnName("email")
                 .HasMaxLength(256);
@@ -292,6 +297,9 @@ namespace Sistrategia.Drive.Business
             cloudStorageItem.Property(p => p.CloudStorageContainerId)
                 .HasColumnName("cloud_storage_container_id");
 
+            //cloudStorageItem.Property(p => p.OwnerId)
+            //    .HasColumnName("owner_id");
+
             cloudStorageItem.Property(p => p.PublicKey)
                 .HasColumnName("public_key")
                 .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()));
@@ -319,6 +327,8 @@ namespace Sistrategia.Drive.Business
             cloudStorageItem.Property(p => p.ContentMD5)
                 .HasColumnName("content_md5");
 
+            cloudStorageItem.Property(p => p.OriginalName)
+                .HasColumnName("original_name");            
             
             cloudStorageItem.Property(p => p.Url)
                 .HasColumnName("url");

@@ -41,7 +41,8 @@
       <tbody>
         @foreach (var item in Model.RecentItems) { 
         <tr>
-          <td><a href="@item.Url">@item.Name</a></td>
+          <td>@Html.ActionLink(@item.Name, "Detail", "CloudStorageItem", new { Id = @item.PublicKey.ToString("N") }, null)</td>
+          @*<td><a href="@item.Url">@item.Name</a></td>*@
           <td>@item.Modified.ToString()</td>
           <td>@item.ContentMD5</td>
         </tr>

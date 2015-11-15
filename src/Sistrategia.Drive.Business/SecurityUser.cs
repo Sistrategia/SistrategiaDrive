@@ -6,13 +6,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.Infrastructure.Annotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistrategia.Drive.Business
 {
     public class SecurityUser : IdentityUser<int, SecurityUserLogin, SecurityUserRole, SecurityUserClaim>
     {
-        public virtual IList<CloudStorageAccount> CloudStorageAccounts { get; set; }
+        public SecurityUser() 
+            : base()
+        {
+            this.PublicKey = Guid.NewGuid();
+        }
+
+        /// <summary>
+        ///     Constructor that takes a userName
+        /// </summary>
+        /// <param name="userName"></param>
+        public SecurityUser(string userName)
+            : this()
+        {
+            UserName = userName;
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync( UserManager<SecurityUser, int> manager) {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -20,6 +35,13 @@ namespace Sistrategia.Drive.Business
             // Add custom user claims here
             return userIdentity;
         }
+
+        [Required]
+        public Guid PublicKey { get; set; }
+
+        public virtual IList<CloudStorageAccount> CloudStorageAccounts { get; set; }
+
+        public virtual IList<CloudStorageItem> CloudStorageItems { get; set; }
 
         [ForeignKey("DefaultContainer")]
         public int? DefaultContainerId { get; set; }        

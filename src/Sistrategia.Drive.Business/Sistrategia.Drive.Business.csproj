@@ -126,6 +126,7 @@
     <Compile Include="CloudStorageProvider.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="SecurityRole.cs" />
+    <Compile Include="SecurityRoleStore.cs" />
     <Compile Include="SecuritySignInManager.cs" />
     <Compile Include="SecurityUserClaim.cs" />
     <Compile Include="SecurityUserLogin.cs" />

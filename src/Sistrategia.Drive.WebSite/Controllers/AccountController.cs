@@ -17,29 +17,17 @@ using Sistrategia.Drive.Resources;
 namespace Sistrategia.Drive.WebSite.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private SecuritySignInManager signInManager;
-        private SecurityUserManager userManager;
-
+        #region Constructor
         public AccountController() {
-
         }
 
-        public AccountController(SecurityUserManager userManager, SecuritySignInManager signInManager) {
-            UserManager = userManager;
-            SignInManager = signInManager;
+        public AccountController(SecurityUserManager userManager, SecuritySignInManager signInManager) 
+            : base(userManager, signInManager)
+        {            
         }
-
-        public SecuritySignInManager SignInManager {
-            get { return signInManager ?? HttpContext.GetOwinContext().Get<SecuritySignInManager>(); }
-            private set { signInManager = value; }
-        }
-
-        public SecurityUserManager UserManager {
-            get { return userManager ?? HttpContext.GetOwinContext().GetUserManager<SecurityUserManager>(); }
-            private set { userManager = value; }
-        }
+        #endregion
 
         // GET: Account
         public async Task<ActionResult> Index(AccountIndexMessageId? message) {
@@ -52,17 +40,18 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 : message == AccountIndexMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == AccountIndexMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
-            
-            var userId = User.Identity.GetUserId();
 
-            if (!string.IsNullOrEmpty(userId)) {
-                var user = await UserManager.FindByIdAsync(int.Parse(userId));
+            var userId = User.Identity.GetUserId<int>();
+
+            //if (!string.IsNullOrEmpty(userId)) {
+            if (userId != default(int)) {
+                var user = await UserManager.FindByIdAsync(userId);
                 var model = new AccountIndexViewModel {
                     HasPassword = HasPassword(),
                     PhoneNumber = user.PhoneNumber,
                     TwoFactor = user.TwoFactorEnabled,
-                    Logins = await UserManager.GetLoginsAsync(int.Parse(userId)), 
-                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                    Logins = await UserManager.GetLoginsAsync(userId),
+                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()), // string always?
                     CloudStorageAccounts = user.CloudStorageAccounts.OrderBy(p=>p.Alias).ToList()
                 };
                 return View(model);
@@ -79,6 +68,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        #region Login and Logoff
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -131,6 +121,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        #endregion
+
+        #region Register and Email Confirmation
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -148,13 +141,14 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 var user = new SecurityUser { UserName = model.Email, Email = model.Email }; //, Hometown = model.Hometown };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
-                    // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    // await UserManager.AddToRoleAsync(user.Id, "User");
+                    // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);                    
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", 
-                        new { userId = user.Id, code = code }
+                        new { invitation = user.PublicKey.ToString("N"), code = code }
                         , protocol: Request.Url.Scheme);
                     
                     await UserManager.SendEmailAsync(user.Id, 
@@ -179,8 +173,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code) {
-            if (userId == null || code == null) {
+        public async Task<ActionResult> ConfirmEmail(string invitation, string code) {
+        //public async Task<ActionResult> ConfirmEmail(string userId, string code) {
+            if (invitation == null || code == null) {
                 return View("Error");
             }
 
@@ -202,9 +197,14 @@ namespace Sistrategia.Drive.WebSite.Controllers
             //AddErrors(result);
             //ViewBag.errorMessage = "ConfirmEmail failed";
             //return View("Error");
+            var invId = Guid.Parse(invitation);
+            var user = UserManager.Users.SingleOrDefault(u => u.PublicKey == invId);
 
+            if (user == null) {
+                return View("Error");
+            }
 
-            var result = await UserManager.ConfirmEmailAsync(int.Parse(userId), code);
+            var result = await UserManager.ConfirmEmailAsync(user.Id, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
             //if (result.Succeeded)
             //    return View("ConfirmEmail");
@@ -212,7 +212,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
             //return View("Error");            
         }
 
+        #endregion
 
+        #region Forgot and Reset Password
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
@@ -236,7 +238,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { forgot = user.PublicKey, code = code }, protocol: Request.Url.Scheme);		
                 await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -288,14 +291,15 @@ namespace Sistrategia.Drive.WebSite.Controllers
             return View();
         }
 
-
+        #endregion
 
         //
         // GET: /Account/SendCode
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe) {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null) {
+            if (userId == default(int)) {
+            //if (userId == null) {
                 return View("Error");
             }
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
@@ -365,7 +369,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
 
 
-
+        #region Change Password
         //
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword() {
@@ -380,9 +384,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
             if (!ModelState.IsValid) {
                 return View(model);
             }
-            var result = await UserManager.ChangePasswordAsync(int.Parse(User.Identity.GetUserId()), model.OldPassword, model.NewPassword);
+            var result = await UserManager.ChangePasswordAsync(this.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded) {
-                var user = await UserManager.FindByIdAsync(int.Parse(User.Identity.GetUserId()));
+                var user = await UserManager.FindByIdAsync(this.GetUserId());
                 if (user != null) {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
@@ -392,14 +396,33 @@ namespace Sistrategia.Drive.WebSite.Controllers
             return View(model);
         }
 
+        #endregion
+
+        //public async Task<ActionResult> SetPassword(SetPasswordViewModel model) {
+        //    if (ModelState.IsValid) {
+        //        var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId<int>(), model.NewPassword);
+        //        if (result.Succeeded) {
+        //            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
+        //            if (user != null) {
+        //                await SignInAsync(user, isPersistent: false);
+        //            }
+        //            return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+        //        }
+        //        AddErrors(result);
+        //    }
+
+        //    // If we got this far, something failed, redisplay form
+        //    return View(model);
+        //}
+
 
         //
         // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication() {
-            await UserManager.SetTwoFactorEnabledAsync(int.Parse(User.Identity.GetUserId()), false);
-            var user = await UserManager.FindByIdAsync(int.Parse(User.Identity.GetUserId()));
+            await UserManager.SetTwoFactorEnabledAsync(this.GetUserId(), false);
+            var user = await UserManager.FindByIdAsync(this.GetUserId());
             if (user != null) {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
@@ -412,8 +435,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication() {
-            await UserManager.SetTwoFactorEnabledAsync(int.Parse(User.Identity.GetUserId()), true);
-            var user = await UserManager.FindByIdAsync(int.Parse(User.Identity.GetUserId()));
+            await UserManager.SetTwoFactorEnabledAsync(this.GetUserId(), true);
+            var user = await UserManager.FindByIdAsync(this.GetUserId());
             if (user != null) {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
@@ -426,20 +449,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
 
 
-        protected override void Dispose(bool disposing) {
-            if (disposing) {
-                if (userManager != null) {
-                    userManager.Dispose();
-                    userManager = null;
-                }
-
-                if (signInManager != null) {
-                    signInManager.Dispose();
-                    signInManager = null;
-                }
-            }
-            base.Dispose(disposing);
-        }
+        
         
         #region Helpers
         // Used for XSRF protection when adding external logins
@@ -492,7 +502,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
 
         private bool HasPassword() {
-            var user = UserManager.FindById(int.Parse(User.Identity.GetUserId()));
+            var user = UserManager.FindById(this.GetUserId());
             if (user != null) {
                 return user.PasswordHash != null;
             }
@@ -500,7 +510,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
         }
 
         private bool HasPhoneNumber() {
-            var user = UserManager.FindById(int.Parse(User.Identity.GetUserId()));
+            var user = UserManager.FindById(this.GetUserId());
             if (user != null) {
                 return user.PhoneNumber != null;
             }

@@ -25,10 +25,11 @@ namespace Sistrategia.Drive.Business
         public Guid PublicKey { get; set; }
 
         [Required, MaxLength(1024)]
-        public string ProviderKey { get; set; }        
+        public string ProviderKey { get; set; }
 
-        [Required]
-        public string OwnerId { get; set; }
+        [ForeignKey("Owner")] // [Required]
+        public int OwnerId { get; set; }        
+        public virtual SecurityUser Owner { get; set; }
 
         //[Display(ResourceType = typeof(LocalizedStrings), Name = "DocumentName")]
         [Required, MaxLength(2048)] // , Display(Name = "Nombre del documento")]        
@@ -47,6 +48,9 @@ namespace Sistrategia.Drive.Business
         public string ContentType { get; set; }
 
         public string ContentMD5 { get; set; }
+
+        [MaxLength(2048)]
+        public string OriginalName { get; set; }
 
         public string Url { get; set; }
     }

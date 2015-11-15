@@ -10,6 +10,7 @@ namespace Sistrategia.Drive.Business
 {
     public class SecurityRole : IdentityRole<int, SecurityUserRole>
     {
-        
+        public SecurityRole() { }
+        public SecurityRole(string name) { Name = name; } 
     }
 }

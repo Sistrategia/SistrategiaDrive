@@ -45,12 +45,15 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
             //}
 
-            ApplicationDbContext context = new ApplicationDbContext();
-            var items = context.CloudStorageItems.OrderByDescending(i => i.Modified);
+            //ApplicationDbContext context = new ApplicationDbContext();
+            //var items = context .CloudStorageItems.OrderByDescending(i => i.Modified);
+
+            var items = user.CloudStorageItems.OrderByDescending(i => i.Modified);
 
             HomeIndexViewModel model = new HomeIndexViewModel {
                 //DocumentList = container.CloudStorageItems
-                RecentItems = new List<CloudStorageItem>() // items.ToList()
+                // RecentItems = new List<CloudStorageItem>() // items.ToList()
+                RecentItems = items.ToList()
             };
 
             return View(model);
@@ -127,13 +130,28 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 }
 
                 try {
+                    var userId = this.GetUserId();
+                    var user = UserManager.FindById(userId);
+
                     CloudStorageMananger storage = new CloudStorageMananger();
-                    storage.UploadFromStream(User.Identity.GetUserId(), User.Identity.Name, model.File.FileName, model.File.ContentType, model.File.InputStream, model.DocumentName, model.Description);
+                    var item = storage.UploadFromStream(user.DefaultContainer.CloudStorageAccount.AccountName, user.DefaultContainer.CloudStorageAccount.AccountKey, user.DefaultContainer.ContainerName,
+                            this.GetUserId(), User.Identity.Name, model.File.FileName, model.File.ContentType, model.File.InputStream, model.DocumentName, model.Description);
                     //string fileName = UploadFile.UploadFileToPrivateContainer(model.File);
                     //if (!string.IsNullOrEmpty(userId)) {
                     //    var user = UserManager.FindById(userId);
                     //    blockBlob.Metadata.Add("username", user.UserName);
                     //}
+
+                    ApplicationDbContext context = new ApplicationDbContext();
+                    item.OwnerId = this.GetUserId();
+                    item.CloudStorageContainerId = (int)user.DefaultContainerId;
+                    context.CloudStorageItems.Add(item);
+                    context.SaveChanges();
+
+                    //user.CloudStorageItems.Add(item);                    
+                    //UserManager.Update(user);
+
+                    //user.DefaultContainer.CloudStorageItems.Add(item);
                 }
                 catch (Exception ex) {
                     //log.Error(ex, "Error upload photo blob to storage");

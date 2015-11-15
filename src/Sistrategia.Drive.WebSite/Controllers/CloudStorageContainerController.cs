@@ -146,8 +146,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
             var blobs = CloudStorageMananger.ImportStorageItems(container.CloudStorageAccount.ProviderKey, container.CloudStorageAccount.AccountKey, container.ProviderKey); // .GetContainers(account.AccountName, account.AccountKey);
 
             foreach (var blob in blobs) {
-                if (string.IsNullOrEmpty(blob.OwnerId))
-                    blob.OwnerId = User.Identity.GetUserId();
+                //if (string.IsNullOrEmpty(blob.OwnerId))
+                if (blob.OwnerId == 0)
+                    blob.OwnerId = this.GetUserId(); // User.Identity.GetUserId();
                 container.CloudStorageItems.Add(blob);
             }
             context.SaveChanges();

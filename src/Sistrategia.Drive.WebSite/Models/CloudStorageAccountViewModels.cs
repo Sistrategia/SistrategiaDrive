@@ -61,5 +61,7 @@ namespace Sistrategia.Drive.WebSite.Models
     public class CloudStorageItemDetailViewModel
     {
         public CloudStorageItem CloudStorageItem { get; set; }
+        public string Url { get; set; }
+        public bool IsImage { get; set; }
     }
 }
