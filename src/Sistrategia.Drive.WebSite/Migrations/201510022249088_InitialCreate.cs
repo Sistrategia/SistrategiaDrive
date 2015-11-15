@@ -11,8 +11,9 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 "dbo.cloud_storage_account",
                 c => new
                     {
-                        cloud_storage_account_id = c.String(nullable: false, maxLength: 128),
+                        cloud_storage_account_id = c.Int(nullable: false, identity: true),
                         cloud_storage_provider_id = c.String(maxLength: 128),
+                        public_key = c.Guid(nullable: false),
                         provider_key = c.String(nullable: false, maxLength: 128),
                         account_name = c.String(maxLength: 512),
                         account_key = c.String(maxLength: 1024),
@@ -21,29 +22,33 @@ namespace Sistrategia.Drive.WebSite.Migrations
                     })
                 .PrimaryKey(t => t.cloud_storage_account_id)
                 .ForeignKey("dbo.cloud_storage_provider", t => t.cloud_storage_provider_id)
-                .Index(t => t.cloud_storage_provider_id);
+                .Index(t => t.cloud_storage_provider_id)
+                .Index(t => t.public_key);
             
             CreateTable(
                 "dbo.cloud_storage_container",
                 c => new
                     {
-                        cloud_storage_container_id = c.String(nullable: false, maxLength: 128),
-                        cloud_storage_account_id = c.String(maxLength: 128),
+                        cloud_storage_container_id = c.Int(nullable: false, identity: true),
+                        cloud_storage_account_id = c.Int(nullable: false),
+                        public_key = c.Guid(nullable: false),
                         provider_key = c.String(nullable: false, maxLength: 128),
                         container_name = c.String(maxLength: 512),
                         alias = c.String(maxLength: 256),
                         description = c.String(),
                     })
                 .PrimaryKey(t => t.cloud_storage_container_id)
-                .ForeignKey("dbo.cloud_storage_account", t => t.cloud_storage_account_id)
-                .Index(t => t.cloud_storage_account_id);
+                .ForeignKey("dbo.cloud_storage_account", t => t.cloud_storage_account_id, cascadeDelete: true)
+                .Index(t => t.cloud_storage_account_id)
+                .Index(t => t.public_key);
             
             CreateTable(
                 "dbo.cloud_storage_item",
                 c => new
                     {
-                        cloud_storage_item_id = c.String(nullable: false, maxLength: 128),
-                        cloud_storage_container_id = c.String(maxLength: 128),
+                        cloud_storage_item_id = c.Int(nullable: false, identity: true),
+                        cloud_storage_container_id = c.Int(nullable: false),
+                        public_key = c.Guid(nullable: false),
                         provider_key = c.String(nullable: false, maxLength: 1024),
                         owner_id = c.String(nullable: false),
                         name = c.String(nullable: false, maxLength: 2048),
@@ -55,8 +60,9 @@ namespace Sistrategia.Drive.WebSite.Migrations
                         url = c.String(),
                     })
                 .PrimaryKey(t => t.cloud_storage_item_id)
-                .ForeignKey("dbo.cloud_storage_container", t => t.cloud_storage_container_id)
-                .Index(t => t.cloud_storage_container_id);
+                .ForeignKey("dbo.cloud_storage_container", t => t.cloud_storage_container_id, cascadeDelete: true)
+                .Index(t => t.cloud_storage_container_id)
+                .Index(t => t.public_key);
             
             CreateTable(
                 "dbo.cloud_storage_provider",
@@ -72,7 +78,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 "dbo.security_roles",
                 c => new
                     {
-                        role_id = c.String(nullable: false, maxLength: 128),
+                        role_id = c.Int(nullable: false, identity: true),
                         role_name = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.role_id)
@@ -82,8 +88,8 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 "dbo.security_user_roles",
                 c => new
                     {
-                        user_id = c.String(nullable: false, maxLength: 128),
-                        role_id = c.String(nullable: false, maxLength: 128),
+                        user_id = c.Int(nullable: false),
+                        role_id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.user_id, t.role_id })
                 .ForeignKey("dbo.security_roles", t => t.role_id, cascadeDelete: true)
@@ -95,9 +101,9 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 "dbo.security_user",
                 c => new
                     {
-                        user_id = c.String(nullable: false, maxLength: 128),
+                        user_id = c.Int(nullable: false, identity: true),
                         user_name = c.String(nullable: false, maxLength: 256),
-                        default_container_id = c.String(maxLength: 128),
+                        default_container_id = c.Int(),
                         email = c.String(maxLength: 256),
                         email_confirmed = c.Boolean(nullable: false),
                         password_hash = c.String(),
@@ -119,7 +125,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 c => new
                     {
                         claim_id = c.Int(nullable: false, identity: true),
-                        user_id = c.String(nullable: false, maxLength: 128),
+                        user_id = c.Int(nullable: false),
                         claim_type = c.String(),
                         claim_value = c.String(),
                     })
@@ -133,7 +139,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
                     {
                         login_provider = c.String(nullable: false, maxLength: 128),
                         provider_key = c.String(nullable: false, maxLength: 128),
-                        user_id = c.String(nullable: false, maxLength: 128),
+                        user_id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.login_provider, t.provider_key, t.user_id })
                 .ForeignKey("dbo.security_user", t => t.user_id, cascadeDelete: true)
@@ -143,12 +149,12 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 "dbo.security_user_cloud_storage_account",
                 c => new
                     {
-                        user_id = c.String(nullable: false, maxLength: 128),
-                        cloud_storage_account_id = c.String(nullable: false, maxLength: 128),
+                        user_id = c.Int(nullable: false),
+                        cloud_storage_account_id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.user_id, t.cloud_storage_account_id })
-                .ForeignKey("dbo.security_user", t => t.user_id, cascadeDelete: true)
-                .ForeignKey("dbo.cloud_storage_account", t => t.cloud_storage_account_id, cascadeDelete: true)
+                .ForeignKey("dbo.security_user", t => t.user_id)
+                .ForeignKey("dbo.cloud_storage_account", t => t.cloud_storage_account_id)
                 .Index(t => t.user_id)
                 .Index(t => t.cloud_storage_account_id);
             
@@ -175,8 +181,11 @@ namespace Sistrategia.Drive.WebSite.Migrations
             DropIndex("dbo.security_user_roles", new[] { "role_id" });
             DropIndex("dbo.security_user_roles", new[] { "user_id" });
             DropIndex("dbo.security_roles", "ix_role_name_index");
+            DropIndex("dbo.cloud_storage_item", new[] { "public_key" });
             DropIndex("dbo.cloud_storage_item", new[] { "cloud_storage_container_id" });
+            DropIndex("dbo.cloud_storage_container", new[] { "public_key" });
             DropIndex("dbo.cloud_storage_container", new[] { "cloud_storage_account_id" });
+            DropIndex("dbo.cloud_storage_account", new[] { "public_key" });
             DropIndex("dbo.cloud_storage_account", new[] { "cloud_storage_provider_id" });
             DropTable("dbo.security_user_cloud_storage_account");
             DropTable("dbo.security_user_logins");

@@ -46,7 +46,10 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public ActionResult Detail(string id) {
 
             ApplicationDbContext context = new ApplicationDbContext();
-            var container = context.CloudStorageContainers.Find(id);
+            //var container = context.CloudStorageContainers.Find(id);
+            var cid = Guid.Parse(id);
+            var container = context.CloudStorageContainers.SingleOrDefault(c => c.PublicKey == cid);
+            
             //var user = this.CurrentSecurityUser;
             //if (user != null) {
             //var account = user.CloudStorageAccounts.SingleOrDefault(a => a.CloudStorageAccountId == id);
@@ -68,8 +71,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
             var containers = CloudStorageMananger.ImportContainers(account.AccountName, account.AccountKey);
 
             var model = new CloudStorageContainerCreateViewModel {
-                CloudStorageAccountId = id,
-                CloudStorageContainerId = Guid.NewGuid().ToString("D").ToLower(),
+                //CloudStorageAccountId = id,
+                CloudStorageAccountPublicKey = Guid.Parse(id),
+                //CloudStorageContainerId = Guid.NewGuid().ToString("D").ToLower(),
                 CloudStorageContainers = containers,
                 //CloudStorageContainersId = null,
                 //AccountName = null,
@@ -95,8 +99,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
             CloudStorageContainer container = new CloudStorageContainer {
                 // CloudStorageAccountId = model.AccountName,
                 // CloudStorageProviderId = model.CloudStorageProviderId,
-                CloudStorageContainerId = model.CloudStorageContainerId,
-                CloudStorageAccountId = model.CloudStorageAccountId,
+                //CloudStorageContainerId = model.CloudStorageContainerId,
+                //CloudStorageAccountId = model.CloudStorageAccountId,
                 ProviderKey = model.ProviderKey,
                 ContainerName = model.ContainerName,
                 Alias = string.IsNullOrEmpty(model.Alias) ? model.Alias : model.ContainerName,
@@ -105,7 +109,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
             var user = this.CurrentSecurityUser;
             var accounts = user.CloudStorageAccounts.ToList(); //  .Select(m => m.CloudStorageAccountId == model.CloudStorageAccountId).FirstOrDefault();
-            var account = accounts.Where(m => m.CloudStorageAccountId == model.CloudStorageAccountId).FirstOrDefault();
+            var account = accounts.Where(m => m.PublicKey == model.CloudStorageAccountPublicKey).FirstOrDefault();
             // user.CloudStorageAccounts.Add(container);
             account.CloudStorageContainers.Add(container);
             await UserManager.UpdateAsync(user);
@@ -126,7 +130,10 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public ActionResult Sync(string id) {
 
             ApplicationDbContext context = new ApplicationDbContext();
-            var container = context.CloudStorageContainers.Find(Guid.Parse(id).ToString("D").ToLower());
+            //var container = context.CloudStorageContainers.Find(Guid.Parse(id).ToString("D").ToLower());
+            var cid = Guid.Parse(id);
+            var container = context.CloudStorageContainers.SingleOrDefault(c => c.PublicKey == cid);
+
             //var user = this.CurrentSecurityUser;
             //if (user != null) {
             //var account = user.CloudStorageAccounts.SingleOrDefault(a => a.CloudStorageAccountId == id);

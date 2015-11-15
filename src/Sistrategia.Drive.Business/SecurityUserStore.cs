@@ -13,7 +13,7 @@ using Microsoft.Owin.Security;
 
 namespace Sistrategia.Drive.Business
 {
-    public class SecurityUserStore : UserStore<SecurityUser, SecurityRole, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+    public class SecurityUserStore : UserStore<SecurityUser, SecurityRole, int, SecurityUserLogin, SecurityUserRole, SecurityUserClaim>
     {
         public SecurityUserStore(ApplicationDbContext context) 
            :base(context) {

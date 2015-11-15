@@ -40,8 +40,10 @@ namespace Sistrategia.Drive.WebSite.Models
         [Required]
         public Guid DocumentId { get; set; }
 
-        [Required, MaxLength(128)]
-        public string OwnerId { get; set; }
+        //[Required, MaxLength(128)]
+        //public string OwnerId { get; set; }
+        [Required]
+        public int OwnerId { get; set; }        
 
         [Required, MaxLength(2048), Display(Name = "Nombre del documento")]
         //[Display(ResourceType = typeof(LocalizedStrings), Name = "DocumentName")]

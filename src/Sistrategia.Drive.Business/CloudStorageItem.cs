@@ -10,16 +10,22 @@ namespace Sistrategia.Drive.Business
 {
     public class CloudStorageItem
     {
-        //public Guid DocumentId { get; set; }
-        [Required, MaxLength(128)]
-        public string CloudStorageItemId { get; set; }
+        public CloudStorageItem() {
+            this.PublicKey = Guid.NewGuid();
+        }
+
+        [Key] //, Required]
+        public int CloudStorageItemId { get; set; }
 
         [ForeignKey("CloudStorageContainer")]
-        public string CloudStorageContainerId { get; set; }
+        public int CloudStorageContainerId { get; set; }
         public virtual CloudStorageContainer CloudStorageContainer { get; set; }
 
+        [Required]
+        public Guid PublicKey { get; set; }
+
         [Required, MaxLength(1024)]
-        public string ProviderKey { get; set; }
+        public string ProviderKey { get; set; }        
 
         [Required]
         public string OwnerId { get; set; }

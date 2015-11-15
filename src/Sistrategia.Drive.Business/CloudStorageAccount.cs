@@ -18,12 +18,20 @@ namespace Sistrategia.Drive.Business
 
     public class CloudStorageAccount
     {
-        public string CloudStorageAccountId { get; set; }
+        public CloudStorageAccount() {
+            this.PublicKey = Guid.NewGuid();
+        }
+
+        [Key]
+        public int CloudStorageAccountId { get; set; }
 
         //[Column(Order = 2)]
         [ForeignKey("CloudStorageProvider")]
         public string CloudStorageProviderId { get; set; }
         public virtual CloudStorageProvider CloudStorageProvider { get; set; }
+
+        [Required]
+        public Guid PublicKey { get; set; }
 
         [Required, MaxLength(128)]
         public string ProviderKey { get; set; }

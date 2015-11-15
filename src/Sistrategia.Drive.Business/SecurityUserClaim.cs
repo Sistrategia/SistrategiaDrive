@@ -1,4 +1,6 @@
-﻿//using System.Data.Entity;
+﻿using System;
+//using System.Data.Entity;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -8,8 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistrategia.Drive.Business
 {
-    public class SecurityRole : IdentityRole<int, SecurityUserRole>
+    public class SecurityUserClaim : IdentityUserClaim<int>
     {
-        
     }
 }

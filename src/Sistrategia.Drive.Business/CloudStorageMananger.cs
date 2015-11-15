@@ -40,7 +40,7 @@ namespace Sistrategia.Drive.Business
             foreach (var blob in list.OfType<Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob>()) {
                 blob.FetchAttributes();
                 var item = new CloudStorageItem {
-                    CloudStorageItemId = blob.Name.Substring(0, blob.Name.IndexOf('.')), // documentId.ToString("N"),
+                    // CloudStorageItemId = blob.Name.Substring(0, blob.Name.IndexOf('.')), // documentId.ToString("N"),
                     OwnerId = blob.Metadata["userid"],
                     Created = DateTime.Parse(blob.Metadata["created"]),
                     Modified = DateTime.Parse(blob.Metadata["modified"]),
@@ -171,7 +171,8 @@ namespace Sistrategia.Drive.Business
             //blockBlob.Properties.ContentMD5;
 
             CloudStorageItem item = new CloudStorageItem {
-                CloudStorageItemId = documentId.ToString("N"),
+                //CloudStorageItemId = documentId.ToString("N"),
+                ProviderKey = fileName,
                 OwnerId = userId,
                 Created = created,
                 Modified = created,
@@ -200,7 +201,7 @@ namespace Sistrategia.Drive.Business
             foreach (var azureContainer in containers.OrderBy(c => c.Name)) {
                 CloudStorageContainer container = new CloudStorageContainer {
                     //CloudStorageContainerId = azureContainer.Name,
-                    CloudStorageContainerId = Guid.NewGuid().ToString("D").ToLower(),
+                    //CloudStorageContainerId = Guid.NewGuid().ToString("D").ToLower(),
                     ProviderKey = azureContainer.Name,
                     ContainerName = azureContainer.Name,
                     Alias = azureContainer.Name
@@ -239,7 +240,7 @@ namespace Sistrategia.Drive.Business
                 blob.FetchAttributes();
                 var item = new CloudStorageItem {
                     //CloudStorageItemId = blob.Name.IndexOf('.') > 0 ? blob.Name.Substring(0, blob.Name.IndexOf('.')) : blob.Name, // documentId.ToString("N"),
-                    CloudStorageItemId = blob.Metadata.ContainsKey("cloudstoragecontainerid") ? blob.Metadata["cloudstoragecontainerid"] : Guid.NewGuid().ToString("D").ToLower(),
+                    //CloudStorageItemId = blob.Metadata.ContainsKey("cloudstorageitemid") ? blob.Metadata["cloudstorageitemid"] : Guid.NewGuid().ToString("D").ToLower(),
                     ProviderKey = blob.Name,
                     OwnerId = blob.Metadata.ContainsKey("userid") ? blob.Metadata["userid"] : null,
                     Created = blob.Metadata.ContainsKey("created") ? DateTime.Parse(blob.Metadata["created"]) : DateTime.UtcNow,

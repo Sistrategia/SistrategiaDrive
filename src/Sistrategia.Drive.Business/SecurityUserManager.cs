@@ -14,9 +14,9 @@ using Microsoft.Owin.Security;
 namespace Sistrategia.Drive.Business
 {
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-    public class SecurityUserManager : UserManager<SecurityUser, string>
+    public class SecurityUserManager : UserManager<SecurityUser, int>
     {
-        public SecurityUserManager(IUserStore<SecurityUser, string> store)
+        public SecurityUserManager(IUserStore<SecurityUser, int> store)
             : base(store) {
         }
         //public SecurityUserManager(IUserStore<SecurityUser> store)
@@ -37,7 +37,7 @@ namespace Sistrategia.Drive.Business
             var manager = new SecurityUserManager(new SecurityUserStore(context.Get<ApplicationDbContext>()));
 
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<SecurityUser>(manager) {
+            manager.UserValidator = new UserValidator<SecurityUser, int>(manager) {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
             };
@@ -61,7 +61,7 @@ namespace Sistrategia.Drive.Business
             //manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<SecurityUser> {
             //    MessageFormat = "Your security code is {0}"
             //});
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<SecurityUser> {
+            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<SecurityUser, int> {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
             });
@@ -72,7 +72,7 @@ namespace Sistrategia.Drive.Business
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null) {
                 manager.UserTokenProvider =
-                    new DataProtectorTokenProvider<SecurityUser>(dataProtectionProvider.Create("ASP.NET Identity")); // {
+                    new DataProtectorTokenProvider<SecurityUser, int>(dataProtectionProvider.Create("ASP.NET Identity")); // {
                 //  TokenLifespan = TimeSpan.FromHours(3)
                 //};
             }

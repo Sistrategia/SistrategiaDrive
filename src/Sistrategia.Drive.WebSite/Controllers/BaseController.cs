@@ -40,7 +40,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
         public SecurityUser CurrentSecurityUser {
             get {
-                var userId = User.Identity.GetUserId();
+                var userId = int.Parse( User.Identity.GetUserId() );
                 return UserManager.FindById(userId);
             }
         }

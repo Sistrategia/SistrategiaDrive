@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Sistrategia.Drive.Business
 {
     public class ApplicationDbContext : IdentityDbContext<SecurityUser, SecurityRole
-        , string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+        , int, SecurityUserLogin, SecurityUserRole, SecurityUserClaim>
     {
         //public ApplicationDbContext()
         //    : base("DefaultDatabase", throwIfV1Schema: false) {
@@ -34,6 +34,23 @@ namespace Sistrategia.Drive.Business
 
             //modelBuilder.Entity<IdentityUser>()
             //    .ToTable("security_user", "dbo").Property(p => p.Id).HasColumnName("user_id");
+
+            // Guide and How To's:
+            // https://msdn.microsoft.com/en-us/data/jj591617.aspx
+
+            // Horrible temp hack:
+            // http://stackoverflow.com/questions/13705441/how-to-disable-cascade-delete-for-link-tables-in-ef-code-first
+            modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.ManyToManyCascadeDeleteConvention>();
+
+            //public override int SaveChanges()
+            //{
+            //    Bookings.Local
+            //            .Where(r => r.ContactId == null)
+            //            .ToList()
+            //            .ForEach(r => Bookings.Remove(r));
+
+            //    return base.SaveChanges();
+            // }
 
             var user = modelBuilder.Entity<SecurityUser>()
                 .ToTable("security_user");
@@ -104,7 +121,7 @@ namespace Sistrategia.Drive.Business
             // CONSIDER: u.Email is Required if set on options?
             // user.Property(u => u.Email).HasMaxLength(256);
 
-            var userRole = modelBuilder.Entity<IdentityUserRole>()
+            var userRole = modelBuilder.Entity<SecurityUserRole>()
                 .HasKey(r => new { r.UserId, r.RoleId })
                 .ToTable("security_user_roles")
                 //.Property(pr1 => pr1.RoleId).HasColumnName("role_id");                
@@ -113,14 +130,14 @@ namespace Sistrategia.Drive.Business
             userRole.Property(pr2 => pr2.UserId).HasColumnName("user_id");
 
 
-            var userLogin = modelBuilder.Entity<IdentityUserLogin>()
+            var userLogin = modelBuilder.Entity<SecurityUserLogin>()
                  .HasKey(l => new { l.LoginProvider, l.ProviderKey, l.UserId })
                  .ToTable("security_user_logins");
             userLogin.Property(pr1 => pr1.LoginProvider).HasColumnName("login_provider");
             userLogin.Property(pr2 => pr2.ProviderKey).HasColumnName("provider_key");
             userLogin.Property(pr3 => pr3.UserId).HasColumnName("user_id");
 
-            var userClaim = modelBuilder.Entity<IdentityUserClaim>()
+            var userClaim = modelBuilder.Entity<SecurityUserClaim>()
                 .ToTable("security_user_claims");
             userClaim.Property(pr1 => pr1.Id).HasColumnName("claim_id");
             userClaim.Property(pr2 => pr2.UserId).HasColumnName("user_id");
@@ -201,6 +218,10 @@ namespace Sistrategia.Drive.Business
             //cloudStorageAccount.HasRequired<CloudStorageProvider>(a => a.CloudStorageProvider)
             //    .WithMany().HasForeignKey(f => f.CloudStorageProviderId).WillCascadeOnDelete(false);
 
+            cloudStorageAccount.Property(p => p.PublicKey)
+                .HasColumnName("public_key")
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()));
+
             cloudStorageAccount.Property(p => p.ProviderKey)
                 .HasColumnName("provider_key");
 
@@ -225,6 +246,9 @@ namespace Sistrategia.Drive.Business
                 .ToTable("security_user_cloud_storage_account"))
                 ;
 
+            //modelBuilder.Entity<CloudStorageAccount>()
+                
+
 
             var cloudStorageContainer = modelBuilder.Entity<CloudStorageContainer>()
                 .ToTable("cloud_storage_container");
@@ -233,6 +257,11 @@ namespace Sistrategia.Drive.Business
             cloudStorageContainer.Property(p => p.CloudStorageAccountId)
                 .HasColumnName("cloud_storage_account_id")
                 ;
+
+            cloudStorageContainer.Property(p => p.PublicKey)
+                .HasColumnName("public_key")
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()));
+
             cloudStorageContainer.Property(p => p.ProviderKey)
                 .HasColumnName("provider_key");
 
@@ -262,6 +291,10 @@ namespace Sistrategia.Drive.Business
                 .HasColumnName("cloud_storage_item_id");
             cloudStorageItem.Property(p => p.CloudStorageContainerId)
                 .HasColumnName("cloud_storage_container_id");
+
+            cloudStorageItem.Property(p => p.PublicKey)
+                .HasColumnName("public_key")
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()));
 
             cloudStorageItem.Property(p => p.ProviderKey)
                 .HasColumnName("provider_key");

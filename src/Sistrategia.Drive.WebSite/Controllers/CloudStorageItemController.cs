@@ -19,7 +19,11 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public ActionResult Detail(string id) {
 
             ApplicationDbContext context = new ApplicationDbContext();
-            var item = context.CloudStorageItems.Find(id);
+            // var item = context.CloudStorageItems.Find(id);
+
+            var cid = Guid.Parse(id);
+            var item = context.CloudStorageItems.SingleOrDefault(c => c.PublicKey == cid);
+
             //var user = this.CurrentSecurityUser;
             //if (user != null) {
             //var account = user.CloudStorageAccounts.SingleOrDefault(a => a.CloudStorageAccountId == id);

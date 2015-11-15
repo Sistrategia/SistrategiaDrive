@@ -22,13 +22,18 @@ namespace Sistrategia.Drive.WebSite
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             // Configure the sign in cookie
             app.UseCookieAuthentication(new CookieAuthenticationOptions {
+
+                // http://stackoverflow.com/questions/28947342/asp-net-identity-securitystampvalidator-onvalidateidentity-regenerateidentity-pa
+
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider {
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<SecurityUserManager, SecurityUser>(
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<SecurityUserManager, SecurityUser, int>(
                         validateInterval: TimeSpan.FromMinutes(30), //  5
                         //validateInterval: TimeSpan.FromSeconds(10),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager)
+                        //regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager)
+                        regenerateIdentityCallback: (manager, user) => user.GenerateUserIdentityAsync(manager),
+                        getUserIdCallback: (id) => id.GetUserId<int>()
                     )
                 }
             });

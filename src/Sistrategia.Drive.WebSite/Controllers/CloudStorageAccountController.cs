@@ -30,7 +30,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public ActionResult Detail(string id) {
             var user = this.CurrentSecurityUser;
             if (user != null) {
-                var account = user.CloudStorageAccounts.SingleOrDefault(a => a.CloudStorageAccountId == (Guid.Parse(id).ToString("D")));
+                var account = user.CloudStorageAccounts.SingleOrDefault(a => a.PublicKey == Guid.Parse(id));
                 var model = new CloudStorageAccountDetailViewModel {
                     CloudStorageAccount = account
                 };
@@ -69,7 +69,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             //};
             CloudStorageAccount account = new CloudStorageAccount {
                 // https://msdn.microsoft.com/en-us/library/97af8hh4(v=vs.110).aspx
-                CloudStorageAccountId = Guid.NewGuid().ToString("D").ToLower(), // model.AccountName,
+                //CloudStorageAccountId = Guid.NewGuid().ToString("D").ToLower(), // model.AccountName,
                 CloudStorageProviderId = model.CloudStorageProviderId,
                 ProviderKey = model.AccountName,
                 AccountName = model.AccountName,
@@ -91,7 +91,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public ActionResult Sync(string id) {
             ApplicationDbContext context = new ApplicationDbContext();
             //var container = context.CloudStorageContainers.Find(id);
-            var account = context.CloudStorageAccounts.Find(id);
+            //var account = context.CloudStorageAccounts.Find(id);
+            var cid = Guid.Parse(id);
+            var account = context.CloudStorageAccounts.SingleOrDefault(c => c.PublicKey == cid);
             
             System.Web.Routing.RouteValueDictionary dict = new System.Web.Routing.RouteValueDictionary();
             dict.Add("id", id);

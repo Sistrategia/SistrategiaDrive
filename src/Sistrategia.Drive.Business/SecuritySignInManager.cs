@@ -15,7 +15,7 @@ using Microsoft.Owin.Security;
 namespace Sistrategia.Drive.Business
 {
     // Configure the application sign-in manager which is used in this application.
-    public class SecuritySignInManager : SignInManager<SecurityUser, string>
+    public class SecuritySignInManager : SignInManager<SecurityUser, int>
     {
         public SecuritySignInManager(SecurityUserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager) {

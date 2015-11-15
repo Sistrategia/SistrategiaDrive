@@ -29,7 +29,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 return RedirectToAction("Welcome");
             }
 
-            var userId = User.Identity.GetUserId();
+            var userId = int.Parse(User.Identity.GetUserId());
             var user = UserManager.FindById(userId);
 
             //ApplicationDbContext context = new ApplicationDbContext();
@@ -96,7 +96,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             var userId = User.Identity.GetUserId();
 
             if (!string.IsNullOrEmpty(userId)) {
-                var user = UserManager.FindById(userId);
+                var user = UserManager.FindById(int.Parse(userId));
                 // var user = await UserManager.FindByIdAsync(userId);
                 return View(new AddDocumentViewModel() {
                     //OwnerId = Guid.Parse( user.Id )

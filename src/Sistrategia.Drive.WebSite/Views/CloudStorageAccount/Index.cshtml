@@ -30,7 +30,7 @@
   <tbody>
     @foreach (var account in @Model.CloudStorageAccounts) {
       <tr>        
-        <td>@Html.ActionLink(@account.Alias, "Detail", new { Id = Guid.Parse(account.CloudStorageAccountId).ToString("N") })</td>
+        <td>@Html.ActionLink(@account.Alias, "Detail", new { Id = account.PublicKey.ToString("N") })</td>
         <td>@account.AccountName</td>
         <td>@account.CloudStorageProvider.Name</td>
         <td>@account.Description</td>

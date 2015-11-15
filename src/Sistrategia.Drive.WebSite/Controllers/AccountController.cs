@@ -56,12 +56,12 @@ namespace Sistrategia.Drive.WebSite.Controllers
             var userId = User.Identity.GetUserId();
 
             if (!string.IsNullOrEmpty(userId)) {
-                var user = await UserManager.FindByIdAsync(userId);
+                var user = await UserManager.FindByIdAsync(int.Parse(userId));
                 var model = new AccountIndexViewModel {
                     HasPassword = HasPassword(),
                     PhoneNumber = user.PhoneNumber,
                     TwoFactor = user.TwoFactorEnabled,
-                    Logins = await UserManager.GetLoginsAsync(userId), 
+                    Logins = await UserManager.GetLoginsAsync(int.Parse(userId)), 
                     BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
                     CloudStorageAccounts = user.CloudStorageAccounts.OrderBy(p=>p.Alias).ToList()
                 };
@@ -204,7 +204,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             //return View("Error");
 
 
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            var result = await UserManager.ConfirmEmailAsync(int.Parse(userId), code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
             //if (result.Succeeded)
             //    return View("ConfirmEmail");
@@ -380,9 +380,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
             if (!ModelState.IsValid) {
                 return View(model);
             }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            var result = await UserManager.ChangePasswordAsync(int.Parse(User.Identity.GetUserId()), model.OldPassword, model.NewPassword);
             if (result.Succeeded) {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                var user = await UserManager.FindByIdAsync(int.Parse(User.Identity.GetUserId()));
                 if (user != null) {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
@@ -398,8 +398,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication() {
-            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            await UserManager.SetTwoFactorEnabledAsync(int.Parse(User.Identity.GetUserId()), false);
+            var user = await UserManager.FindByIdAsync(int.Parse(User.Identity.GetUserId()));
             if (user != null) {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
@@ -412,8 +412,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication() {
-            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            await UserManager.SetTwoFactorEnabledAsync(int.Parse(User.Identity.GetUserId()), true);
+            var user = await UserManager.FindByIdAsync(int.Parse(User.Identity.GetUserId()));
             if (user != null) {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
@@ -492,7 +492,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
 
         private bool HasPassword() {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = UserManager.FindById(int.Parse(User.Identity.GetUserId()));
             if (user != null) {
                 return user.PasswordHash != null;
             }
@@ -500,7 +500,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
         }
 
         private bool HasPhoneNumber() {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = UserManager.FindById(int.Parse(User.Identity.GetUserId()));
             if (user != null) {
                 return user.PhoneNumber != null;
             }

@@ -10,11 +10,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistrategia.Drive.Business
 {
-    public class SecurityUser : IdentityUser
+    public class SecurityUser : IdentityUser<int, SecurityUserLogin, SecurityUserRole, SecurityUserClaim>
     {
         public virtual IList<CloudStorageAccount> CloudStorageAccounts { get; set; }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync( UserManager<SecurityUser, string> manager) {
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync( UserManager<SecurityUser, int> manager) {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
@@ -22,7 +22,7 @@ namespace Sistrategia.Drive.Business
         }
 
         [ForeignKey("DefaultContainer")]
-        public string DefaultContainerId { get; set; }        
+        public int? DefaultContainerId { get; set; }        
         public virtual CloudStorageContainer DefaultContainer { get; set; }
     }
 }
