@@ -18,8 +18,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public HomeController() {
         }
 
-        public HomeController(SecurityUserManager userManager, SecuritySignInManager signInManager)
-        : base (userManager, signInManager) {            
+        public HomeController(SecurityUserManager userManager, SecuritySignInManager signInManager, ApplicationDbContext applicationDBContext)
+        : base (userManager, signInManager, applicationDBContext) {            
         }
 
         // GET: Home
@@ -133,7 +133,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
                     var userId = this.GetUserId();
                     var user = UserManager.FindById(userId);
 
-                    CloudStorageMananger storage = new CloudStorageMananger();
+                    CloudStorageMananger storage = new CloudStorageMananger(this.DBContext);
                     var item = storage.UploadFromStream(user.DefaultContainer.CloudStorageAccount.AccountName, user.DefaultContainer.CloudStorageAccount.AccountKey, user.DefaultContainer.ContainerName,
                             this.GetUserId(), User.Identity.Name, model.File.FileName, model.File.ContentType, model.File.InputStream, model.DocumentName, model.Description);
                     //string fileName = UploadFile.UploadFileToPrivateContainer(model.File);
@@ -142,7 +142,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
                     //    blockBlob.Metadata.Add("username", user.UserName);
                     //}
 
-                    ApplicationDbContext context = new ApplicationDbContext();
+                    //ApplicationDbContext context = new ApplicationDbContext();
+                    ApplicationDbContext context = DBContext;
                     item.OwnerId = this.GetUserId();
                     item.CloudStorageContainerId = (int)user.DefaultContainerId;
                     context.CloudStorageItems.Add(item);

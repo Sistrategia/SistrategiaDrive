@@ -23,9 +23,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public AccountController() {
         }
 
-        public AccountController(SecurityUserManager userManager, SecuritySignInManager signInManager) 
-            : base(userManager, signInManager)
-        {            
+        public AccountController(SecurityUserManager userManager, SecuritySignInManager signInManager, ApplicationDbContext applicationDBContext)
+        : base (userManager, signInManager, applicationDBContext) {
+                    
         }
         #endregion
 
@@ -205,6 +205,15 @@ namespace Sistrategia.Drive.WebSite.Controllers
             }
 
             var result = await UserManager.ConfirmEmailAsync(user.Id, code);
+
+            if (result.Succeeded) {
+                string containerId = user.PublicKey.ToString("N");
+                CloudStorageMananger manager = new CloudStorageMananger(DBContext);
+                CloudStorageContainer container = manager.CreateContainer("Azure", user.PublicKey, user.UserName, string.Format("{0}'s default storage container", user.UserName));
+                user.DefaultContainer = container;
+                UserManager.Update(user);
+            }
+
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
             //if (result.Succeeded)
             //    return View("ConfirmEmail");

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Sistrategia.Drive.WebSite.Controllers
 {
+    [Authorize( Roles = "Developer")]
     public class DevController : Controller
     {
         // GET: Dev        

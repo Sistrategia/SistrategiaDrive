@@ -12,10 +12,6 @@ namespace Sistrategia.Drive.Business
     public class ApplicationDbContext : IdentityDbContext<SecurityUser, SecurityRole
         , int, SecurityUserLogin, SecurityUserRole, SecurityUserClaim>
     {
-        //public ApplicationDbContext()
-        //    : base("DefaultDatabase", throwIfV1Schema: false) {
-        //}
-
         public ApplicationDbContext()
             : base("DefaultDatabase") {
         }
@@ -24,17 +20,12 @@ namespace Sistrategia.Drive.Business
             return new ApplicationDbContext();
         }
 
-        public virtual DbSet<CloudStorageProvider> CloudStorageProviders { get; set; }
-        public virtual DbSet<CloudStorageAccount> CloudStorageAccounts { get; set; }
+        public virtual DbSet<CloudStorageProvider>  CloudStorageProviders { get; set; }
+        public virtual DbSet<CloudStorageAccount>   CloudStorageAccounts { get; set; }
         public virtual DbSet<CloudStorageContainer> CloudStorageContainers { get; set; }
-        public virtual DbSet<CloudStorageItem> CloudStorageItems { get; set; }
+        public virtual DbSet<CloudStorageItem>      CloudStorageItems { get; set; }
 
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder) {
-            //  base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<IdentityUser>()
-            //    .ToTable("security_user", "dbo").Property(p => p.Id).HasColumnName("user_id");
-
             // Guide and How To's:
             // https://msdn.microsoft.com/en-us/data/jj591617.aspx
 

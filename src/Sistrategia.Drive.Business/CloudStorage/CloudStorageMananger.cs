@@ -9,12 +9,60 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
+using Sistrategia.Drive.Business.CloudStorage;
+using Sistrategia.Drive.Business.CloudStorage.Azure;
+using Sistrategia.Drive.Business.CloudStorage.Rackspace;
+using Sistrategia.Drive.Business.CloudStorage.Amazon;
+
 namespace Sistrategia.Drive.Business
 {
     public class CloudStorageMananger
     {
+        private Dictionary<string, ICloudStorageProvider> providers;
+
+        public CloudStorageMananger(ApplicationDbContext context) {
+            providers = new Dictionary<string,ICloudStorageProvider>();
+
+            providers.Add("azure", new AzureCloudStorageProvider(context)); // como definir y crear el CloudStorageAccount por defecto
+            providers.Add("rackspace", new RackspaceCloudStorageProvider());
+            providers.Add("amazon", new AmazonCloudStorageProvider());
+        }
+
+        public ICloudStorageProvider DefaultProvider {
+            get { return this.providers["azure"]; }
+        }
+
         public static void GetBlobs() {
             
+        }
+
+        //public CloudStorageContainer CreateContainer(string containerName, string accountType, string accountName, string accountKey) {
+        //    ICloudStorageProvider provider = this.providers[accountType.ToLower()];
+
+        //    if (provider== null)
+        //        throw new NullReferenceException("Storage Provider not found for account type.");
+
+        //    provider.CreateCloudStorageContainer(string containerName, accountName, accountKey)
+
+        //    throw new NotImplementedException();
+        //}
+
+        //public CloudStorageContainer CreateContainer(string containerName) {
+        //    return this.CreateContainer(containerName, "Azure");
+        //}
+
+        //public CloudStorageContainer CreateContainer(string accountType, string alias, string description) {
+        //}
+
+        public CloudStorageContainer CreateContainer(string accountType, Guid publicKey, string alias, string description) {
+                ICloudStorageProvider provider = this.providers[accountType.ToLower()];
+
+                if (provider== null)
+                    throw new NullReferenceException("Storage Provider not found for account type.");
+
+                return provider.CreateCloudStorageContainer(publicKey, alias, description);
+
+                throw new NotImplementedException();
         }
 
         public List<CloudStorageItem> GetCloudStorageItems() {
@@ -197,9 +245,11 @@ namespace Sistrategia.Drive.Business
             string fileName = String.Format(
                 //"{0}-{1}{2}",
                 //DateTime.Now.ToString("yyyy-MM-dd"),
-                        "{0}{1}",
-                        documentId.ToString("N"),
-                        System.IO.Path.GetExtension(sourceFileName));
+                //        "{0}{1}",
+                        "{0}",
+                        documentId.ToString("N")
+                //        ,System.IO.Path.GetExtension(sourceFileName)
+                );
 
             Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
             blockBlob.Properties.ContentType = fileContentType;
@@ -236,6 +286,7 @@ namespace Sistrategia.Drive.Business
 
             CloudStorageItem item = new CloudStorageItem {
                 //CloudStorageItemId = documentId.ToString("N"),
+                PublicKey = documentId,
                 ProviderKey = fileName,
                 OwnerId = userId,
                 Created = created,

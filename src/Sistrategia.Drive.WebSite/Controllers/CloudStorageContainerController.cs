@@ -18,8 +18,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public CloudStorageContainerController() {
         }
 
-        public CloudStorageContainerController(SecurityUserManager userManager, SecuritySignInManager signInManager)
-            : base(userManager, signInManager) {
+        public CloudStorageContainerController(SecurityUserManager userManager, SecuritySignInManager signInManager, ApplicationDbContext applicationDBContext)
+            : base(userManager, signInManager, applicationDBContext) {
         }
 
         // GET: CloudStorageContainer
@@ -32,7 +32,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
             // CloudStorageMananger.GetBlobs();
 
-            CloudStorageMananger storage = new CloudStorageMananger();
+            CloudStorageMananger storage = new CloudStorageMananger(context);
             var itemList = storage.GetCloudStorageItems();
 
             CloudStorageContainerListModel model = new CloudStorageContainerListModel {

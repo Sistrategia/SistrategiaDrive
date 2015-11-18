@@ -118,6 +118,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudStorage\Amazon\AmazonCloudStorageProvider.cs" />
+    <Compile Include="CloudStorage\Azure\AzureCloudStorageProvider.cs" />
+    <Compile Include="CloudStorage\ICloudStorageProvider.cs" />
+    <Compile Include="CloudStorage\Rackspace\RackspaceCloudStorageProvider.cs" />
     <Compile Include="Data\ApplicationDbContext.cs" />
     <Compile Include="CloudStorage\CloudStorageAccount.cs" />
     <Compile Include="CloudStorage\CloudStorageContainer.cs" />
