@@ -38,16 +38,6 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 new SecurityRole { Id = 2, Name = "Administrator" },
                 new SecurityRole { Id = 3, Name = "Developer" }
                 );
-            
-            var azure = new CloudStorageProvider { CloudStorageProviderId = "Azure", Name = "Microsoft Azure Storage Provider", Description = "Microsoft Azure Storage Provider." };
-
-            context.CloudStorageProviders.AddOrUpdate(p => p.CloudStorageProviderId,
-                azure,
-                new CloudStorageProvider { CloudStorageProviderId = "Amazon", Name = "Amazon S3 Provider", Description = "Microsoft Simple Storage Provider." },
-                new CloudStorageProvider { CloudStorageProviderId = "Rackspace", Name = "Rackspace CloudFiles Provider", Description = "Rackspace Cloud Files Provider." }
-                );
-
-            
 
             context.SaveChanges();
 

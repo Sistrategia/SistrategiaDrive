@@ -1,18 +1,18 @@
 ﻿@using Sistrategia.Drive.WebSite.Models
-@model CloudStorageItemDetailViewModel
+@model HomeDetailViewModel
 @{
   ViewBag.Title = "Detail";
 }
 
-<h2>@Model.CloudStorageItem.Name</h2>
+<h2>@Model.DriveItem.Name</h2>
 
 <div>
   @if (Model.IsImage) {
-    <img src="@Model.Url" style="max-width:720px;max-height:720px;" />
+    <img src="@Model.GetTempUrl()" style="max-width:720px;max-height:720px;" />
   }
   else {
     @*<p>For download click <a download='@Model.CloudStorageItem.FileName' href="@Model.Url">here.</a></p>*@
-  <p>For download click <a download="Test.docx" href="@Model.Url">here.</a></p>
+    <p>For download click <a download="Test.docx" href="@Model.GetTempDownloadUrl()">here.</a></p>
   }
 </div>
 

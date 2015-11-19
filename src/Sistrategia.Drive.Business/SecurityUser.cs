@@ -39,12 +39,13 @@ namespace Sistrategia.Drive.Business
         [Required]
         public Guid PublicKey { get; set; }
 
-        public virtual IList<CloudStorageAccount> CloudStorageAccounts { get; set; }
+        //public virtual IList<CloudStorageAccount> CloudStorageAccounts { get; set; }
 
-        public virtual IList<CloudStorageItem> CloudStorageItems { get; set; }
+        //public virtual IList<CloudStorageItem> CloudStorageItems { get; set; }
+        public virtual IList<DriveItem> DriveItems { get; set; }
 
-        [ForeignKey("DefaultContainer")]
-        public int? DefaultContainerId { get; set; }        
-        public virtual CloudStorageContainer DefaultContainer { get; set; }
+        //[ForeignKey("DefaultContainer")]
+        //public int? DefaultContainerId { get; set; }        
+        //public virtual CloudStorageContainer DefaultContainer { get; set; }
     }
 }

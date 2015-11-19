@@ -119,11 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="CloudStorageAccount.cs" />
-    <Compile Include="CloudStorageContainer.cs" />
     <Compile Include="CloudStorageItem.cs" />
     <Compile Include="CloudStorageMananger.cs" />
-    <Compile Include="CloudStorageProvider.cs" />
+    <Compile Include="DriveItem.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="SecurityRole.cs" />
     <Compile Include="SecurityRoleStore.cs" />

@@ -52,7 +52,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
                     TwoFactor = user.TwoFactorEnabled,
                     Logins = await UserManager.GetLoginsAsync(userId),
                     BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()), // string always?
-                    CloudStorageAccounts = user.CloudStorageAccounts.OrderBy(p=>p.Alias).ToList()
+                    //CloudStorageAccounts = user.CloudStorageAccounts.OrderBy(p=>p.Alias).ToList()
                 };
                 return View(model);
             }

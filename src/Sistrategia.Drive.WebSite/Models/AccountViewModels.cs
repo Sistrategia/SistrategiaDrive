@@ -10,7 +10,7 @@ namespace Sistrategia.Drive.WebSite.Models
     public class AccountIndexViewModel
     {
         public AccountIndexViewModel() {
-            this.CloudStorageAccounts = new List<CloudStorageAccount>();
+            //this.CloudStorageAccounts = new List<CloudStorageAccount>();
         }
 
         public bool HasPassword { get; set; }
@@ -19,7 +19,7 @@ namespace Sistrategia.Drive.WebSite.Models
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
 
-        public IList<CloudStorageAccount> CloudStorageAccounts { get; set; }
+        //public IList<CloudStorageAccount> CloudStorageAccounts { get; set; }
     }
 
     public enum AccountIndexMessageId
