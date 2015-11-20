@@ -20,6 +20,8 @@ namespace Sistrategia.Drive.Business
             return new ApplicationDbContext();
         }
 
+        public virtual DbSet<DriveItem> DriveItems { get; set; }
+
         public virtual DbSet<CloudStorageProvider>  CloudStorageProviders { get; set; }
         public virtual DbSet<CloudStorageAccount>   CloudStorageAccounts { get; set; }
         public virtual DbSet<CloudStorageContainer> CloudStorageContainers { get; set; }
@@ -298,8 +300,8 @@ namespace Sistrategia.Drive.Business
             cloudStorageItem.Property(p => p.ProviderKey)
                 .HasColumnName("provider_key");
 
-            cloudStorageItem.Property(p => p.OwnerId)
-                .HasColumnName("owner_id");
+            //cloudStorageItem.Property(p => p.OwnerId)
+            //    .HasColumnName("owner_id");
 
             cloudStorageItem.Property(p => p.Name)
                 .HasColumnName("name");
@@ -322,6 +324,49 @@ namespace Sistrategia.Drive.Business
                 .HasColumnName("original_name");            
             
             cloudStorageItem.Property(p => p.Url)
+                .HasColumnName("url");
+
+
+
+            var driveItem = modelBuilder.Entity<DriveItem>()
+                .ToTable("drive_item");
+            driveItem.Property(p => p.DriveItemId)
+                .HasColumnName("drive_item_id");
+
+            driveItem.Property(p => p.PublicKey)
+                .HasColumnName("public_key")
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute()));
+
+            //driveItem.Property(p => p.ProviderKey)
+            //    .HasColumnName("provider_key");
+
+            driveItem.Property(p => p.OwnerId)
+                .HasColumnName("owner_id");
+
+            driveItem.Property(p => p.CloudStorageItemId)
+                .HasColumnName("cloud_storage_container_id");
+
+            driveItem.Property(p => p.Name)
+                .HasColumnName("name");
+            driveItem.Property(p => p.Description)
+                .HasColumnName("description");
+
+            driveItem.Property(p => p.Created)
+                .HasColumnName("created");
+
+            driveItem.Property(p => p.Modified)
+                .HasColumnName("modified");
+
+            driveItem.Property(p => p.ContentType)
+                .HasColumnName("content_type");
+
+            driveItem.Property(p => p.ContentMD5)
+                .HasColumnName("content_md5");
+
+            driveItem.Property(p => p.OriginalName)
+                .HasColumnName("original_name");
+
+            driveItem.Property(p => p.Url)
                 .HasColumnName("url");
 
             

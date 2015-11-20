@@ -28,31 +28,14 @@ namespace Sistrategia.Drive.WebSite.Controllers
             if (!Request.IsAuthenticated) {
                 return RedirectToAction("Welcome");
             }
-
-            var userId = int.Parse(User.Identity.GetUserId());
+            
+            var userId = this.GetUserId();
             var user = UserManager.FindById(userId);
 
-            //ApplicationDbContext context = new ApplicationDbContext();
+            var items = user.DriveItems.OrderByDescending(i => i.Modified);
+            //var items = user.CloudStorageItems.OrderByDescending(i => i.Modified);
 
-            //var user = context.Users.Find(User.Identity.GetUserId());
-            //var account = user.CloudStorageAccounts.FirstOrDefault();
-            //var container = account.CloudStorageContainers.FirstOrDefault();
-
-            //CloudStorageMananger storage = new CloudStorageMananger();
-            //var itemList = storage.GetCloudStorageItems();
-
-            //foreach (var item in container.CloudStorageItems) {
-
-            //}
-
-            //ApplicationDbContext context = new ApplicationDbContext();
-            //var items = context .CloudStorageItems.OrderByDescending(i => i.Modified);
-
-            var items = user.CloudStorageItems.OrderByDescending(i => i.Modified);
-
-            HomeIndexViewModel model = new HomeIndexViewModel {
-                //DocumentList = container.CloudStorageItems
-                // RecentItems = new List<CloudStorageItem>() // items.ToList()
+            HomeIndexViewModel model = new HomeIndexViewModel {                
                 RecentItems = items.ToList()
             };
 
@@ -99,7 +82,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             var userId = User.Identity.GetUserId();
 
             if (!string.IsNullOrEmpty(userId)) {
-                var user = UserManager.FindById(int.Parse(userId));
+                var user = UserManager.FindById(this.GetUserId());
                 // var user = await UserManager.FindByIdAsync(userId);
                 return View(new AddDocumentViewModel() {
                     //OwnerId = Guid.Parse( user.Id )
@@ -133,8 +116,11 @@ namespace Sistrategia.Drive.WebSite.Controllers
                     var userId = this.GetUserId();
                     var user = UserManager.FindById(userId);
 
+                    Guid publicKey = Guid.NewGuid();
+
                     CloudStorageMananger storage = new CloudStorageMananger(this.DBContext);
-                    var item = storage.UploadFromStream(user.DefaultContainer.CloudStorageAccount.AccountName, user.DefaultContainer.CloudStorageAccount.AccountKey, user.DefaultContainer.ContainerName,
+                    //var cloudStorageItem = storage.UploadFromStream(user.PublicKey, User.Identity.Name, publicKey, model.File.FileName, model.File.ContentType, model.File.InputStream, model.DocumentName, model.Description);
+                    var cloudStorageItem = storage.UploadFromStream(user.DefaultContainer.CloudStorageAccount.AccountName, user.DefaultContainer.CloudStorageAccount.AccountKey, user.DefaultContainer.ContainerName,
                             this.GetUserId(), User.Identity.Name, model.File.FileName, model.File.ContentType, model.File.InputStream, model.DocumentName, model.Description);
                     //string fileName = UploadFile.UploadFileToPrivateContainer(model.File);
                     //if (!string.IsNullOrEmpty(userId)) {
@@ -142,12 +128,15 @@ namespace Sistrategia.Drive.WebSite.Controllers
                     //    blockBlob.Metadata.Add("username", user.UserName);
                     //}
 
+                    var item = new DriveItem(cloudStorageItem);
+
                     //ApplicationDbContext context = new ApplicationDbContext();
-                    ApplicationDbContext context = DBContext;
+                    //ApplicationDbContext context = DBContext;
                     item.OwnerId = this.GetUserId();
-                    item.CloudStorageContainerId = (int)user.DefaultContainerId;
-                    context.CloudStorageItems.Add(item);
-                    context.SaveChanges();
+                    item.CloudStorageItem.CloudStorageContainerId = (int)user.DefaultContainerId;
+                    //context.CloudStorageItems.Add(item);
+                    this.DBContext.DriveItems.Add(item);
+                    this.DBContext.SaveChanges();
 
                     //user.CloudStorageItems.Add(item);                    
                     //UserManager.Update(user);
@@ -241,6 +230,36 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
             return RedirectToAction("Index", "Home");
             //return View(model);
+        }
+
+
+        public ActionResult Detail(string id) {
+
+            //ApplicationDbContext context = new ApplicationDbContext();
+            // var item = context.CloudStorageItems.Find(id);
+
+            var user = UserManager.FindById(this.GetUserId());
+
+            var cid = Guid.Parse(id);
+            //var item = context.DriveItems.SingleOrDefault(c => c.PublicKey == cid);
+            var item = user.DriveItems.SingleOrDefault(c => c.PublicKey == cid);
+            var manager = new CloudStorageMananger(this.DBContext);
+            //var blob = manager.GetStorageItem(item.ProviderKey);
+
+            if (item.ContentType.StartsWith("image/")) {
+
+            }
+
+            //var user = this.CurrentSecurityUser;
+            //if (user != null) {
+            //var account = user.CloudStorageAccounts.SingleOrDefault(a => a.CloudStorageAccountId == id);
+            var model = new HomeDetailViewModel(manager) {
+                DriveItem = item,
+                //Url = blob.Url,
+                IsImage = item.ContentType.StartsWith("image/")
+            };
+
+            return View(model);
         }
 
     }

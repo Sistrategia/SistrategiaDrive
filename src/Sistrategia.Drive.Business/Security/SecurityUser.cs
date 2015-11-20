@@ -39,6 +39,10 @@ namespace Sistrategia.Drive.Business
         [Required]
         public Guid PublicKey { get; set; }
 
+
+        public virtual IList<DriveItem> DriveItems { get; set; }
+
+
         public virtual IList<CloudStorageAccount> CloudStorageAccounts { get; set; }
 
         public virtual IList<CloudStorageItem> CloudStorageItems { get; set; }

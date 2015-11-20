@@ -89,7 +89,7 @@ namespace Sistrategia.Drive.Business
                 blob.FetchAttributes();
                 var item = new CloudStorageItem {
                     // CloudStorageItemId = blob.Name.Substring(0, blob.Name.IndexOf('.')), // documentId.ToString("N"),
-                    OwnerId = int.Parse( blob.Metadata["userid"] ),
+                    //OwnerId = int.Parse( blob.Metadata["userid"] ),
                     Created = DateTime.Parse(blob.Metadata["created"]),
                     Modified = DateTime.Parse(blob.Metadata["modified"]),
                     Name = blob.Metadata["name"], // sourceFileName,
@@ -197,7 +197,7 @@ namespace Sistrategia.Drive.Business
                 //CloudStorageItemId = blob.Name.IndexOf('.') > 0 ? blob.Name.Substring(0, blob.Name.IndexOf('.')) : blob.Name, // documentId.ToString("N"),
                 //CloudStorageItemId = blob.Metadata.ContainsKey("cloudstorageitemid") ? blob.Metadata["cloudstorageitemid"] : Guid.NewGuid().ToString("D").ToLower(),
                 ProviderKey = blob.Name,
-                OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse( blob.Metadata["userid"] ) : 0, // null,
+                //OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse( blob.Metadata["userid"] ) : 0, // null,
                 Created = blob.Metadata.ContainsKey("created") ? DateTime.Parse(blob.Metadata["created"]) : DateTime.UtcNow,
                 Modified = blob.Metadata.ContainsKey("modified") ? DateTime.Parse(blob.Metadata["modified"]) : DateTime.UtcNow,
                 Name = blob.Metadata.ContainsKey("modified") ? blob.Metadata["name"] : blob.Name, // sourceFileName,
@@ -288,20 +288,21 @@ namespace Sistrategia.Drive.Business
                 //CloudStorageItemId = documentId.ToString("N"),
                 PublicKey = documentId,
                 ProviderKey = fileName,
-                OwnerId = userId,
+                //OwnerId = userId,
                 Created = created,
                 Modified = created,
                 Name = name,
-                //OriginalName = sourceFileName,
+                OriginalName = sourceFileName,
                 Description = fileDescription,
                 ContentType = blockBlob.Properties.ContentType,
                 ContentMD5 = blockBlob.Properties.ContentMD5,
-                Url = new Uri(blockBlob.Uri.AbsoluteUri + blockBlob.GetSharedAccessSignature(readPolicy,
-                    new SharedAccessBlobHeaders {
-                        ContentDisposition = blockBlob.Metadata.ContainsKey("originalfilename") ? "attachment; filename=" + blockBlob.Metadata["originalfilename"] : "attachment; filename=FileUnknown",
-                        ContentType = blockBlob.Properties.ContentType
-                    }
-                    )).ToString(),
+                Url = fullPath,
+                //Url = new Uri(blockBlob.Uri.AbsoluteUri + blockBlob.GetSharedAccessSignature(readPolicy,
+                //    new SharedAccessBlobHeaders {
+                //        ContentDisposition = blockBlob.Metadata.ContainsKey("originalfilename") ? "attachment; filename=" + blockBlob.Metadata["originalfilename"] : "attachment; filename=FileUnknown",
+                //        ContentType = blockBlob.Properties.ContentType
+                //    }
+                //    )).ToString(),
             };
 
             return item;
@@ -365,7 +366,7 @@ namespace Sistrategia.Drive.Business
                     //CloudStorageItemId = blob.Name.IndexOf('.') > 0 ? blob.Name.Substring(0, blob.Name.IndexOf('.')) : blob.Name, // documentId.ToString("N"),
                     //CloudStorageItemId = blob.Metadata.ContainsKey("cloudstorageitemid") ? blob.Metadata["cloudstorageitemid"] : Guid.NewGuid().ToString("D").ToLower(),
                     ProviderKey = blob.Name,
-                    OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse(blob.Metadata["userid"]) : 0, // null,
+                    //OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse(blob.Metadata["userid"]) : 0, // null,
                     Created = blob.Metadata.ContainsKey("created") ? DateTime.Parse(blob.Metadata["created"]) : DateTime.UtcNow,
                     Modified = blob.Metadata.ContainsKey("modified") ? DateTime.Parse(blob.Metadata["modified"]) : DateTime.UtcNow,
                     Name = blob.Metadata.ContainsKey("name") ? blob.Metadata["name"] : blob.Name, // sourceFileName,

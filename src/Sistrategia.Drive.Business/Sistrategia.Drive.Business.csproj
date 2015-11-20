@@ -128,6 +128,7 @@
     <Compile Include="CloudStorage\CloudStorageItem.cs" />
     <Compile Include="CloudStorage\CloudStorageMananger.cs" />
     <Compile Include="CloudStorage\CloudStorageProvider.cs" />
+    <Compile Include="DriveItem.cs" />
     <Compile Include="Messaging\EmailService.cs" />
     <Compile Include="Security\SecurityRole.cs" />
     <Compile Include="Security\SecurityRoleStore.cs" />

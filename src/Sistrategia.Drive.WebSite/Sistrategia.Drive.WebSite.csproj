@@ -328,6 +328,8 @@
     <Content Include="Views\CloudStorageItem\Detail.cshtml" />
     <Content Include="Views\CloudStorageAccount\Create.cshtml" />
     <Content Include="Views\CloudStorageContainer\Create.cshtml" />
+    <Content Include="Views\Dev\Users.cshtml" />
+    <Content Include="Views\Home\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -363,6 +365,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CloudStorageAccountViewModels.cs" />
+    <Compile Include="Models\DevViewModels.cs" />
     <Compile Include="Models\DocumentViewModels.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
