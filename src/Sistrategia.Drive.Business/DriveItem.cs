@@ -71,13 +71,13 @@ namespace Sistrategia.Drive.Business
         public string Url { get; set; }
 
 
-        public string GetTempUrl() {
+        public string GetTempUrl(CloudStorageMananger manager) {
             //throw new NotImplementedException();
-            return this.CloudStorageItem.GetTempUrl();
+            return this.CloudStorageItem.GetTempUrl(manager);
         }
 
-        public string GetTempDownloadUrl() {
-            return this.CloudStorageItem.GetTempDownloadUrl();
+        public string GetTempDownloadUrl(CloudStorageMananger manager) {
+            return this.CloudStorageItem.GetTempDownloadUrl(manager);
         }
 
     }

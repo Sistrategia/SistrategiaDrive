@@ -15,16 +15,16 @@ namespace Sistrategia.Drive.WebSite.Models
 
     public class HomeDetailViewModel
     {
-        private Sistrategia.Drive.Business.CloudStorageMananger manager = null;
+        private CloudStorageMananger manager = null;
 
         //public HomeDetailViewModel() {
         //}
 
-        public HomeDetailViewModel(Sistrategia.Drive.Business.CloudStorageMananger manager) {
+        public HomeDetailViewModel(CloudStorageMananger manager) {
             this.manager = manager;
         }
 
-        private Sistrategia.Drive.Business.CloudStorageMananger Manager {
+        private CloudStorageMananger Manager {
             get {
                 return this.manager; // ?? new Sistrategia.Drive.Business.CloudStorageMananger();
             }
@@ -41,12 +41,12 @@ namespace Sistrategia.Drive.WebSite.Models
         //    return this.Manager.GetTempDownloadUrl(this.DriveItem.Url);
         //}
 
-        public object GetTempUrl() {
-            return this.DriveItem.GetTempUrl();
+        public string GetTempUrl() {
+            return this.DriveItem.GetTempUrl(Manager);
         }
 
-        public object GetTempDownloadUrl() {
-            return this.DriveItem.GetTempDownloadUrl();
+        public string GetTempDownloadUrl() {
+            return this.DriveItem.GetTempDownloadUrl(Manager);
         }
     }
 }

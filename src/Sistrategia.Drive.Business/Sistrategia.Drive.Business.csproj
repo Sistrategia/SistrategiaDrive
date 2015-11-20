@@ -120,6 +120,8 @@
   <ItemGroup>
     <Compile Include="CloudStorage\Amazon\AmazonCloudStorageProvider.cs" />
     <Compile Include="CloudStorage\Azure\AzureCloudStorageProvider.cs" />
+    <Compile Include="CloudStorage\CloudStorageFactoryMiddleware.cs" />
+    <Compile Include="CloudStorage\CloudStorageFactoryOptions.cs" />
     <Compile Include="CloudStorage\ICloudStorageProvider.cs" />
     <Compile Include="CloudStorage\Rackspace\RackspaceCloudStorageProvider.cs" />
     <Compile Include="Data\ApplicationDbContext.cs" />
@@ -129,6 +131,8 @@
     <Compile Include="CloudStorage\CloudStorageMananger.cs" />
     <Compile Include="CloudStorage\CloudStorageProvider.cs" />
     <Compile Include="DriveItem.cs" />
+    <Compile Include="Extensions\AppBuilderExtensions.cs" />
+    <Compile Include="Extensions\OwinContextExtensions.cs" />
     <Compile Include="Messaging\EmailService.cs" />
     <Compile Include="Security\SecurityRole.cs" />
     <Compile Include="Security\SecurityRoleStore.cs" />

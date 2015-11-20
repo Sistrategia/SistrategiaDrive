@@ -55,48 +55,14 @@ namespace Sistrategia.Drive.Business
         public string Url { get; set; }
 
 
-        public string GetTempUrl() {
-            throw new NotImplementedException();
+        public string GetTempUrl(CloudStorageMananger manager) {
+            return manager.GetTempUrl(this.CloudStorageContainer.CloudStorageAccount.AccountName, this.CloudStorageContainer.CloudStorageAccount.AccountKey, this.Url);
         }
 
-        public string GetTempDownloadUrl() {
-            throw new NotImplementedException();
+        public string GetTempDownloadUrl(CloudStorageMananger manager) {
+            return manager.GetTempDownloadUrl(this.CloudStorageContainer.CloudStorageAccount.AccountName, this.CloudStorageContainer.CloudStorageAccount.AccountKey, this.Url);
         }
     }
 }
 
 
-//public string GetTempUrl(string fullPath) {
-//            Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount = this.GetDefaultCloudStorageAccount();
-//            Microsoft.WindowsAzure.Storage.Blob.CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-//            var blob = blobClient.GetBlobReferenceFromServer(new Uri(fullPath));
-
-//            var readPolicy = new Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy() {
-//                Permissions = Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPermissions.Read, // SharedAccessPermissions.Read,
-//                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(10)
-//            };
-
-//            string resultUrl = new Uri(blob.Uri.AbsoluteUri + blob.GetSharedAccessSignature(readPolicy)).ToString();
-
-//            return resultUrl;
-//        }
-
-//        public string GetTempDownloadUrl(string fullPath) {
-//             Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount = this.GetDefaultCloudStorageAccount();
-//            Microsoft.WindowsAzure.Storage.Blob.CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-//            var blob = blobClient.GetBlobReferenceFromServer(new Uri(fullPath));
-
-//            var readPolicy = new Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy() {
-//                Permissions = Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPermissions.Read, // SharedAccessPermissions.Read,
-//                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(10)
-//            };
-
-//            string resultUrl = new Uri(blob.Uri.AbsoluteUri + blob.GetSharedAccessSignature(readPolicy,
-//                    new SharedAccessBlobHeaders {
-//                        ContentDisposition = blob.Metadata.ContainsKey("originalfilename") ? "attachment; filename=" + blob.Metadata["originalfilename"] : "attachment; filename=FileUnknown",
-//                        ContentType = blob.Properties.ContentType
-//                    }
-//                    )).ToString();
-
-//            return resultUrl;
-//        }

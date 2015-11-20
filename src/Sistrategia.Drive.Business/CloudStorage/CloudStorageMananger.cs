@@ -13,20 +13,51 @@ using Sistrategia.Drive.Business.CloudStorage;
 using Sistrategia.Drive.Business.CloudStorage.Azure;
 using Sistrategia.Drive.Business.CloudStorage.Rackspace;
 using Sistrategia.Drive.Business.CloudStorage.Amazon;
+using Microsoft.Owin;
+
+// using Sistrategia.Drive.Business.CloudStorage.Owin;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Sistrategia.Drive.Business
 {
-    public class CloudStorageMananger
+    public class CloudStorageMananger : IDisposable
     {
         private Dictionary<string, ICloudStorageProvider> providers;
 
-        public CloudStorageMananger(ApplicationDbContext context) {
-            providers = new Dictionary<string,ICloudStorageProvider>();
+        //public CloudStorageMananger() {
+        //    providers = new Dictionary<string, ICloudStorageProvider>();
+
+        //    providers.Add("azure", new AzureCloudStorageProvider(context)); // como definir y crear el CloudStorageAccount por defecto
+        //    providers.Add("rackspace", new RackspaceCloudStorageProvider());
+        //    providers.Add("amazon", new AmazonCloudStorageProvider());
+        //}
+
+        //public CloudStorageMananger(ApplicationDbContext context) {
+        public CloudStorageMananger(IOwinContext context) {
+            providers = new Dictionary<string, ICloudStorageProvider>();
+
+            var dbContext = context.Get<ApplicationDbContext>(); // cuidado aquí solo sirve con ese namespace y no se pueden mezclar.
+
+            providers.Add("azure", new AzureCloudStorageProvider(dbContext)); // como definir y crear el CloudStorageAccount por defecto
+            providers.Add("rackspace", new RackspaceCloudStorageProvider());
+            providers.Add("amazon", new AmazonCloudStorageProvider());
+        }
+
+        public CloudStorageMananger(ApplicationDbContext context) {        
+            providers = new Dictionary<string, ICloudStorageProvider>();
 
             providers.Add("azure", new AzureCloudStorageProvider(context)); // como definir y crear el CloudStorageAccount por defecto
             providers.Add("rackspace", new RackspaceCloudStorageProvider());
             providers.Add("amazon", new AmazonCloudStorageProvider());
         }
+
+        //public static CloudStorageMananger Create() {
+        //    return new CloudStorageMananger();
+        //}
+
+        public static CloudStorageMananger Create(CloudStorageFactoryOptions<CloudStorageMananger> options, IOwinContext context) {
+            return new CloudStorageMananger(context);
+        }        
 
         public ICloudStorageProvider DefaultProvider {
             get { return this.providers["azure"]; }
@@ -53,6 +84,51 @@ namespace Sistrategia.Drive.Business
 
         //public CloudStorageContainer CreateContainer(string accountType, string alias, string description) {
         //}
+
+
+        public string GetTempUrl(string accountName, string accountKey, string fullPath) {
+            Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount =
+               Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(
+                   string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};BlobEndpoint=https://{0}.blob.core.windows.net/", accountName, accountKey)
+                  );
+            
+            Microsoft.WindowsAzure.Storage.Blob.CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            var blob = blobClient.GetBlobReferenceFromServer(new Uri(fullPath));
+
+            var readPolicy = new Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy() {
+                Permissions = Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPermissions.Read, // SharedAccessPermissions.Read,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(10)
+            };
+
+            string resultUrl = new Uri(blob.Uri.AbsoluteUri + blob.GetSharedAccessSignature(readPolicy)).ToString();
+
+            return resultUrl;
+        }
+
+        public string GetTempDownloadUrl(string accountName, string accountKey, string fullPath) {
+            Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount =
+               Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(
+                   string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};BlobEndpoint=https://{0}.blob.core.windows.net/", accountName, accountKey)
+                  );
+            Microsoft.WindowsAzure.Storage.Blob.CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            var blob = blobClient.GetBlobReferenceFromServer(new Uri(fullPath));
+
+            var readPolicy = new Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy() {
+                Permissions = Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPermissions.Read, // SharedAccessPermissions.Read,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(10)
+            };
+
+            string resultUrl = new Uri(blob.Uri.AbsoluteUri + blob.GetSharedAccessSignature(readPolicy,
+                    new SharedAccessBlobHeaders {
+                        ContentDisposition = blob.Metadata.ContainsKey("originalfilename") ? "attachment; filename=" + blob.Metadata["originalfilename"] : "attachment; filename=FileUnknown",
+                        ContentType = blob.Properties.ContentType
+                    }
+                    )).ToString();
+
+            return resultUrl;
+        }
+
+
 
         public CloudStorageContainer CreateContainer(string accountType, Guid publicKey, string alias, string description) {
                 ICloudStorageProvider provider = this.providers[accountType.ToLower()];
@@ -461,6 +537,10 @@ namespace Sistrategia.Drive.Business
             
         //   // throw new NotImplementedException();
         //}
+
+        public void Dispose() {
+            // throw new NotImplementedException();
+        }
     }
 
     
