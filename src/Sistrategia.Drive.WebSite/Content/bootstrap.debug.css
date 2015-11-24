@@ -1593,12 +1593,12 @@ h6 .small,
 /* line 47, Content\bootstrap\type.less */
 h1,
 .h1 {
-  font-size: 36px;
+  font-size: 46px;
 }
 /* line 48, Content\bootstrap\type.less */
 h2,
 .h2 {
-  font-size: 30px;
+  font-size: 34px;
 }
 /* line 49, Content\bootstrap\type.less */
 h3,
@@ -1608,7 +1608,7 @@ h3,
 /* line 50, Content\bootstrap\type.less */
 h4,
 .h4 {
-  font-size: 18px;
+  font-size: 20px;
 }
 /* line 51, Content\bootstrap\type.less */
 h5,

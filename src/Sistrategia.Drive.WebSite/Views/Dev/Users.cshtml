@@ -1,0 +1,35 @@
+﻿@using Sistrategia.Drive.WebSite.Models
+@model DevUsersViewModel
+
+<h2>@Model.Title</h2>
+<h4>@LocalizedStrings.Home_IndexSubtitle</h4>
+<hr />
+
+<div class="row">
+  <div class="col-md-12">
+
+    <table class="table table-hover">
+      @*<caption>Test caption</caption>*@
+      <thead>
+        <tr>
+          <th>@LocalizedStrings.FullNameField</th>
+          <th>@LocalizedStrings.Email</th>
+          <th>@LocalizedStrings.Modified</th>          
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var user in Model.Users) {
+          <tr>
+            <td>@Html.ActionLink(@user.FullName, "UserDetail", "Dev", new { Id = @user.PublicKey.ToString("N") }, null)</td>
+            @*<td>@Html.ActionLink(@user.UserName, "UserDetail", "Dev", new { Id = @user.PublicKey.ToString("N") }, null)</td>*@
+            @*<td><a href="@item.Url">@item.Name</a></td>*@
+            <td>@user.Email</td>
+            @*<td>@user.Modified.ToString()</td>*@
+            <td>@user.TwoFactorEnabled</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+  </div>
+</div>

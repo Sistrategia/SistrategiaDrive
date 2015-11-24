@@ -297,4 +297,25 @@
   <data name="Enabled" xml:space="preserve">
     <value>Activado</value>
   </data>
+  <data name="FullNameField" xml:space="preserve">
+    <value>Nombre completo</value>
+  </data>
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>El campo Nombre completo es obligatorio.</value>
+  </data>
+  <data name="Account_LoginUsingYourXAccount" xml:space="preserve">
+    <value>Inicia sesión con tu cuenta de {0}</value>
+  </data>
+  <data name="Account_UseAnotherServiceToLogin" xml:space="preserve">
+    <value>Utilice otro servicio para iniciar sesión.</value>
+  </data>
+  <data name="UserNameField" xml:space="preserve">
+    <value>Nombre de usuario</value>
+  </data>
+  <data name="Account_ManageYourExternalLogins" xml:space="preserve">
+    <value>Administre sus inicios de sesión externos</value>
+  </data>
+  <data name="Account_RemoveThisXLoginFromYourAccount" xml:space="preserve">
+    <value>Eliminar el inicio de sesión de {0}</value>
+  </data>
 </root>

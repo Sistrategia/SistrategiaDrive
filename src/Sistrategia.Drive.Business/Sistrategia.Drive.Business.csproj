@@ -118,24 +118,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="CloudStorageAccount.cs" />
-    <Compile Include="CloudStorageContainer.cs" />
-    <Compile Include="CloudStorageItem.cs" />
-    <Compile Include="CloudStorageMananger.cs" />
-    <Compile Include="CloudStorageProvider.cs" />
-    <Compile Include="EmailService.cs" />
-    <Compile Include="SecurityRole.cs" />
-    <Compile Include="SecurityRoleStore.cs" />
-    <Compile Include="SecuritySignInManager.cs" />
-    <Compile Include="SecurityUserClaim.cs" />
-    <Compile Include="SecurityUserLogin.cs" />
-    <Compile Include="SecurityUserManager.cs" />
+    <Compile Include="CloudStorage\Amazon\AmazonCloudStorageProvider.cs" />
+    <Compile Include="CloudStorage\Azure\AzureCloudStorageProvider.cs" />
+    <Compile Include="CloudStorage\CloudStorageFactoryMiddleware.cs" />
+    <Compile Include="CloudStorage\CloudStorageFactoryOptions.cs" />
+    <Compile Include="CloudStorage\ICloudStorageProvider.cs" />
+    <Compile Include="CloudStorage\Rackspace\RackspaceCloudStorageProvider.cs" />
+    <Compile Include="Data\ApplicationDbContext.cs" />
+    <Compile Include="CloudStorage\CloudStorageAccount.cs" />
+    <Compile Include="CloudStorage\CloudStorageContainer.cs" />
+    <Compile Include="CloudStorage\CloudStorageItem.cs" />
+    <Compile Include="CloudStorage\CloudStorageMananger.cs" />
+    <Compile Include="CloudStorage\CloudStorageProvider.cs" />
+    <Compile Include="DriveItem.cs" />
+    <Compile Include="Extensions\AppBuilderExtensions.cs" />
+    <Compile Include="Extensions\OwinContextExtensions.cs" />
+    <Compile Include="Messaging\EmailService.cs" />
+    <Compile Include="Security\SecurityRole.cs" />
+    <Compile Include="Security\SecurityRoleStore.cs" />
+    <Compile Include="Security\SecuritySignInManager.cs" />
+    <Compile Include="Security\SecurityUserClaim.cs" />
+    <Compile Include="Security\SecurityUserLogin.cs" />
+    <Compile Include="Security\SecurityUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecurityUser.cs" />
-    <Compile Include="SecurityUserRole.cs" />
-    <Compile Include="SecurityUserStore.cs" />
-    <Compile Include="SmsService.cs" />
+    <Compile Include="Security\SecurityUser.cs" />
+    <Compile Include="Security\SecurityUserRole.cs" />
+    <Compile Include="Security\SecurityUserStore.cs" />
+    <Compile Include="Messaging\SmsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

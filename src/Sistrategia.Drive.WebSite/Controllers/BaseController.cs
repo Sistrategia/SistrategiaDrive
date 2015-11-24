@@ -18,14 +18,21 @@ namespace Sistrategia.Drive.WebSite.Controllers
     {
         private SecuritySignInManager signInManager;
         private SecurityUserManager userManager;
+        private ApplicationDbContext applicationDBContext;
 
         public BaseController() {
 
         }
 
-        public BaseController(SecurityUserManager userManager, SecuritySignInManager signInManager) {
+        public BaseController(SecurityUserManager userManager, SecuritySignInManager signInManager, ApplicationDbContext applicationDBContext) {
             UserManager = userManager;
             SignInManager = signInManager;
+            DBContext = applicationDBContext;
+        }
+
+        public ApplicationDbContext DBContext {
+            get { return applicationDBContext ?? HttpContext.GetOwinContext().Get<ApplicationDbContext>(); }
+            private set { applicationDBContext = value; }
         }
 
         public SecuritySignInManager SignInManager {
@@ -61,6 +68,11 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 if (signInManager != null) {
                     signInManager.Dispose();
                     signInManager = null;
+                }
+
+                if (applicationDBContext != null) {
+                    applicationDBContext.Dispose();
+                    applicationDBContext = null;
                 }
             }
             base.Dispose(disposing);

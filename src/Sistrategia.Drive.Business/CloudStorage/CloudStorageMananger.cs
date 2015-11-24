@@ -9,12 +9,136 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
+using Sistrategia.Drive.Business.CloudStorage;
+using Sistrategia.Drive.Business.CloudStorage.Azure;
+using Sistrategia.Drive.Business.CloudStorage.Rackspace;
+using Sistrategia.Drive.Business.CloudStorage.Amazon;
+using Microsoft.Owin;
+
+// using Sistrategia.Drive.Business.CloudStorage.Owin;
+using Microsoft.AspNet.Identity.Owin;
+
 namespace Sistrategia.Drive.Business
 {
-    public class CloudStorageMananger
+    public class CloudStorageMananger : IDisposable
     {
+        private Dictionary<string, ICloudStorageProvider> providers;
+
+        //public CloudStorageMananger() {
+        //    providers = new Dictionary<string, ICloudStorageProvider>();
+
+        //    providers.Add("azure", new AzureCloudStorageProvider(context)); // como definir y crear el CloudStorageAccount por defecto
+        //    providers.Add("rackspace", new RackspaceCloudStorageProvider());
+        //    providers.Add("amazon", new AmazonCloudStorageProvider());
+        //}
+
+        //public CloudStorageMananger(ApplicationDbContext context) {
+        public CloudStorageMananger(IOwinContext context) {
+            providers = new Dictionary<string, ICloudStorageProvider>();
+
+            var dbContext = context.Get<ApplicationDbContext>(); // cuidado aquí solo sirve con ese namespace y no se pueden mezclar.
+
+            providers.Add("azure", new AzureCloudStorageProvider(dbContext)); // como definir y crear el CloudStorageAccount por defecto
+            providers.Add("rackspace", new RackspaceCloudStorageProvider());
+            providers.Add("amazon", new AmazonCloudStorageProvider());
+        }
+
+        public CloudStorageMananger(ApplicationDbContext context) {        
+            providers = new Dictionary<string, ICloudStorageProvider>();
+
+            providers.Add("azure", new AzureCloudStorageProvider(context)); // como definir y crear el CloudStorageAccount por defecto
+            providers.Add("rackspace", new RackspaceCloudStorageProvider());
+            providers.Add("amazon", new AmazonCloudStorageProvider());
+        }
+
+        //public static CloudStorageMananger Create() {
+        //    return new CloudStorageMananger();
+        //}
+
+        public static CloudStorageMananger Create(CloudStorageFactoryOptions<CloudStorageMananger> options, IOwinContext context) {
+            return new CloudStorageMananger(context);
+        }        
+
+        public ICloudStorageProvider DefaultProvider {
+            get { return this.providers["azure"]; }
+        }
+
         public static void GetBlobs() {
             
+        }
+
+        //public CloudStorageContainer CreateContainer(string containerName, string accountType, string accountName, string accountKey) {
+        //    ICloudStorageProvider provider = this.providers[accountType.ToLower()];
+
+        //    if (provider== null)
+        //        throw new NullReferenceException("Storage Provider not found for account type.");
+
+        //    provider.CreateCloudStorageContainer(string containerName, accountName, accountKey)
+
+        //    throw new NotImplementedException();
+        //}
+
+        //public CloudStorageContainer CreateContainer(string containerName) {
+        //    return this.CreateContainer(containerName, "Azure");
+        //}
+
+        //public CloudStorageContainer CreateContainer(string accountType, string alias, string description) {
+        //}
+
+
+        public string GetTempUrl(string accountName, string accountKey, string fullPath) {
+            Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount =
+               Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(
+                   string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};BlobEndpoint=https://{0}.blob.core.windows.net/", accountName, accountKey)
+                  );
+            
+            Microsoft.WindowsAzure.Storage.Blob.CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            var blob = blobClient.GetBlobReferenceFromServer(new Uri(fullPath));
+
+            var readPolicy = new Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy() {
+                Permissions = Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPermissions.Read, // SharedAccessPermissions.Read,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(10)
+            };
+
+            string resultUrl = new Uri(blob.Uri.AbsoluteUri + blob.GetSharedAccessSignature(readPolicy)).ToString();
+
+            return resultUrl;
+        }
+
+        public string GetTempDownloadUrl(string accountName, string accountKey, string fullPath) {
+            Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount =
+               Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(
+                   string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};BlobEndpoint=https://{0}.blob.core.windows.net/", accountName, accountKey)
+                  );
+            Microsoft.WindowsAzure.Storage.Blob.CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            var blob = blobClient.GetBlobReferenceFromServer(new Uri(fullPath));
+
+            var readPolicy = new Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy() {
+                Permissions = Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPermissions.Read, // SharedAccessPermissions.Read,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(10)
+            };
+
+            string resultUrl = new Uri(blob.Uri.AbsoluteUri + blob.GetSharedAccessSignature(readPolicy,
+                    new SharedAccessBlobHeaders {
+                        ContentDisposition = blob.Metadata.ContainsKey("originalfilename") ? "attachment; filename=" + blob.Metadata["originalfilename"] : "attachment; filename=FileUnknown",
+                        ContentType = blob.Properties.ContentType
+                    }
+                    )).ToString();
+
+            return resultUrl;
+        }
+
+
+
+        public CloudStorageContainer CreateContainer(string accountType, Guid publicKey, string alias, string description) {
+                ICloudStorageProvider provider = this.providers[accountType.ToLower()];
+
+                if (provider== null)
+                    throw new NullReferenceException("Storage Provider not found for account type.");
+
+                return provider.CreateCloudStorageContainer(publicKey, alias, description);
+
+                throw new NotImplementedException();
         }
 
         public List<CloudStorageItem> GetCloudStorageItems() {
@@ -41,7 +165,7 @@ namespace Sistrategia.Drive.Business
                 blob.FetchAttributes();
                 var item = new CloudStorageItem {
                     // CloudStorageItemId = blob.Name.Substring(0, blob.Name.IndexOf('.')), // documentId.ToString("N"),
-                    OwnerId = int.Parse( blob.Metadata["userid"] ),
+                    //OwnerId = int.Parse( blob.Metadata["userid"] ),
                     Created = DateTime.Parse(blob.Metadata["created"]),
                     Modified = DateTime.Parse(blob.Metadata["modified"]),
                     Name = blob.Metadata["name"], // sourceFileName,
@@ -149,7 +273,7 @@ namespace Sistrategia.Drive.Business
                 //CloudStorageItemId = blob.Name.IndexOf('.') > 0 ? blob.Name.Substring(0, blob.Name.IndexOf('.')) : blob.Name, // documentId.ToString("N"),
                 //CloudStorageItemId = blob.Metadata.ContainsKey("cloudstorageitemid") ? blob.Metadata["cloudstorageitemid"] : Guid.NewGuid().ToString("D").ToLower(),
                 ProviderKey = blob.Name,
-                OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse( blob.Metadata["userid"] ) : 0, // null,
+                //OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse( blob.Metadata["userid"] ) : 0, // null,
                 Created = blob.Metadata.ContainsKey("created") ? DateTime.Parse(blob.Metadata["created"]) : DateTime.UtcNow,
                 Modified = blob.Metadata.ContainsKey("modified") ? DateTime.Parse(blob.Metadata["modified"]) : DateTime.UtcNow,
                 Name = blob.Metadata.ContainsKey("modified") ? blob.Metadata["name"] : blob.Name, // sourceFileName,
@@ -197,9 +321,11 @@ namespace Sistrategia.Drive.Business
             string fileName = String.Format(
                 //"{0}-{1}{2}",
                 //DateTime.Now.ToString("yyyy-MM-dd"),
-                        "{0}{1}",
-                        documentId.ToString("N"),
-                        System.IO.Path.GetExtension(sourceFileName));
+                //        "{0}{1}",
+                        "{0}",
+                        documentId.ToString("N")
+                //        ,System.IO.Path.GetExtension(sourceFileName)
+                );
 
             Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
             blockBlob.Properties.ContentType = fileContentType;
@@ -236,21 +362,23 @@ namespace Sistrategia.Drive.Business
 
             CloudStorageItem item = new CloudStorageItem {
                 //CloudStorageItemId = documentId.ToString("N"),
+                PublicKey = documentId,
                 ProviderKey = fileName,
-                OwnerId = userId,
+                //OwnerId = userId,
                 Created = created,
                 Modified = created,
                 Name = name,
-                //OriginalName = sourceFileName,
+                OriginalName = sourceFileName,
                 Description = fileDescription,
                 ContentType = blockBlob.Properties.ContentType,
                 ContentMD5 = blockBlob.Properties.ContentMD5,
-                Url = new Uri(blockBlob.Uri.AbsoluteUri + blockBlob.GetSharedAccessSignature(readPolicy,
-                    new SharedAccessBlobHeaders {
-                        ContentDisposition = blockBlob.Metadata.ContainsKey("originalfilename") ? "attachment; filename=" + blockBlob.Metadata["originalfilename"] : "attachment; filename=FileUnknown",
-                        ContentType = blockBlob.Properties.ContentType
-                    }
-                    )).ToString(),
+                Url = fullPath,
+                //Url = new Uri(blockBlob.Uri.AbsoluteUri + blockBlob.GetSharedAccessSignature(readPolicy,
+                //    new SharedAccessBlobHeaders {
+                //        ContentDisposition = blockBlob.Metadata.ContainsKey("originalfilename") ? "attachment; filename=" + blockBlob.Metadata["originalfilename"] : "attachment; filename=FileUnknown",
+                //        ContentType = blockBlob.Properties.ContentType
+                //    }
+                //    )).ToString(),
             };
 
             return item;
@@ -314,7 +442,7 @@ namespace Sistrategia.Drive.Business
                     //CloudStorageItemId = blob.Name.IndexOf('.') > 0 ? blob.Name.Substring(0, blob.Name.IndexOf('.')) : blob.Name, // documentId.ToString("N"),
                     //CloudStorageItemId = blob.Metadata.ContainsKey("cloudstorageitemid") ? blob.Metadata["cloudstorageitemid"] : Guid.NewGuid().ToString("D").ToLower(),
                     ProviderKey = blob.Name,
-                    OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse(blob.Metadata["userid"]) : 0, // null,
+                    //OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse(blob.Metadata["userid"]) : 0, // null,
                     Created = blob.Metadata.ContainsKey("created") ? DateTime.Parse(blob.Metadata["created"]) : DateTime.UtcNow,
                     Modified = blob.Metadata.ContainsKey("modified") ? DateTime.Parse(blob.Metadata["modified"]) : DateTime.UtcNow,
                     Name = blob.Metadata.ContainsKey("name") ? blob.Metadata["name"] : blob.Name, // sourceFileName,
@@ -409,6 +537,10 @@ namespace Sistrategia.Drive.Business
             
         //   // throw new NotImplementedException();
         //}
+
+        public void Dispose() {
+            // throw new NotImplementedException();
+        }
     }
 
     

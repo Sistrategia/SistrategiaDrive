@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 //using Microsoft.Owin.Security.Google;
 using Owin;
 using Sistrategia.Drive.Business;
+using System.Configuration;
+using Microsoft.Owin.Security.Google;
 
 namespace Sistrategia.Drive.WebSite
 {
@@ -16,8 +18,8 @@ namespace Sistrategia.Drive.WebSite
             //// Configure the db context, user manager and signin manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<SecurityUserManager>(SecurityUserManager.Create);
-            app.CreatePerOwinContext<SecuritySignInManager>(SecuritySignInManager.Create);
-
+            app.CreatePerOwinContext<SecuritySignInManager>(SecuritySignInManager.Create);            
+            
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             // Configure the sign in cookie
@@ -37,7 +39,7 @@ namespace Sistrategia.Drive.WebSite
                     )
                 }
             });
-            //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
             app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, TimeSpan.FromMinutes(5)); // .FromMinutes(1));
@@ -60,11 +62,10 @@ namespace Sistrategia.Drive.WebSite
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions() {
+                ClientId = ConfigurationManager.AppSettings["GoogleClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"]
+            });
         }
     }
 }

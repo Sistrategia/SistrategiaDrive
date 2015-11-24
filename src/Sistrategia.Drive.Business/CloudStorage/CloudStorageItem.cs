@@ -27,9 +27,9 @@ namespace Sistrategia.Drive.Business
         [Required, MaxLength(1024)]
         public string ProviderKey { get; set; }
 
-        [ForeignKey("Owner")] // [Required]
-        public int OwnerId { get; set; }        
-        public virtual SecurityUser Owner { get; set; }
+        //[ForeignKey("Owner")] // [Required]
+        //public int OwnerId { get; set; }        
+        //public virtual SecurityUser Owner { get; set; }
 
         //[Display(ResourceType = typeof(LocalizedStrings), Name = "DocumentName")]
         [Required, MaxLength(2048)] // , Display(Name = "Nombre del documento")]        
@@ -53,5 +53,16 @@ namespace Sistrategia.Drive.Business
         public string OriginalName { get; set; }
 
         public string Url { get; set; }
+
+
+        public string GetTempUrl(CloudStorageMananger manager) {
+            return manager.GetTempUrl(this.CloudStorageContainer.CloudStorageAccount.AccountName, this.CloudStorageContainer.CloudStorageAccount.AccountKey, this.Url);
+        }
+
+        public string GetTempDownloadUrl(CloudStorageMananger manager) {
+            return manager.GetTempDownloadUrl(this.CloudStorageContainer.CloudStorageAccount.AccountName, this.CloudStorageContainer.CloudStorageAccount.AccountKey, this.Url);
+        }
     }
 }
+
+

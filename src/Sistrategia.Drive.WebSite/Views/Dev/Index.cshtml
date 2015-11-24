@@ -1,22 +1,20 @@
-﻿
-@{
-    ViewBag.Title = "Dev";
-}
+﻿@using Sistrategia.Drive.WebSite.Models
+@model DevIndexViewModel
 
-<h1>@ViewBag.Title</h1>
+<h1>@Model.Title</h1>
 
 
-  <dl>
-    <dt>CurrentUICulture:</dt>
-    <dd>@System.Threading.Thread.CurrentThread.CurrentUICulture.Name</dd>
-    @*<dd>@System.Threading.Thread.CurrentThread.CurrentUICulture.DisplayName</dd>*@
+  <dl class="dl-horizontal">
+  <dt>CurrentUICulture:</dt>
+  <dd>@Model.CurrentUICulture.Name</dd>
+  @*<dd>@System.Threading.Thread.CurrentThread.CurrentUICulture.DisplayName</dd>*@
 
-    <dt>CurrentCulture:</dt>
-    <dd>@System.Threading.Thread.CurrentThread.CurrentCulture.Name</dd>
+  <dt>CurrentCulture:</dt>
+  <dd>@Model.CurrentCulture.Name</dd>
 
-    <dt>ViewBag.AcceptLanguage:</dt>
-    <dd>@ViewBag.AcceptLanguage</dd>
-    
-  </dl>
+  <dt>AcceptLanguage:</dt>
+  <dd>@Model.AcceptLanguage</dd>
+
+</dl>
 
 

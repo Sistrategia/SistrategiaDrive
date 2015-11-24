@@ -27,10 +27,26 @@ namespace Sistrategia.Drive.WebSite.Controllers
             // CloudStorageAccounts = user.CloudStorageAccounts.OrderBy(p=>p.Alias).ToList()
         }
 
+        [Authorize( Roles = "Developer")]
+        public ActionResult All() {
+            var model = new CloudStorageAccountIndexViewModel {
+                CloudStorageAccounts = DBContext.CloudStorageAccounts.OrderBy(p => p.Alias).ToList()
+            };
+            return View("Index", model);
+        }
+
         public ActionResult Detail(string id) {
             var user = this.CurrentSecurityUser;
+            Guid publicKey = Guid.Parse(id);
             if (user != null) {
-                var account = user.CloudStorageAccounts.SingleOrDefault(a => a.PublicKey == Guid.Parse(id));
+                var account = user.CloudStorageAccounts.SingleOrDefault(a => a.PublicKey == publicKey);
+
+                if (account == null) {
+                    if (this.User.IsInRole("Developer")) {
+                        account = DBContext.CloudStorageAccounts.SingleOrDefault(a => a.PublicKey == publicKey);
+                    }
+                }
+
                 var model = new CloudStorageAccountDetailViewModel {
                     CloudStorageAccount = account
                 };
