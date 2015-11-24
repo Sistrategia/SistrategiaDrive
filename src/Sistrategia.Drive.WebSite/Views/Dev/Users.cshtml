@@ -12,7 +12,7 @@
       @*<caption>Test caption</caption>*@
       <thead>
         <tr>
-          <th>UserName</th>
+          <th>@LocalizedStrings.FullNameField</th>
           <th>@LocalizedStrings.Email</th>
           <th>@LocalizedStrings.Modified</th>          
         </tr>
@@ -20,7 +20,8 @@
       <tbody>
         @foreach (var user in Model.Users) {
           <tr>
-            <td>@Html.ActionLink(@user.UserName, "UserDetail", "Dev", new { Id = @user.PublicKey.ToString("N") }, null)</td>
+            <td>@Html.ActionLink(@user.FullName, "UserDetail", "Dev", new { Id = @user.PublicKey.ToString("N") }, null)</td>
+            @*<td>@Html.ActionLink(@user.UserName, "UserDetail", "Dev", new { Id = @user.PublicKey.ToString("N") }, null)</td>*@
             @*<td><a href="@item.Url">@item.Name</a></td>*@
             <td>@user.Email</td>
             @*<td>@user.Modified.ToString()</td>*@

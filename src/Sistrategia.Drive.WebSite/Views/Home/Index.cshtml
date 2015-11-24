@@ -33,18 +33,23 @@
       @*<caption>Test caption</caption>*@
      <thead>
        <tr>
-         <th>@LocalizedStrings.Name</th>
-         <th>@LocalizedStrings.Modified</th>
-         <th>@LocalizedStrings.Shared</th>
+         <th class="visible-xs">Item</th>
+         <th class="hidden-xs">@LocalizedStrings.Name</th>
+         <th class="hidden-xs">@LocalizedStrings.Modified</th>
+         <th class="hidden-xs">@LocalizedStrings.Shared</th>
        </tr>
      </thead>
       <tbody>
         @foreach (var item in Model.RecentItems) { 
         <tr>
-          <td>@Html.ActionLink(@item.Name, "Detail", "Home", new { Id = @item.PublicKey.ToString("N") }, null)</td>
+          <td class="visible-xs">
+            <h4>@Html.ActionLink(@item.Name, "Detail", "Home", new { Id = @item.PublicKey.ToString("N") }, null)</h4>
+            <p>@item.Description</p>
+          </td>
+          <td class="hidden-xs">@Html.ActionLink(@item.Name, "Detail", "Home", new { Id = @item.PublicKey.ToString("N") }, null)</td>
           @*<td><a href="@item.Url">@item.Name</a></td>*@
-          <td>@item.Modified.ToString()</td>
-          <td>@item.ContentMD5</td>
+          <td class="hidden-xs">@item.Modified.ToString()</td>
+          <td class="hidden-xs">@item.ContentMD5</td>
         </tr>
         }
       </tbody>

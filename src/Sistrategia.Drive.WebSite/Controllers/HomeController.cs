@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.Owin;
 namespace Sistrategia.Drive.WebSite.Controllers
 {
     [RequireHttps]
+    [Authorize]
     public class HomeController : BaseController
     {
         public HomeController() {
@@ -24,6 +25,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
         }
 
         // GET: Home
+        [AllowAnonymous]
         public ActionResult Index()
         {
             if (!Request.IsAuthenticated) {
@@ -233,7 +235,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
             //return View(model);
         }
 
-
+        [Authorize]
         public ActionResult Detail(string id) {
 
             //ApplicationDbContext context = new ApplicationDbContext();
