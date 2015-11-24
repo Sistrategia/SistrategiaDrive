@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace Sistrategia.Drive.WebSite.Controllers
 {
+    [RequireHttps]
     public class HomeController : BaseController
     {
         public HomeController() {

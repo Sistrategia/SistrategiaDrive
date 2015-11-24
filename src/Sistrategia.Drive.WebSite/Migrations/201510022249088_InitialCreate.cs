@@ -84,7 +84,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
                         drive_item_id = c.Int(nullable: false, identity: true),
                         public_key = c.Guid(nullable: false),
                         owner_id = c.Int(nullable: false),
-                        cloud_storage_container_id = c.Int(nullable: false),
+                        cloud_storage_item_id = c.Int(nullable: false),
                         name = c.String(nullable: false, maxLength: 2048),
                         description = c.String(),
                         created = c.DateTime(nullable: false),
@@ -95,11 +95,11 @@ namespace Sistrategia.Drive.WebSite.Migrations
                         url = c.String(),
                     })
                 .PrimaryKey(t => t.drive_item_id)
-                .ForeignKey("dbo.cloud_storage_item", t => t.cloud_storage_container_id, cascadeDelete: true)
+                .ForeignKey("dbo.cloud_storage_item", t => t.cloud_storage_item_id, cascadeDelete: true)
                 .ForeignKey("dbo.security_user", t => t.owner_id, cascadeDelete: true)
                 .Index(t => t.public_key)
                 .Index(t => t.owner_id)
-                .Index(t => t.cloud_storage_container_id);
+                .Index(t => t.cloud_storage_item_id);
             
             CreateTable(
                 "dbo.security_user",
@@ -108,6 +108,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
                         user_id = c.Int(nullable: false, identity: true),
                         user_name = c.String(nullable: false, maxLength: 256),
                         public_key = c.Guid(nullable: false),
+                        full_name = c.String(maxLength: 256),
                         default_container_id = c.Int(),
                         email = c.String(maxLength: 256),
                         email_confirmed = c.Boolean(nullable: false),
@@ -124,6 +125,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
                 .ForeignKey("dbo.cloud_storage_container", t => t.default_container_id)
                 .Index(t => t.user_name, unique: true, name: "ix_user_name_index")
                 .Index(t => t.public_key, unique: true, name: "ix_user_public_key_index")
+                .Index(t => t.full_name, name: "ix_user_full_name_index")
                 .Index(t => t.default_container_id);
             
             CreateTable(
@@ -200,7 +202,7 @@ namespace Sistrategia.Drive.WebSite.Migrations
             DropForeignKey("dbo.security_user_cloud_storage_account", "cloud_storage_account_id", "dbo.cloud_storage_account");
             DropForeignKey("dbo.security_user_cloud_storage_account", "user_id", "dbo.security_user");
             DropForeignKey("dbo.security_user_claims", "user_id", "dbo.security_user");
-            DropForeignKey("dbo.drive_item", "cloud_storage_container_id", "dbo.cloud_storage_item");
+            DropForeignKey("dbo.drive_item", "cloud_storage_item_id", "dbo.cloud_storage_item");
             DropForeignKey("dbo.cloud_storage_account", "cloud_storage_provider_id", "dbo.cloud_storage_provider");
             DropForeignKey("dbo.cloud_storage_item", "cloud_storage_container_id", "dbo.cloud_storage_container");
             DropForeignKey("dbo.cloud_storage_container", "cloud_storage_account_id", "dbo.cloud_storage_account");
@@ -212,9 +214,10 @@ namespace Sistrategia.Drive.WebSite.Migrations
             DropIndex("dbo.security_user_logins", new[] { "user_id" });
             DropIndex("dbo.security_user_claims", new[] { "user_id" });
             DropIndex("dbo.security_user", new[] { "default_container_id" });
+            DropIndex("dbo.security_user", "ix_user_full_name_index");
             DropIndex("dbo.security_user", "ix_user_public_key_index");
             DropIndex("dbo.security_user", "ix_user_name_index");
-            DropIndex("dbo.drive_item", new[] { "cloud_storage_container_id" });
+            DropIndex("dbo.drive_item", new[] { "cloud_storage_item_id" });
             DropIndex("dbo.drive_item", new[] { "owner_id" });
             DropIndex("dbo.drive_item", new[] { "public_key" });
             DropIndex("dbo.cloud_storage_item", new[] { "SecurityUser_Id" });

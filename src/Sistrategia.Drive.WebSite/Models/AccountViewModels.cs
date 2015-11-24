@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Sistrategia.Drive.Resources;
 using Sistrategia.Drive.Business;
+using Microsoft.Owin.Security;
 //using Microsoft.Owin.Security;
 
 namespace Sistrategia.Drive.WebSite.Models
@@ -13,6 +14,9 @@ namespace Sistrategia.Drive.WebSite.Models
             this.CloudStorageAccounts = new List<CloudStorageAccount>();
         }
 
+        public string UserName { get; set; }
+        public string FullName { get; set; }
+        
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
@@ -78,6 +82,10 @@ namespace Sistrategia.Drive.WebSite.Models
 
     public class RegisterViewModel
     {
+        [Required(ErrorMessageResourceType = typeof(LocalizedStrings), ErrorMessageResourceName = "FullNameRequired")]        
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "FullNameField")]
+        public string FullName { get; set; }
+
         [Required(ErrorMessageResourceType = typeof(LocalizedStrings), ErrorMessageResourceName = "EmailRequired")]
         [EmailAddress]
         [Display(ResourceType=typeof(LocalizedStrings), Name = "Email")]
@@ -160,17 +168,35 @@ namespace Sistrategia.Drive.WebSite.Models
         public bool RememberMe { get; set; }
     }
 
-
+    // Used when register with external login
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        //[Required]
+        //[Display(ResourceType = typeof(LocalizedStrings), Name = "Email")]
+        //public string Email { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(LocalizedStrings), ErrorMessageResourceName = "FullNameRequired")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "FullNameField")]
+        public string FullName { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(LocalizedStrings), ErrorMessageResourceName = "EmailRequired")]
+        [EmailAddress]
         [Display(ResourceType = typeof(LocalizedStrings), Name = "Email")]
         public string Email { get; set; }
+
     }
 
     public class ExternalLoginListViewModel
     {
         public string ReturnUrl { get; set; }
+    }
+
+
+
+    public class ManageLoginsViewModel
+    {
+        public IList<UserLoginInfo> CurrentLogins { get; set; }
+        public IList<AuthenticationDescription> OtherLogins { get; set; }
     }
 
 }

@@ -47,6 +47,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
             if (userId != default(int)) {
                 var user = await UserManager.FindByIdAsync(userId);
                 var model = new AccountIndexViewModel {
+                    UserName = user.UserName,
+                    FullName = user.FullName,
                     HasPassword = HasPassword(),
                     PhoneNumber = user.PhoneNumber,
                     TwoFactor = user.TwoFactorEnabled,
@@ -138,7 +140,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model) {
             if (ModelState.IsValid) {
-                var user = new SecurityUser { UserName = model.Email, Email = model.Email }; //, Hometown = model.Hometown };
+                var user = new SecurityUser { UserName = model.Email, Email = model.Email, FullName = model.FullName }; //, Hometown = model.Hometown };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
                     // await UserManager.AddToRoleAsync(user.Id, "User");
@@ -457,9 +459,149 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
 
 
+        #region ManageLogins
 
-        
-        
+        //
+        // GET: /Manage/ManageLogins
+        public async Task<ActionResult> ManageLogins(ManageMessageId? message) {
+            ViewBag.StatusMessage =
+                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
+            var user = await UserManager.FindByIdAsync(this.GetUserId());
+            if (user == null) {
+                return View("Error");
+            }
+            var userLogins = await UserManager.GetLoginsAsync(this.GetUserId());
+            var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
+            ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
+            return View(new ManageLoginsViewModel {
+                CurrentLogins = userLogins,
+                OtherLogins = otherLogins
+            });
+        }
+
+        //
+        // POST: /Manage/LinkLogin
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LinkLogin(string provider) {
+            // Request a redirect to the external login provider to link a login for the current user
+            return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
+        }
+
+        //
+        // GET: /Manage/LinkLoginCallback
+        public async Task<ActionResult> LinkLoginCallback() {
+            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
+            if (loginInfo == null) {
+                return RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+            }
+            //var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
+            var result = await UserManager.AddLoginAsync(this.GetUserId(), loginInfo.Login);
+            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+        }
+
+
+        public enum ManageMessageId
+        {
+            AddPhoneSuccess,
+            ChangePasswordSuccess,
+            SetTwoFactorSuccess,
+            SetPasswordSuccess,
+            RemoveLoginSuccess,
+            RemovePhoneSuccess,
+            Error
+        }
+
+        #endregion
+
+
+
+
+        #region ExternalLogin
+
+        //
+        // POST: /Account/ExternalLogin
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ExternalLogin(string provider, string returnUrl) {
+            // Request a redirect to the external login provider
+            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+        }
+
+
+        //
+        // GET: /Account/ExternalLoginCallback
+        [AllowAnonymous]
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl) {
+            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+            if (loginInfo == null) {
+                return RedirectToAction("Login");
+            }
+
+            // Sign in the user with this external login provider if the user already has a login
+            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            switch (result) {
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+                case SignInStatus.Failure:
+                default:
+                    // If the user does not have an account, then prompt the user to create an account
+                    ViewBag.ReturnUrl = returnUrl;
+                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+            }
+        }
+
+        //
+        // POST: /Account/ExternalLoginConfirmation
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl) {
+            if (User.Identity.IsAuthenticated) {
+                return RedirectToAction("Index", "Account");
+            }
+
+            if (ModelState.IsValid) {
+                // Get the information about the user from the external login provider
+                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                if (info == null) {
+                    return View("ExternalLoginFailure");
+                }
+                var user = new SecurityUser { UserName = model.Email, Email = model.Email, FullName = model.FullName };
+                var result = await UserManager.CreateAsync(user);
+                if (result.Succeeded) {
+                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                    if (result.Succeeded) {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+                AddErrors(result);
+            }
+
+            ViewBag.ReturnUrl = returnUrl;
+            return View(model);
+        }
+
+        //
+        // GET: /Account/ExternalLoginFailure
+        [AllowAnonymous]
+        public ActionResult ExternalLoginFailure() {
+            return View();
+        }
+
+        #endregion
+
+
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
@@ -483,30 +625,30 @@ namespace Sistrategia.Drive.WebSite.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //internal class ChallengeResult : HttpUnauthorizedResult
-        //{
-        //    public ChallengeResult(string provider, string redirectUri)
-        //        : this(provider, redirectUri, null) {
-        //    }
+        internal class ChallengeResult : HttpUnauthorizedResult
+        {
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null) {
+            }
 
-        //    public ChallengeResult(string provider, string redirectUri, string userId) {
-        //        LoginProvider = provider;
-        //        RedirectUri = redirectUri;
-        //        UserId = userId;
-        //    }
+            public ChallengeResult(string provider, string redirectUri, string userId) {
+                LoginProvider = provider;
+                RedirectUri = redirectUri;
+                UserId = userId;
+            }
 
-        //    public string LoginProvider { get; set; }
-        //    public string RedirectUri { get; set; }
-        //    public string UserId { get; set; }
+            public string LoginProvider { get; set; }
+            public string RedirectUri { get; set; }
+            public string UserId { get; set; }
 
-        //    public override void ExecuteResult(ControllerContext context) {
-        //        var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-        //        if (UserId != null) {
-        //            properties.Dictionary[XsrfKey] = UserId;
-        //        }
-        //        context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
-        //    }
-        //}
+            public override void ExecuteResult(ControllerContext context) {
+                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
+                if (UserId != null) {
+                    properties.Dictionary[XsrfKey] = UserId;
+                }
+                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+            }
+        }
 
 
 

@@ -69,6 +69,11 @@ namespace Sistrategia.Drive.WebSite.Controllers
                     signInManager.Dispose();
                     signInManager = null;
                 }
+
+                if (applicationDBContext != null) {
+                    applicationDBContext.Dispose();
+                    applicationDBContext = null;
+                }
             }
             base.Dispose(disposing);
         }
