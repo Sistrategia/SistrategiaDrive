@@ -75,7 +75,8 @@ namespace Sistrategia.Drive.WebSite.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(LocalizedStrings), ErrorMessageResourceName = "EmailRequired")]
+        [EmailAddress]
         [Display(ResourceType = typeof(LocalizedStrings), Name = "Email")]
         public string Email { get; set; }
     }
@@ -91,7 +92,7 @@ namespace Sistrategia.Drive.WebSite.Models
         [Display(ResourceType=typeof(LocalizedStrings), Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(LocalizedStrings), ErrorMessageResourceName = "PasswordRequired")]
         [StringLength(100,
             MinimumLength = 6,
             ErrorMessageResourceType = typeof(LocalizedStrings),
@@ -117,20 +118,29 @@ namespace Sistrategia.Drive.WebSite.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(LocalizedStrings), ErrorMessageResourceName = "EmailRequired")]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessageResourceType = typeof(LocalizedStrings), ErrorMessageResourceName = "PasswordRequired")]
+        [StringLength(100,
+            MinimumLength = 6,
+            ErrorMessageResourceType = typeof(LocalizedStrings),
+            ErrorMessageResourceName = "Account_PasswordValidationError"
+            //ErrorMessage = "The {0} must be at least {2} characters long."
+            )]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Account_ConfirmPassword")]
+        [Compare("Password",
+            ErrorMessageResourceType = typeof(LocalizedStrings),
+            //ErrorMessage = "The password and confirmation password do not match."
+            ErrorMessageResourceName = "Account_ConfirmPasswordDoesNotMatchError"
+            )]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
