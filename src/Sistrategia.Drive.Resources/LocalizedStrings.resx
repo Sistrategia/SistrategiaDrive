@@ -336,4 +336,28 @@
   <data name="Account_MessageRemovePhoneSuccess" xml:space="preserve">
     <value>Your phone number was removed.</value>
   </data>
+  <data name="Account_ClickHereToGoHome" xml:space="preserve">
+    <value>click here to go to your SistrategiaDrive home</value>
+  </data>
+  <data name="Account_ClickHereToLogIn" xml:space="preserve">
+    <value>Click here to Log in</value>
+  </data>
+  <data name="Account_ConfirmEmailTitle" xml:space="preserve">
+    <value>Confirm Email</value>
+  </data>
+  <data name="Account_ThankYouForConfirmEmail" xml:space="preserve">
+    <value>Thank you for confirming your email. Please</value>
+  </data>
+  <data name="Account_EnterYourEmail" xml:space="preserve">
+    <value>Enter your email.</value>
+  </data>
+  <data name="Account_EmailLink" xml:space="preserve">
+    <value>Email Link</value>
+  </data>
+  <data name="Account_PleaseResetYourPasswordByClickingHere" xml:space="preserve">
+    <value>Please reset your password by clicking &lt;a href="{0}"&gt;here&lt;/a&gt;</value>
+  </data>
+  <data name="Account_ResetPassword" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
 </root>

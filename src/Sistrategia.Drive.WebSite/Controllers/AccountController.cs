@@ -250,8 +250,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { forgot = user.PublicKey, code = code }, protocol: Request.Url.Scheme);		
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { forgot = user.PublicKey, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, LocalizedStrings.Account_ResetPassword,
+                    string.Format(LocalizedStrings.Account_PleaseResetYourPasswordByClickingHere, callbackUrl));
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
