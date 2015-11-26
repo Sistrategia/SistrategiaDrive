@@ -318,4 +318,22 @@
   <data name="Account_RemoveThisXLoginFromYourAccount" xml:space="preserve">
     <value>Remove this {0} login from your account</value>
   </data>
+  <data name="Account_YourPasswordHasBeenChanged" xml:space="preserve">
+    <value>Your password has been changed.</value>
+  </data>
+  <data name="Account_YourPasswordHasBeenSet" xml:space="preserve">
+    <value>Your password has been set.</value>
+  </data>
+  <data name="Account_YourTwoFactorAuthenticationHasBeenSet" xml:space="preserve">
+    <value>Your two-factor authentication provider has been set.</value>
+  </data>
+  <data name="Account_MessageAddPhoneSuccess" xml:space="preserve">
+    <value>Your phone number was added.</value>
+  </data>
+  <data name="Account_MessageError" xml:space="preserve">
+    <value>An error has occurred.</value>
+  </data>
+  <data name="Account_MessageRemovePhoneSuccess" xml:space="preserve">
+    <value>Your phone number was removed.</value>
+  </data>
 </root>

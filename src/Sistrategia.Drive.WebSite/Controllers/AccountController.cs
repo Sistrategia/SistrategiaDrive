@@ -33,12 +33,12 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public async Task<ActionResult> Index(AccountIndexMessageId? message) {
 
             ViewBag.StatusMessage =
-                message == AccountIndexMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == AccountIndexMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == AccountIndexMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == AccountIndexMessageId.Error ? "An error has occurred."
-                : message == AccountIndexMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == AccountIndexMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == AccountIndexMessageId.ChangePasswordSuccess ? LocalizedStrings.Account_YourPasswordHasBeenChanged
+                : message == AccountIndexMessageId.SetPasswordSuccess ? LocalizedStrings.Account_YourPasswordHasBeenSet
+                : message == AccountIndexMessageId.SetTwoFactorSuccess ? LocalizedStrings.Account_YourTwoFactorAuthenticationHasBeenSet
+                : message == AccountIndexMessageId.Error ? LocalizedStrings.Account_MessageError
+                : message == AccountIndexMessageId.AddPhoneSuccess ? LocalizedStrings.Account_MessageAddPhoneSuccess
+                : message == AccountIndexMessageId.RemovePhoneSuccess ? LocalizedStrings.Account_MessageRemovePhoneSuccess
                 : "";
 
             var userId = User.Identity.GetUserId<int>();

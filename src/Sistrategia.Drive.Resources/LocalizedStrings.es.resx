@@ -318,4 +318,22 @@
   <data name="Account_RemoveThisXLoginFromYourAccount" xml:space="preserve">
     <value>Eliminar el inicio de sesión de {0}</value>
   </data>
+  <data name="Account_YourPasswordHasBeenChanged" xml:space="preserve">
+    <value>Su contraseña se ha cambiado con éxito.</value>
+  </data>
+  <data name="Account_YourPasswordHasBeenSet" xml:space="preserve">
+    <value>Se ha establecido su contraseña con éxito.</value>
+  </data>
+  <data name="Account_MessageAddPhoneSuccess" xml:space="preserve">
+    <value>Se ha agregado su número telefónico.</value>
+  </data>
+  <data name="Account_MessageError" xml:space="preserve">
+    <value>Ha ocurrido un error.</value>
+  </data>
+  <data name="Account_MessageRemovePhoneSuccess" xml:space="preserve">
+    <value>Se ha quitado su número telefónico.</value>
+  </data>
+  <data name="Account_YourTwoFactorAuthenticationHasBeenSet" xml:space="preserve">
+    <value>Se ha establecido correctamente su proveedor de verificación de dos pasos.</value>
+  </data>
 </root>
