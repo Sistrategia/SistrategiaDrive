@@ -47,7 +47,7 @@
                 @if (HttpContext.Current.User.Identity.IsAuthenticated) {
 
                 <li><a class="navbar-icon" href="@Url.Content("~/Account")"><span class="glyphicon glyphicon-user"></span></a></li>
-                @if (HttpContext.Current.User.IsInRole("Developer")) {
+                if (HttpContext.Current.User.IsInRole("Developer")) {
                 <li @if (ControllerName.Equals("Dev")) { @Html.Raw("class='active'")  ; } else { @Html.Raw("")  ; }>
                   <a class="navbar-icon" href="@Url.Content("~/Dev")"><span class="glyphicon glyphicon-cog"></span></a>
                 </li>
