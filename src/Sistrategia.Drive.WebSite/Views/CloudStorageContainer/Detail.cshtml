@@ -7,7 +7,7 @@
 <ol class="breadcrumb">
   <li>@Html.ActionLink(LocalizedStrings.Account_IndexTitle, "Index", "Account")</li>
   <li>@Html.ActionLink(@LocalizedStrings.CloudStorageAccounts_IndexTitle, "Index", "CloudStorageAccount")</li>
-  <li>@Html.ActionLink(Model.CloudStorageContainer.CloudStorageAccount.Alias, "Detail", "CloudStorageAccount", new  { id = Model.CloudStorageContainer.CloudStorageAccountId }, null)</li>
+  <li>@Html.ActionLink(Model.CloudStorageContainer.CloudStorageAccount.Alias, "Detail", "CloudStorageAccount", new  { id = Model.CloudStorageContainer.CloudStorageAccount.PublicKey.ToString("N") }, null)</li>
   <li class="active">@Model.CloudStorageContainer.Alias</li>
   @*<li class="active">Detail</li>*@
 </ol>

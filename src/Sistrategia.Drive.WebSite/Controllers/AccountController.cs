@@ -143,7 +143,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
                 var user = new SecurityUser { UserName = model.Email, Email = model.Email, FullName = model.FullName }; //, Hometown = model.Hometown };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
-                    // await UserManager.AddToRoleAsync(user.Id, "User");
+                    await UserManager.AddToRoleAsync(user.Id, "User");
                     // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);                    
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

@@ -41,18 +41,29 @@ namespace Sistrategia.Drive.WebSite.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Account_CurrentPasswordField")]        
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100,
+            MinimumLength = 6,
+            ErrorMessageResourceType = typeof(LocalizedStrings),
+            ErrorMessageResourceName = "Account_PasswordValidationError"
+            //ErrorMessage = "The {0} must be at least {2} characters long."
+            )]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Account_NewPasswordField")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(ResourceType = typeof(LocalizedStrings), Name = "Account_ConfirmNewPasswordField")]
+        //[Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Compare("NewPassword",
+        ErrorMessageResourceType = typeof(LocalizedStrings),
+            //ErrorMessage = "The password and confirmation password do not match."
+        ErrorMessageResourceName = "Account_ConfirmPasswordDoesNotMatchError"
+        )]
         public string ConfirmPassword { get; set; }
     }
 

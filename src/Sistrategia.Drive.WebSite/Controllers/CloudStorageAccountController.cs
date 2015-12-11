@@ -15,9 +15,16 @@ namespace Sistrategia.Drive.WebSite.Controllers
         public ActionResult Index()
         {
             var user = this.CurrentSecurityUser;
+            List<CloudStorageAccount> accounts;
+
+            if (this.User.IsInRole("Developer"))
+                accounts =  DBContext.CloudStorageAccounts.OrderBy(p => p.Alias).ToList();
+            else
+                accounts = user.CloudStorageAccounts.OrderBy(p => p.Alias).ToList();
+
             if (user != null) {
                 var model = new CloudStorageAccountIndexViewModel {
-                    CloudStorageAccounts = user.CloudStorageAccounts.OrderBy(p => p.Alias).ToList()
+                    CloudStorageAccounts = accounts
                 };
 
                 return View(model);
@@ -118,7 +125,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
             foreach (var container in containers) {
                 //container.CloudStorageAccountId = 
-                account.CloudStorageContainers.Add(container);
+                if (account.CloudStorageContainers.SingleOrDefault( c => c.ProviderKey == container.ProviderKey) == null)
+                    account.CloudStorageContainers.Add(container);
             }
             context.SaveChanges();
 

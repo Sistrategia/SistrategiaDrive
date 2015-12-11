@@ -67,7 +67,9 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
             ApplicationDbContext context = new ApplicationDbContext();
             //var providers = context.CloudStorageProviders.ToList();
-            var account = context.CloudStorageAccounts.Find(id);
+            //var account = context.CloudStorageAccounts.Find(id);
+            var cid = Guid.Parse(id);
+            var account = context.CloudStorageAccounts.SingleOrDefault(c => c.PublicKey == cid);
             var containers = CloudStorageMananger.ImportContainers(account.AccountName, account.AccountKey);
 
             var model = new CloudStorageContainerCreateViewModel {
@@ -148,8 +150,8 @@ namespace Sistrategia.Drive.WebSite.Controllers
             foreach (var blob in blobs) {
                 ////if (string.IsNullOrEmpty(blob.OwnerId))
                 //if (blob.OwnerId == 0)
-                //    blob.OwnerId = this.GetUserId(); // User.Identity.GetUserId();
-                container.CloudStorageItems.Add(blob);
+                if (container.CloudStorageItems.SingleOrDefault(i => i.ProviderKey == blob.ProviderKey) == null)
+                    container.CloudStorageItems.Add(blob);
             }
             context.SaveChanges();
 

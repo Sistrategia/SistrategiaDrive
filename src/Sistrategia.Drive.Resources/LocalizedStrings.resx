@@ -381,4 +381,22 @@
   <data name="ResetPasswordButton" xml:space="preserve">
     <value>Reset</value>
   </data>
+  <data name="Account_ChangePasswordTitle" xml:space="preserve">
+    <value>Change your password</value>
+  </data>
+  <data name="Account_ChangePasswordButton" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="Account_ChangePasswordSubtitle" xml:space="preserve">
+    <value>You must provide your old password to create a new one.</value>
+  </data>
+  <data name="Account_ConfirmNewPasswordField" xml:space="preserve">
+    <value>Confirm new password</value>
+  </data>
+  <data name="Account_CurrentPasswordField" xml:space="preserve">
+    <value>Current password</value>
+  </data>
+  <data name="Account_NewPasswordField" xml:space="preserve">
+    <value>New password</value>
+  </data>
 </root>

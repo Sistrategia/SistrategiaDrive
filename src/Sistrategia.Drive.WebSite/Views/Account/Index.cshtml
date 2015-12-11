@@ -1,18 +1,24 @@
 ﻿@model Sistrategia.Drive.WebSite.Models.AccountIndexViewModel
 @{
-    ViewBag.Title = @LocalizedStrings.Account_IndexTitle;
+  ViewBag.Title = @LocalizedStrings.Account_IndexTitle;
 }
 
+@if (!string.IsNullOrEmpty(ViewBag.StatusMessage)) {
+  <div id="statusmessage" class="alert alert-success alert-dismissible fade" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    @ViewBag.StatusMessage
+  </div>
+}
 <h1>@ViewBag.Title</h1>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
+@*<p class="text-success">@ViewBag.StatusMessage</p>*@
 <div>
   <h4>@LocalizedStrings.Account_IndexSubtitle</h4>
   <hr />
   <dl class="dl-horizontal">
     <dt>@LocalizedStrings.UserNameField: </dt>
     <dd>@Model.UserName</dd>
-    
+
     <dt>@LocalizedStrings.FullNameField: </dt>
     <dd>@Model.FullName</dd>
 
@@ -37,7 +43,7 @@
     <dd>
       @Html.ActionLink(LocalizedStrings.Lang_en_US_DisplayName, "ChangeLang", "Locale", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "active" })
       | @Html.ActionLink(LocalizedStrings.Lang_es_MX_DisplayName, "ChangeLang", "Locale", new { Lang = "es-MX", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "active" })
-    </dd>    
+    </dd>
 
     @*
       Phone Numbers can used as a second factor of verification in a two-factor authentication system.
@@ -67,29 +73,25 @@
     <dt>@LocalizedStrings.Account_TwoFactorAuthentication:</dt>
     <dd>
       @*<p>
-        There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-        for details on setting up this ASP.NET application to support two-factor authentication.
-      </p>*@
-     @if (Model.TwoFactor)
-        {
-            using (Html.BeginForm("DisableTwoFactorAuthentication", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <text>@LocalizedStrings.Enabled
-                <input type="submit" value="@LocalizedStrings.Disable" class="btn btn-link" />
-                </text>
-            }
+          There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+          for details on setting up this ASP.NET application to support two-factor authentication.
+        </p>*@
+      @if (Model.TwoFactor) {
+        using (Html.BeginForm("DisableTwoFactorAuthentication", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+          @Html.AntiForgeryToken()
+          <text>@LocalizedStrings.Enabled
+          <input type="submit" value="@LocalizedStrings.Disable" class="btn btn-link" />
+          </text>
         }
-        else
-        {
-          using (Html.BeginForm("EnableTwoFactorAuthentication", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <text>@LocalizedStrings.Disabled
-                <input type="submit" value="@LocalizedStrings.Enable" class="btn btn-link" />
-                </text>
-            }
+      }
+      else {
+        using (Html.BeginForm("EnableTwoFactorAuthentication", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+          @Html.AntiForgeryToken()
+          <text>@LocalizedStrings.Disabled
+          <input type="submit" value="@LocalizedStrings.Enable" class="btn btn-link" />
+          </text>
         }
+      }
     </dd>
 
     <dt>@LocalizedStrings.CloudStorageAccounts_IndexTitle:</dt>
@@ -101,3 +103,15 @@
   </dl>
 
 </div>
+@section Scripts {
+<script>
+
+  function showAlert(){
+    $("#statusmessage").addClass("in")
+  }
+
+  window.setTimeout(function () {
+    showAlert();
+  }, 500);
+</script>
+}
