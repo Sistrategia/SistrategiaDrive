@@ -28,6 +28,7 @@ namespace Sistrategia.Drive.WebSite.Controllers
         //    });
         //</script>
 
+        [AllowAnonymous]
         public ActionResult ChangeLang(string lang, string returnUrl) {
             var langCookie = new HttpCookie("locale", lang) { HttpOnly = true };
             Response.AppendCookie(langCookie);

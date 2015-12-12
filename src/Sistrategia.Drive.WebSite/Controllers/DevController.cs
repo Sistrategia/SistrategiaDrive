@@ -22,6 +22,21 @@ namespace Sistrategia.Drive.WebSite.Controllers
             return View(model);
         }
 
+        public ActionResult CreateDatabase() {
+            //Sistrategia.Drive.Data.DatabaseManager.CreateDatabase();
+            return Redirect("~/Dev");
+        }
+
+        public ActionResult CreateSchema() {
+            //Sistrategia.Drive.Data.DatabaseManager.CreateSchema();
+            return Redirect("~/Dev");
+        }
+
+        public ActionResult DropSchema() {
+            //Sistrategia.Drive.Data.DatabaseManager.DropSchema();
+            return Redirect("~/Dev");
+        }
+
         public ActionResult Users() {
             var model = new DevUsersViewModel(HttpContext.GetOwinContext().Get<ApplicationDbContext>());
             model.Title = "Users";
