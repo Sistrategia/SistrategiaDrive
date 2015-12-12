@@ -29,11 +29,17 @@ namespace Sistrategia.Drive.WebSite.Controllers
 
         public ActionResult CreateSchema() {
             //Sistrategia.Drive.Data.DatabaseManager.CreateSchema();
+            var configuration = new Migrations.Configuration();
+            var migrator = new System.Data.Entity.Migrations.DbMigrator(configuration);
+            migrator.Update();
             return Redirect("~/Dev");
         }
 
         public ActionResult DropSchema() {
             //Sistrategia.Drive.Data.DatabaseManager.DropSchema();
+            var configuration = new Migrations.Configuration();
+            var migrator = new System.Data.Entity.Migrations.DbMigrator(configuration);
+            migrator.Update("0");
             return Redirect("~/Dev");
         }
 

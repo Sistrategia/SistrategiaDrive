@@ -6,15 +6,11 @@ using System.Web.Mvc;
 
 namespace Sistrategia.Drive.WebSite.Controllers
 {
+    [AllowAnonymous]
     public class LocaleController : Controller
     {
-        // GET: Locale
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
         // http://www.hanselman.com/blog/GlobalizationInternationalizationAndLocalizationInASPNETMVC3JavaScriptAndJQueryPart1.aspx
+        [AllowAnonymous]
         public ActionResult CurrentCulture() {
             return Json(System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(), JsonRequestBehavior.AllowGet);
         }
