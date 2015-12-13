@@ -43,7 +43,8 @@
         @*@Html.Partial("_LoginPartial")*@
 
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="~/Backstage/Home">Backstage</a></li>
+          <li>@Html.ActionLink("SistrategiaDrive", "Index", "Home", routeValues: new { area = "" }, htmlAttributes: new { id = "registerLink" })</li>
+          @*<li><a href="~/Backstage/Home">Backstage</a></li>*@
           @*<li>@Html.ActionLink(Sistrategia.Drive.WebSite.Views.Home.Welcome.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
           @*<li>@Html.ActionLink(Sistrategia.Drive.WebSite.Views.Home.Welcome.Login, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
 

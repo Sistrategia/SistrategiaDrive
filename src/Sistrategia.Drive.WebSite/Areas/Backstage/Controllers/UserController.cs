@@ -9,6 +9,7 @@ using System.Net;
 
 namespace Sistrategia.Drive.WebSite.Areas.Backstage.Controllers
 {
+    [Authorize(Roles = "Backstage")]
     public class UserController : Sistrategia.Drive.WebSite.Controllers.BaseController
     {
         // GET: Backstage/User

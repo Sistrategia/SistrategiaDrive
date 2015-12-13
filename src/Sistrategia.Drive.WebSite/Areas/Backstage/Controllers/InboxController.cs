@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Sistrategia.Drive.WebSite.Areas.Backstage.Controllers
 {
+    [Authorize(Roles = "Backstage")]
     public class InboxController : Controller
     {
         // GET: Backstage/Inbox
