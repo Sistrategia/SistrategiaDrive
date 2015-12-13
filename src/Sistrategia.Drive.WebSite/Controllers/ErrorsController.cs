@@ -19,10 +19,11 @@ namespace Sistrategia.Drive.WebSite.Controllers
             return View("Error");
         }
 
-        public ActionResult Http404() {
+        public ActionResult Http404(Exception exception) {
             //return Content("Not found", "text/plain");
             //Response.StatusCode
-            return View("Error");
+            Response.ContentType = "text/html";
+            return View("Error", new System.Web.Mvc.HandleErrorInfo(exception, "Errors", "Http404"));
         }
 
         public ActionResult Http403() {
