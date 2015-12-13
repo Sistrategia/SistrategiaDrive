@@ -7,6 +7,9 @@ namespace Sistrategia.Drive.WebSite
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
             filters.Add(new HandleErrorAttribute());
+            //var e = new HandleErrorAttribute();
+            //e.View = "Error";
+            //filters.Add(e);            
         }
     }
 }

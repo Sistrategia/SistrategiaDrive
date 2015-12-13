@@ -57,6 +57,13 @@ namespace Sistrategia.Drive.WebSite.Controllers
             }
         }
 
+        //protected override HttpNotFoundResult HttpNotFound(string statusDescription) {
+        //    return base.HttpNotFound(statusDescription);
+        //    Response.StatusCode = 404;
+        //    Response.StatusDescription = statusDescription;
+        //    return View(Errors);            
+        //}
+
 
         protected override void Dispose(bool disposing) {
             if (disposing) {

@@ -40,7 +40,9 @@
                 @*<li>@Html.ActionLink(Sistrategia.Drive.WebSite.Views.Home.Welcome.Login, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
 
                 @if (HttpContext.Current.User.Identity.IsAuthenticated) {
-
+                  if (HttpContext.Current.User.IsInRole("Backstage")) {
+                    <li>@Html.ActionLink("Backstage", "Index", "Inbox", routeValues: new { area = "Backstage" }, htmlAttributes: new { id = "registerLink" })</li>
+                  }
                 <li><a class="navbar-icon" href="@Url.Content("~/Account")"><span class="glyphicon glyphicon-user"></span></a></li>
                 if (HttpContext.Current.User.IsInRole("Developer")) {
                 <li @if (ControllerName.Equals("Dev")) { @Html.Raw("class='active'")  ; } else { @Html.Raw("")  ; }>
@@ -62,9 +64,9 @@
         <footer>
           <p class="pull-left">&copy; @DateTime.Now.Year - Sistrategia</p>
           <div class="pull-right hidden-xs">
-            <ul class="nav navbar-nav navbar-right">
-              <li>@Html.ActionLink("English (US)", "ChangeLang", "Locale", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "navbar-brand footer-lang-bar", @style = "font-size:11px;" })</li>
-              <li>@Html.ActionLink("Español (México)", "ChangeLang", "Locale", new { Lang = "es-MX", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "navbar-brand footer-lang-bar", @style = "font-size:11px;" })</li>
+            <ul class="list-inline">
+              <li>@Html.ActionLink("English (US)", "ChangeLang", "Locale", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = " footer-lang-bar", @style = "font-size:11px;" })</li>
+              <li>@Html.ActionLink("Español (México)", "ChangeLang", "Locale", new { Lang = "es-MX", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "footer-lang-bar", @style = "font-size:11px;" })</li>
             </ul>
           </div>
 

@@ -188,6 +188,7 @@
     <Content Include="Content\Site.css">
       <DependentUpon>Site.less</DependentUpon>
     </Content>
+    <Content Include="Content\welcome-bootstrap.css" />
     <Content Include="Content\Welcome.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
@@ -286,6 +287,29 @@
     <Content Include="Content\Site.debug.css.map">
       <DependentUpon>Site.debug.css</DependentUpon>
     </Content>
+    <Content Include="Areas\Backstage\Views\web.config" />
+    <Content Include="Areas\Backstage\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Backstage\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Backstage\Views\Home\Index.cshtml" />
+    <Content Include="Content\backstage.less" />
+    <Content Include="Content\backstage.css">
+      <DependentUpon>backstage.less</DependentUpon>
+    </Content>
+    <Content Include="Content\backstage.css.map">
+      <DependentUpon>backstage.css</DependentUpon>
+    </Content>
+    <Content Include="Content\backstage.debug.css">
+      <DependentUpon>backstage.less</DependentUpon>
+    </Content>
+    <Content Include="Content\backstage.debug.css.map">
+      <DependentUpon>backstage.debug.css</DependentUpon>
+    </Content>
+    <Content Include="Areas\Backstage\Views\User\Index.cshtml" />
+    <Content Include="Areas\Backstage\Views\Inbox\Index.cshtml" />
+    <Content Include="Areas\Backstage\Views\User\Create.cshtml" />
+    <Content Include="Areas\Backstage\Views\User\Delete.cshtml" />
+    <Content Include="Areas\Backstage\Views\User\Details.cshtml" />
+    <Content Include="Areas\Backstage\Views\User\Edit.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
@@ -358,12 +382,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\Startup.CloudStorage.cs" />
+    <Compile Include="Areas\Backstage\BackstageAreaRegistration.cs" />
+    <Compile Include="Areas\Backstage\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Backstage\Controllers\InboxController.cs" />
+    <Compile Include="Areas\Backstage\Controllers\UserController.cs" />
+    <Compile Include="Areas\Backstage\Models\UserViewModels.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CloudStorageAccountController.cs" />
     <Compile Include="Controllers\CloudStorageContainerController.cs" />
     <Compile Include="Controllers\CloudStorageItemController.cs" />
     <Compile Include="Controllers\DevController.cs" />
+    <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocaleController.cs" />
     <Compile Include="Global.asax.cs">
@@ -421,6 +451,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Errors\" />
     <Folder Include="Views\Locale\" />
   </ItemGroup>
   <ItemGroup>

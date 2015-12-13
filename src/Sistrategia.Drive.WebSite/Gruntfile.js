@@ -14,10 +14,12 @@
                 files: {
                     'Content/bootstrap.debug.css': 'Content/bootstrap.less',
                     'Content/Site.debug.css': 'Content/Site.less',
+                    'Content/backstage.debug.css': 'Content/backstage.less',
                 }
             },
             production: {
                 options: {
+                    sourceMap: true,
                     compress: true,
                     relativeUrls: true,
                     plugins: [
@@ -27,6 +29,7 @@
                 files: {
                     'Content/bootstrap.css': 'Content/bootstrap.less',
                     'Content/Site.css': 'Content/Site.less',
+                    'Content/backstage.css': 'Content/backstage.less',
                 }
             }
         },

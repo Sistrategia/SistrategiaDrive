@@ -47,8 +47,25 @@ dt {
   font-weight: 400;
   color: #333;
 }
+/* line 50, Content/Site.less */
+.modal-header-danger {
+  -webkit-border-top-left-radius: 6px;
+  -webkit-border-top-right-radius: 6px;
+  -moz-border-radius-topleft: 6px;
+  -moz-border-radius-topright: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-image: linear-gradient(to bottom, #d9534f 0, #c12e2a 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc12e2a', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  background-repeat: repeat-x;
+  border-color: #b92c28;
+  color: #fff;
+  /*background-color: #d9534f;
+    border-color: #d43f3a;*/
+}
 @media (min-width: 768px) {
-  /* line 51, Content/Site.less */
+  /* line 69, Content/Site.less */
   .dl-horizontal dt {
     /*float: left;*/
     width: 220px;
@@ -58,7 +75,7 @@ dt {
         text-overflow: ellipsis;
         white-space: nowrap;*/
   }
-  /* line 60, Content/Site.less */
+  /* line 78, Content/Site.less */
   .dl-horizontal dd {
     margin-left: 240px;
   }
@@ -67,12 +84,12 @@ dt {
         padding-bottom: 15px;
     }*/
 }
-/* line 72, Content/Site.less */
+/* line 90, Content/Site.less */
 .navbar-nav > li > a.footer-lang-bar {
   padding-top: 0px;
   padding-bottom: 15px;
 }
-/* line 77, Content/Site.less */
+/* line 95, Content/Site.less */
 label {
   font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;

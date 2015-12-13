@@ -36,7 +36,8 @@ namespace Sistrategia.Drive.WebSite.Migrations
 
                 new SecurityRole { Id = 1, Name = "User" },                                
                 new SecurityRole { Id = 2, Name = "Administrator" },
-                new SecurityRole { Id = 3, Name = "Developer" }
+                new SecurityRole { Id = 3, Name = "Backstage" },
+                new SecurityRole { Id = 4, Name = "Developer" }
                 );
             
             var azure = new CloudStorageProvider { CloudStorageProviderId = "Azure", Name = "Microsoft Azure Storage Provider", Description = "Microsoft Azure Storage Provider." };

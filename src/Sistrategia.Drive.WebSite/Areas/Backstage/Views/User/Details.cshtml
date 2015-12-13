@@ -1,0 +1,56 @@
+﻿@using Sistrategia.Drive.WebSite.Areas.Backstage.Models
+@model Sistrategia.Drive.Business.SecurityUser
+@{
+  ViewBag.Title = "User Details"; // UserDeleteViewModel
+}
+
+<div class="page-header clearfix">
+  <div class="pull-left">
+    <h1>@ViewBag.Title <small>Backstage</small></h1>
+    @*<h4>Are you sure that you want to delete this user?</h4>*@
+  </div>
+  <div class="pull-right">
+      <div class="btn-group" style="bottom: 26px;position: relative;top:26px;">
+        @Html.ActionLink(LocalizedStrings.EditButton, "Edit", new { id = Model.PublicKey.ToString("N") }, new { @class = "btn btn-primary", @role = "button" })
+      </div>
+    </div>
+</div>
+
+
+@*@using (Html.BeginForm("Delete", "User", new { id = Model.PublicKey.ToString("N") }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+  @Html.AntiForgeryToken()*@
+
+  @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
+
+  @*@Html.HiddenFor(m => m.PublicKey)*@
+
+  <dl class="dl-horizontal">
+    <dt>@LocalizedStrings.UserNameField: </dt>
+    <dd>@Model.UserName</dd>
+
+    <dt>@LocalizedStrings.FullNameField: </dt>
+    <dd>@Html.DisplayFor(m => m.FullName)</dd>
+  </dl>
+
+  @*<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <input type="submit" class="btn btn-default" value="@LocalizedStrings.DeleteButton" />
+    </div>
+  </div>*@
+
+  @*<div class="form-group">
+      @Html.LabelFor(m => m.FullName, new { @class = "col-md-2 control-label" })
+      <div class="col-md-10">
+        <span class="form-control">
+          @Html.ValueFor(m => m.FullName)
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+      <div class="col-md-10">
+        @Html.DisplayFor(m => m.Email, new { @class = "form-control" })
+      </div>
+    </div>*@
+
+@*}*@
