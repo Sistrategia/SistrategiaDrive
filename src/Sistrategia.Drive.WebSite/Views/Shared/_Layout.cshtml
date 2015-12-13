@@ -62,9 +62,9 @@
         <footer>
           <p class="pull-left">&copy; @DateTime.Now.Year - Sistrategia</p>
           <div class="pull-right hidden-xs">
-            <ul class="nav navbar-nav navbar-right">
-              <li>@Html.ActionLink("English (US)", "ChangeLang", "Locale", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "navbar-brand footer-lang-bar", @style = "font-size:11px;" })</li>
-              <li>@Html.ActionLink("Español (México)", "ChangeLang", "Locale", new { Lang = "es-MX", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "navbar-brand footer-lang-bar", @style = "font-size:11px;" })</li>
+            <ul class="list-inline">
+              <li>@Html.ActionLink("English (US)", "ChangeLang", "Locale", new { Lang = "en-US", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = " footer-lang-bar", @style = "font-size:11px;" })</li>
+              <li>@Html.ActionLink("Español (México)", "ChangeLang", "Locale", new { Lang = "es-MX", ReturnUrl = Url.Encode(Request.RawUrl) }, new { @class = "footer-lang-bar", @style = "font-size:11px;" })</li>
             </ul>
           </div>
 

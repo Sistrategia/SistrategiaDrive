@@ -1,0 +1,94 @@
+﻿@using Sistrategia.Drive.WebSite.Areas.Backstage.Models
+@model UserIndexViewModel
+@{
+  ViewBag.Title = "Users";
+}
+@*<h1>@ViewBag.Title <small>Backstage</small></h1>*@
+@*<br />*@
+
+
+<div class="page-header clearfix">
+  <h1 class="pull-left">@ViewBag.Title <small>Backstage</small></h1>
+  <div class="pull-right">
+    <div class="btn-group" style="bottom: 26px;position: relative;top:26px;">
+      @Html.ActionLink("Agregar", "Create", null, new { @class = "btn btn-primary", @role = "button" })
+    </div>
+  </div>
+</div>
+
+@*<div class="page-header">
+  <h1>@ViewBag.Title <small>Backstage</small></h1>
+</div>*@
+  @*<h1 class="page-header">@ViewBag.Title <small>Backstage</small></h1>*@
+
+<ul class="media-list list-inline">
+  @foreach (var user in Model.Users) {
+  <li class="media">
+    <div class="media-left">
+      <a style="text-decoration: none" href="@Url.Action("Details", "User", new { Id = @user.PublicKey.ToString("N") })">
+        <div class="circle noselect">
+          @*<span>@user.UserName.Substring(0, 1).ToUpper()</span>*@
+          <span>@user.FullName.Substring(0, 1).ToUpper()</span>
+        </div>
+      </a>
+    </div>
+    <div class="media-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="media-heading">@Html.ActionLink(@user.FullName, "Details", "User", new { Id = @user.PublicKey.ToString("N") }, null)</h4>
+          @*@user.UserName*@
+          <h5 class="media-heading">@user.UserName</h5>
+        </div>
+        <div class="col-md-3">
+          @*<h4 class="media-heading">
+            <span style="font-weight:600;color:#7986CB;" class="">@comprobante.Total.ToString("C") MXN</span>
+          </h4>*@
+        </div>
+        <div class="col-md-3">
+          @*<div class="dropdown">
+            <a class="pull-right" data-toggle="dropdown" style="margin-left:25px;" href="#"><span style="font-size:20px; font-weight:normal;color:#333;" class="glyphicon glyphicon-option-vertical"></span></a>            
+            <ul class="dropdown-menu" aria-labelledby="dLabel" style="height: auto !important; overflow: visible !important;">
+              <li>
+                <a href="#"><span style="font-size:20px; font-weight:normal;color:#999;" class="glyphicon glyphicon-envelope"></span></a>
+              </li>
+            </ul>
+          </div>*@
+          <a class="pull-right" style="margin-left:25px;" href="#"><span style="font-size:20px; font-weight:normal;color:#333;" class="glyphicon glyphicon-option-vertical"></span></a>
+          @*<a class="pull-right" style="margin-left:15px;" href="#"><span style="font-size:20px; font-weight:normal;color:#999;" data-toggle="modal" data-target="#deleteUserConfirmation" class="glyphicon glyphicon-trash"></span></a>*@
+          <a class="pull-right" style="margin-left:15px;" href="@Url.Action("Delete", "User", new { Id = @user.PublicKey.ToString("N") })"><span style="font-size:20px; font-weight:normal;color:#999;" class="glyphicon glyphicon-trash"></span></a>
+          <a class="pull-right" style="margin-left:15px;" href="#"><span style="font-size:20px; font-weight:normal;color:#999;" class="glyphicon glyphicon-envelope"></span></a>
+          <a class="pull-right" style="margin-left:15px;" href="@Url.Action("Edit", "User", new { Id = @user.PublicKey.ToString("N") })"><span style="font-size:20px; font-weight:normal;color:#999;" class="glyphicon glyphicon-pencil"></span></a>
+          @*<a href="#"><span style="font-size:20px; font-weight:normal;color:#7986CB;" class="glyphicon glyphicon-remove"></span></a>&nbsp;*@
+        </div>
+        @*<div class="col-md-1">
+          <a style="margin-left:15px;" href="#"><span style="font-size:20px; font-weight:normal;color:#333;" class="glyphicon glyphicon-option-vertical"></span></a>
+        </div>*@
+      </div>
+    </div>
+  </li>
+  }
+</ul>
+
+
+
+<div class="modal fade" id="deleteUserConfirmation" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header modal-header-danger">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title danger">Delete User</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure?</p>
+        <p>This action will <strong class="danger">delete</strong> all the user's data from the database.</p>
+        @*<p>One fine body&hellip;</p>*@
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        @*<button type="button" class="btn btn-danger">Drop Schema</button>*@
+        <a class="btn btn-danger" role="button" href="~/Backstage/User/Delete">Delete User</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

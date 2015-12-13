@@ -5121,7 +5121,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 /* line 11, Content\bootstrap\navbar.less */
 .navbar {
   position: relative;
-  min-height: 50px;
+  min-height: 60px;
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
@@ -5246,10 +5246,10 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 /* line 163, Content\bootstrap\navbar.less */
 .navbar-brand {
   float: left;
-  padding: 15px 15px;
+  padding: 20px 15px;
   font-size: 18px;
   line-height: 20px;
-  height: 50px;
+  height: 60px;
 }
 /* line 170, Content\bootstrap\navbar.less */
 .navbar-brand:hover,
@@ -5273,8 +5273,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   float: right;
   margin-right: 15px;
   padding: 9px 10px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 13px;
+  margin-bottom: 13px;
   background-color: transparent;
   background-image: none;
   border: 1px solid transparent;
@@ -5303,7 +5303,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 /* line 232, Content\bootstrap\navbar.less */
 .navbar-nav {
-  margin: 7.5px -15px;
+  margin: 10px -15px;
 }
 /* line 235, Content\bootstrap\navbar.less */
 .navbar-nav > li > a {
@@ -5349,8 +5349,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
   /* line 272, Content\bootstrap\navbar.less */
   .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 }
 /* line 286, Content\bootstrap\navbar.less */
@@ -5361,8 +5361,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 13px;
+  margin-bottom: 13px;
 }
 @media (min-width: 768px) {
   /* line 473, Content\bootstrap\forms.less */
@@ -5463,23 +5463,23 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 /* line 343, Content\bootstrap\navbar.less */
 .navbar-btn {
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 13px;
+  margin-bottom: 13px;
 }
 /* line 346, Content\bootstrap\navbar.less */
 .navbar-btn.btn-sm {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 /* line 349, Content\bootstrap\navbar.less */
 .navbar-btn.btn-xs {
-  margin-top: 14px;
-  margin-bottom: 14px;
+  margin-top: 19px;
+  margin-bottom: 19px;
 }
 /* line 359, Content\bootstrap\navbar.less */
 .navbar-text {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 @media (min-width: 768px) {
   /* line 362, Content\bootstrap\navbar.less */
@@ -5624,8 +5624,8 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 /* line 529, Content\bootstrap\navbar.less */
 .navbar-inverse {
-  background-color: #222;
-  border-color: #080808;
+  background-color: #673AB7;
+  border-color: #512e90;
 }
 /* line 533, Content\bootstrap\navbar.less */
 .navbar-inverse .navbar-brand {
@@ -5656,7 +5656,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
   color: #fff;
-  background-color: #080808;
+  background-color: #512e90;
 }
 /* line 565, Content\bootstrap\navbar.less */
 .navbar-inverse .navbar-nav > .disabled > a,
@@ -5681,23 +5681,23 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 /* line 586, Content\bootstrap\navbar.less */
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
-  border-color: #101010;
+  border-color: #58319c;
 }
 /* line 594, Content\bootstrap\navbar.less */
 .navbar-inverse .navbar-nav > .open > a,
 .navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus {
-  background-color: #080808;
+  background-color: #512e90;
   color: #fff;
 }
 @media (max-width: 767px) {
   /* line 605, Content\bootstrap\navbar.less */
   .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
-    border-color: #080808;
+    border-color: #512e90;
   }
   /* line 608, Content\bootstrap\navbar.less */
   .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
-    background-color: #080808;
+    background-color: #512e90;
   }
   /* line 611, Content\bootstrap\navbar.less */
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
@@ -5714,7 +5714,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover,
   .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus {
     color: #fff;
-    background-color: #080808;
+    background-color: #512e90;
   }
   /* line 628, Content\bootstrap\navbar.less */
   .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a,
@@ -8136,4 +8136,121 @@ button.close {
     display: none !important;
   }
 }
-/*# sourceMappingURL=Content/bootstrap.debug.css.map */
+/*@import "bootstrap/theme.less";*/
+/*@navbar-inverse-bg : #3f51b5;*/
+/*@navbar-inverse-bg : #607D8B;*/
+/* line 18, Content/backstage.less */
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+/* line 23, Content/backstage.less */
+.shadow-z-1 {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+/* line 29, Content/backstage.less */
+.shadow-z-2 {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+/*h1,.h1 {
+    padding-bottom: ((@line-height-computed / 2) - 1);
+    border-bottom: 1px solid @page-header-border-color;
+}*/
+/* line 40, Content/backstage.less */
+.page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  /*margin: 20px 0 10px;*/
+  /*margin: (@line-height-computed / 2) 0 (@line-height-computed / 2);*/
+  border-bottom: 1px solid #eeeeee;
+}
+/*.navbar-brand {
+    padding: 15px 15px;
+}*/
+@media (min-width: 768px) {
+  /* line 53, Content/backstage.less */
+  .navbar-brand {
+    margin-top: 13px;
+    margin-bottom: 13px;
+    padding: 0 15px;
+    height: 0;
+  }
+}
+@media (min-width: 768px) {
+  /* line 60, Content/backstage.less */
+  .navbar {
+    font-size: 16px;
+    border: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  }
+}
+@media (min-width: 768px) {
+  /* line 68, Content/backstage.less */
+  .navbar-inverse .navbar-nav > .active > a,
+  .navbar-inverse .navbar-nav > .active > a:hover,
+  .navbar-inverse .navbar-nav > .active > a:focus {
+    padding-bottom: 18px;
+    border-bottom: 2px solid #FF6E40;
+  }
+}
+@media only screen and (max-width: 768px) {
+  /* line 76, Content/backstage.less */
+  .navbar-brand {
+    margin-top: 13px;
+    margin-bottom: 13px;
+    padding: 0 15px;
+    height: 0;
+  }
+  /*.navbar-collapse li a { background: green; }*/
+  /* line 83, Content/backstage.less */
+  .navbar-inverse .navbar-nav > .active > a,
+  .navbar-inverse .navbar-nav > .active > a:hover,
+  .navbar-inverse .navbar-nav > .active > a:focus {
+    /*padding-bottom: 19px;*/
+    border-bottom: 1px solid #FF6E40;
+  }
+}
+/* line 92, Content/backstage.less */
+.circle {
+  margin-left: 8px;
+  margin-right: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: 100;
+  color: #fff;
+  line-height: 36px;
+  text-align: center;
+  background-color: #3f51b5;
+  background-color: #2196f3;
+  background-color: #536DFE;
+  background-color: #a0a0a0;
+  background-color: #607D8B;
+  background-color: #FF6E40;
+  background-color: #C5CAE9;
+  background-color: #9FA8DA;
+  background-color: #7986CB;
+  /*vertical-align:middle;
+    padding-top:4px;
+    padding-bottom:8px;*/
+}
+/* line 121, Content/backstage.less */
+.modal-header-danger {
+  -webkit-border-top-left-radius: 6px;
+  -webkit-border-top-right-radius: 6px;
+  -moz-border-radius-topleft: 6px;
+  -moz-border-radius-topright: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-image: linear-gradient(to bottom, #d9534f 0, #c12e2a 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc12e2a', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  background-repeat: repeat-x;
+  border-color: #b92c28;
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  /*background-color: #d9534f;
+    border-color: #d43f3a;*/
+}
+/*# sourceMappingURL=Content/backstage.debug.css.map */
