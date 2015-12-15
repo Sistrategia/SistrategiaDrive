@@ -16,7 +16,7 @@ namespace Sistrategia.Drive.WebSite.Areas.Backstage.Controllers
         public ActionResult Index()
         {
             var model = new UserIndexViewModel();
-            model.Users = this.DBContext.Users.ToList();            
+            model.Users = this.DBContext.Users.ToList();
             return View(model);
         }
 

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Sistrategia.Drive.WebSite.Utils
 {
-    class CustomRedirectHandler : IHttpHandler
+    internal class CustomRedirectHandler : IHttpHandler
     {
         private string _newUrl;
 
