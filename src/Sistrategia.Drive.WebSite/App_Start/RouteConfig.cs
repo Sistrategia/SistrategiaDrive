@@ -19,12 +19,19 @@ namespace Sistrategia.Drive.WebSite
             //    defaults: new { culture="en-US", controller = "Home", action = "Index", id = UrlParameter.Optional }
             //);
 
+            routes.MapRoute(
+               name: "Locale",
+               url: "Locale/ChangeLang/{id}",
+               defaults: new { controller = "Locale", action = "ChangeLang", id = UrlParameter.Optional });    
+
             routes.MapLocalizeRoute(
                 name: "Default",
                 url: "{culture}/{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                 constraints: new { culture = "[a-zA-Z]{2}-[a-zA-Z]{2}" },
-                namespaces: new[] { "Sistrategia.Drive.WebSite.Controllers" });      
+                namespaces: new[] { "Sistrategia.Drive.WebSite.Controllers" });
+
+           
       
 
             // Las rutas de redirect tienen que ir hasta abajo, por eso no se pueden pasar a sus secciones de areas aunque existan            
@@ -32,6 +39,10 @@ namespace Sistrategia.Drive.WebSite
             routes.MapRouteToLocalizeRedirect("RedirectToLocalizeArea",
                       url: "Backstage/{controller}/{action}/{id}",
                       defaults: new { area = "Backstage", controller = "Home", action = "Index", id = UrlParameter.Optional });
+
+            routes.MapRouteToLocalizeRedirect("RedirectToLocalizeDev",
+                      url: "Dev/{controller}/{action}/{id}",
+                      defaults: new { area = "Dev", controller = "Home", action = "Index", id = UrlParameter.Optional });
 
             // Primero las que van a convertir las áraes agregar cada una probablemente se pueda resolver con un constraint Backstage|bla
             //routes.MapRouteToLocalizeRedirect("RedirectToLocalizeArea",

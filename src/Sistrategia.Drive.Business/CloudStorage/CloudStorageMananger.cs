@@ -276,7 +276,7 @@ namespace Sistrategia.Drive.Business
                 //OwnerId = blob.Metadata.ContainsKey("userid") ? int.Parse( blob.Metadata["userid"] ) : 0, // null,
                 Created = blob.Metadata.ContainsKey("created") ? DateTime.Parse(blob.Metadata["created"]) : DateTime.UtcNow,
                 Modified = blob.Metadata.ContainsKey("modified") ? DateTime.Parse(blob.Metadata["modified"]) : DateTime.UtcNow,
-                Name = blob.Metadata.ContainsKey("modified") ? blob.Metadata["name"] : blob.Name, // sourceFileName,
+                Name = blob.Metadata.ContainsKey("name") ? blob.Metadata["name"] : blob.Name, // sourceFileName,
                 //Description = blob.Metadata["description"], // fileDescription,
                 Url = new Uri(blob.Uri.AbsoluteUri + blob.GetSharedAccessSignature(readPolicy,
                     new SharedAccessBlobHeaders {

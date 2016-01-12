@@ -1,0 +1,73 @@
+﻿@using Sistrategia.Drive.WebSite.Areas.Dev.Models
+@model DevIndexViewModel
+@{
+  ViewBag.Title = Model.Title;
+}
+
+<h1 class="page-header">@Model.Title</h1>
+<h2>Database actions</h2>
+<div class="form-group">
+  <a class="btn btn-danger" role="button" href="~/Dev/CreateDatabase">Create Database</a>
+  <a class="btn btn-danger" role="button" href="~/Dev/CreateSchema">Create Schema</a>
+  @*<a class="btn btn-danger" role="button" href="~/Dev/DropSchema">Drop Schema</a>*@
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#dropSchemaConfirmation">
+    Drop Schema
+  </button>
+</div>
+<dl class="dl-horizontal">
+  <dt>CurrentUICulture:</dt>
+  <dd>@Model.CurrentUICulture.Name</dd>
+  @*<dd>@System.Threading.Thread.CurrentThread.CurrentUICulture.DisplayName</dd>*@
+
+  <dt>CurrentCulture:</dt>
+  <dd>@Model.CurrentCulture.Name</dd>
+
+  <dt>AcceptLanguage:</dt>
+  <dd>@Model.AcceptLanguage</dd>
+</dl>
+
+<br />
+<br />
+
+@section HtmlHeader {
+  <style>
+    .modal-header-danger {
+      -webkit-border-top-left-radius: 6px;
+      -webkit-border-top-right-radius: 6px;
+      -moz-border-radius-topleft: 6px;
+      -moz-border-radius-topright: 6px;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      background-image: linear-gradient(to bottom,#d9534f 0,#c12e2a 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f',endColorstr='#ffc12e2a',GradientType=0);
+      filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+      background-repeat: repeat-x;
+      border-color: #b92c28;
+      color: #fff;
+      border-radius: 6px 6px 0 0;
+      /*background-color: #d9534f;
+    border-color: #d43f3a;*/
+    }
+  </style>
+}
+
+<div class="modal fade" id="dropSchemaConfirmation" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header modal-header-danger">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title danger">Drop Schema</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure?</p>
+        <p>This action will <strong class="danger">delete all</strong> database data.</p>
+        @*<p>One fine body&hellip;</p>*@
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        @*<button type="button" class="btn btn-danger">Drop Schema</button>*@
+        <a class="btn btn-danger" role="button" href="~/Dev/DropSchema">Drop Schema</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

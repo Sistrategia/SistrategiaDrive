@@ -28,7 +28,12 @@ namespace Sistrategia.Drive.WebSite
 
             bundles.Add(new StyleBundle("~/Content/backstagecss").Include(
                       "~/Content/backstage.css"                      
-                      ));            
+                      ));
+
+            bundles.Add(new StyleBundle("~/Content/devcss").Include(
+                       "~/Content/backstage.css"
+                      //"~/Content/dev.css"
+                      ));  
 
             bundles.Add(new StyleBundle("~/Content/welcome").Include(
                       "~/Content/welcome-bootstrap.css"
